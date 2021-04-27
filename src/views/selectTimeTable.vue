@@ -1,7 +1,7 @@
 <template>
   <div id="selectTimeTable">
-    <div class="tableTitle" style="margin-bottom: 10px">{{term}} 课程表</div>
-    <div class="tableContainer" style="margin-bottom: 20px;">
+    <div class="tableTitle" style="padding: 5px 0;">{{term}} 课程表</div>
+    <div class="tableContainer">
       <div class="tableRow">
         <div class="tableHead" style="flex: 1">序号</div>
         <div class="tableHead" style="flex: 3">课程号</div>
@@ -27,6 +27,9 @@
         <div class="tableText" style="flex: 2">{{item.resolveTime}}</div>
         <div class="tableText" style="flex: 2">{{item.resolvePlace}}</div>
         <div class="tableText" style="flex: 1">{{item.school}}</div>
+      </div>
+      <div class="tableRow">
+        <div class="tableText" style="padding-left: 10px;text-align:start;flex: 1;">合计学分: {{credit}}</div> 
       </div>
     </div>
     <div class="tableContainer">
@@ -63,21 +66,9 @@ export default {
     //for test
     return {
       term: this.$store.state.term,
-      lesssonInfo:[{lessonName: '数据结构', lessonId: '01', tName: 'sj', place: 'C101', time:'一1-3, 三1-2',credit: 5, tId: 1001, resolveTime:'五1-2', resolvePlace: 'D101', school: '宝山'},
-      {lessonName: '数据库原理', lessonId: '02', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长'}],
-      lessonTableInfo: [[1, '8:00 ~ 8:45', 'A', 'B', 'A', 'B', '', '', ''],
-                        [2, '8:55 ~ 9:40', 'A', 'B', 'A', 'B', '', '', ''],
-                        [3, '10:00 ~ 10:45', 'A', 'B', '', '', '', '', ''],
-                        [4, '10:55 ~ 11:40', '', '', '', '', '', '', ''],
-                        [5, '12:10 ~ 12:55', '', '', '', '', '', '', ''],
-                        [6, '13:05 ~ 13:50', '', '', '', '', '', '', ''],
-                        [7, '14:10 ~ 14:55', '', '', '', '', '', '', ''],
-                        [8, '15:05 ~ 15:50', '', '', '', '', '', '', ''],
-                        [9, '16:00 ~ 16:45', '', '', '', '', '', '', ''],
-                        [10, '16:55 ~ 17:40', '', '', '', '', '', '', ''],
-                        [11, '18:00 ~ 18:45', '', '', '', '', '', '', ''],
-                        [12, '18:55 ~ 19:40', '', '', '', '', '', '', ''],
-                        [13, '19:50 ~ 20:35', '', '', '', '', '', '', '']]
+      credit: this.$store.getters.credit,
+      lesssonInfo: this.$store.state.lessonInfo,
+      lessonTableInfo: this.$store.state.lessonTableInfo
     }
   },
   methods:{
@@ -88,8 +79,8 @@ export default {
 
 <style>
 #selectTimeTable{
-  width: 95%;
-  margin: 10px auto;
+  width: 100%;
+  margin: -10px auto;
   border: 2px solid #69b2e6;
   padding: 0;
 }
@@ -103,11 +94,10 @@ export default {
 }
 .tableRow{
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 .tableHead,.tableText{
-  padding: 5px 0;
+  padding: 2px 0;
   border-right: 2px solid #ccc;
   border-top: 2px solid #ccc;
   text-align: center;
@@ -116,6 +106,7 @@ export default {
 }
 .tableHead{
   font-weight: bold;
+  font-size: 16px;
 }
 .tableText{
   font-size: 14px;

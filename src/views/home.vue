@@ -1,7 +1,7 @@
 <template>
     <home-alert v-if="showalert" message="请重新登录!" :func="alertconfirm"></home-alert>
     <el-container>
-        <el-aside width="260px" style="min-height:100vh;">
+        <el-aside width="230px" style="min-height:100vh;">
             <tab-bar></tab-bar>
         </el-aside>
         <el-container>

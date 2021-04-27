@@ -11,7 +11,7 @@
                 <i class="el-icon-switch-button"></i>安全退出
             </div>
         </div>
-        <p v-show="ishidden === 1"><ul class="circle"><li>切换选课学期</li></ul></p>
+        <p v-show="ishidden === 1" @click="changeTerm"><ul class="circle"><li>切换选课学期</li></ul></p>
         <p v-show="ishidden === 2"><ul class="circle"><li>{{id}}</li></ul></p>
     </div>   
 </template>
@@ -39,6 +39,10 @@ export default {
         },
         idclick(){
             this.ishidden = 2
+        },
+        changeTerm(){
+            this.$store.commit('updateTerm', '')
+            this.$router.replace('/chooseterm')
         }
     }
 }
@@ -89,10 +93,10 @@ p{
     cursor: pointer;
 }
 p:nth-of-type(1){
-    left: 893px;
+    left: 721px;
 }
 p:nth-of-type(2){
-    left: 1132px;
+    left: 975px;
     width: 200px;
 }
 .circle{

@@ -41,7 +41,7 @@ export default {
 .tab-bar-title{
     background-color: #367fa9;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
     height: 60px;
     line-height: 60px;
     text-align: center;
@@ -49,6 +49,7 @@ export default {
 .tab-bar-info{
     background-color: #8ac3f0;
     padding: 5px;
+    font-size: 14px;
 }
 .tab-bar-info .detail div{
     font-size: 100%;
