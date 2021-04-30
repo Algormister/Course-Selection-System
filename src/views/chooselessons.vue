@@ -1,16 +1,123 @@
 <template>
   <div id="chooselessons">
     xuanke
-    
+    <div class="Container">
+      <div class="tableContainer" style="flex: 2">
+        <div class="tableRow" style="border-top: 2px solid #ccc;">
+          <div class="tableTitle" style="padding: 5px 0;">{{ term }} 课程表</div>
+        </div>
+        <div class="tableRow">
+          <div class="tableHead" style="flex: 1">序号</div>
+          <div class="tableHead" style="flex: 3">课程号</div>
+          <div class="tableHead" style="flex: 3">课程名称</div>
+          <div class="tableHead" style="flex: 1">学分</div>
+          <div class="tableHead" style="flex: 3">教师姓名</div>
+          <div class="tableHead" style="flex: 1">校区</div>
+        </div>
+        <div class="tableRow" v-for="(item, index) in lesssonInfo" :key="index">
+          <div class="tableText" style="flex: 1">
+            {{ String.fromCodePoint(index + 65) }}
+          </div>
+          <div class="tableText" style="flex: 3">{{ item.lessonId }}</div>
+          <div class="tableText" style="flex: 3">{{ item.lessonName }}</div>
+          <div class="tableText" style="flex: 1">{{ item.credit }}</div>
+          <div class="tableText" style="flex: 3">{{ item.tName }}</div>
+          <div class="tableText" style="flex: 1">{{ item.school }}</div>
+        </div>
+      </div>
+      <div class="tableContainer" style="flex: 3">
+        <div class="tableRow">
+          <div
+            class="tableText"
+            style="padding-left: 10px; text-align: start; flex: 1"
+          >
+            合计学分: {{ credit }}
+          </div>
+        </div>
+        <div class="tableRow">
+          <div class="tableHead" style="flex: 1">#</div>
+          <div class="tableHead" style="flex: 3">上课时间</div>
+          <div class="tableHead" style="flex: 2">一</div>
+          <div class="tableHead" style="flex: 2">二</div>
+          <div class="tableHead" style="flex: 2">三</div>
+          <div class="tableHead" style="flex: 2">四</div>
+          <div class="tableHead" style="flex: 2">五</div>
+          <div class="tableHead" style="flex: 2">六</div>
+          <div class="tableHead" style="flex: 2">日</div>
+        </div>
+        <div
+          class="tableRow"
+          v-for="(item, index) in lessonTableInfo"
+          :key="index"
+        >
+          <div class="tableText" style="flex: 1">{{ item[0] }}</div>
+          <div class="tableText" style="flex: 3">{{ item[1] }}</div>
+          <div class="tableText" style="flex: 2">{{ item[2] }}</div>
+          <div class="tableText" style="flex: 2">{{ item[3] }}</div>
+          <div class="tableText" style="flex: 2">{{ item[4] }}</div>
+          <div class="tableText" style="flex: 2">{{ item[5] }}</div>
+          <div class="tableText" style="flex: 2">{{ item[6] }}</div>
+          <div class="tableText" style="flex: 2">{{ item[7] }}</div>
+          <div class="tableText" style="flex: 2">{{ item[8] }}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ChooseLesssons',
-  
-}
+  name: "ChooseLesssons",
+  data() {
+    return {
+      term: this.$store.state.term,
+      credit: this.$store.getters.credit,
+      lesssonInfo: this.$store.state.lessonInfo,
+      lessonTableInfo: this.$store.state.lessonTableInfo,
+    };
+  },
+};
 </script>
 
-<style>
+<style scoped>
+.Container{
+  display: flex;
+}
+.tableTitle {
+  font-weight: bold;
+  color: #69b2e6;
+}
+.tableContainer {
+  border-bottom: 2px solid #ccc;
+  border-left: 2px solid #ccc;
+}
+.tableRow {
+  display: flex;
+  align-items: center;
+}
+.tableHead,
+.tableText {
+  padding: 1px 0;
+  border-right: 2px solid #ccc;
+  border-top: 2px solid #ccc;
+  text-align: center;
+  height: 24px;
+  line-height: 24px;
+}
+.tableHead {
+  font-weight: bold;
+  font-size: 16px;
+}
+.tableText {
+  font-size: 14px;
+}
+.tableContainer:nth-of-type(1) .tableRow:nth-last-of-type(1){
+  border-bottom: 2px solid #ccc;
+}
+.tableContainer:nth-of-type(1) .tableHead:nth-last-of-type(1){
+  border-right: 0;
+}
+.tableContainer:nth-of-type(1) .tableText:nth-last-of-type(1){
+  border-right: 0;
+}
 </style>

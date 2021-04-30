@@ -63,7 +63,6 @@
 export default {
     name: 'selectTimeTable',
     data(){
-    //for test
     return {
       term: this.$store.state.term,
       credit: this.$store.getters.credit,
@@ -77,7 +76,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #selectTimeTable{
   width: 100%;
   margin: -10px auto;

@@ -4,15 +4,15 @@
             <i class="el-icon-s-operation" style="color:white;font-size:32px;line-height:60px;"></i>
         </div> -->
         <div class="func-container">
-            <div><i class="el-icon-chat-dot-round"></i>选课疑难解答</div>
+            <!-- <div><i class="el-icon-chat-dot-round"></i>选课疑难解答</div> -->
             <div @click="termclick"><i class="el-icon-date"></i>{{term}}</div>
             <div @click="idclick"><i class="el-icon-user"></i>{{id}}</div>
             <div @click="logout">
                 <i class="el-icon-switch-button"></i>安全退出
             </div>
         </div>
-        <p v-show="ishidden === 1" @click="changeTerm"><ul class="circle"><li>切换选课学期</li></ul></p>
-        <p v-show="ishidden === 2"><ul class="circle"><li>{{id}}</li></ul></p>
+        <p v-show="isMasked && ishidden === 1" @click="changeTerm"><ul class="circle"><li>切换选课学期</li></ul></p>
+        <p v-show="isMasked && ishidden === 2"><ul class="circle"><li>{{id}}</li></ul></p>
     </div>   
 </template>
 
@@ -27,6 +27,7 @@ export default {
     props:{
         term:String,
         id:String,
+        isMasked: Boolean
     },
     methods:{
         logout(){
@@ -36,9 +37,11 @@ export default {
         },
         termclick(){
             this.ishidden = 1
+            this.$emit('homeheaderclick', 1)
         },
         idclick(){
             this.ishidden = 2
+            this.$emit('homeheaderclick', 2)
         },
         changeTerm(){
             this.$store.commit('updateTerm', '')
@@ -91,12 +94,13 @@ p{
     margin: 0;
     line-height: 40px;
     cursor: pointer;
+    z-index: 11;
 }
 p:nth-of-type(1){
-    left: 721px;
+    left: 730px;
 }
 p:nth-of-type(2){
-    left: 975px;
+    left: 984px;
     width: 200px;
 }
 .circle{
