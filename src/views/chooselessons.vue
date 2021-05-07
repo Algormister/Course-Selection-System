@@ -1,6 +1,6 @@
 <template>
   <div id="chooselessons">
-    xuanke
+    <quick-choose></quick-choose>
     <div class="Container">
       <div class="tableContainer" style="flex: 2">
         <div class="tableRow" style="border-top: 2px solid #ccc;">
@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import QuickChoose from '../components/ChooseLessons/QuickChoose'
 export default {
   name: "ChooseLesssons",
   data() {
@@ -76,6 +77,9 @@ export default {
       lessonTableInfo: this.$store.state.lessonTableInfo,
     };
   },
+  components:{
+    QuickChoose
+  }
 };
 </script>
 

@@ -26,7 +26,7 @@
                         <el-menu-item index="/home/selectTimeTable"><span><ul><li>课表查询</li></ul></span></el-menu-item>
                         <el-menu-item index="/home/selectDropedCourses"><span><ul><li>删除课程查询</li></ul></span></el-menu-item>
                         <!-- <el-menu-item index="/home/selectCourses"><span><ul><li>课程查询</li></ul></span></el-menu-item> -->
-                        <el-menu-item index="/hoem/selectRank"><span><ul><li>选课排名查询</li></ul></span></el-menu-item>
+                        <el-menu-item index="/home/selectRank"><span><ul><li>选课排名查询</li></ul></span></el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>
