@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <el-button type="primary" class="btn">选课</el-button>
+    <el-button type="primary" class="btn" @click="submit">选课</el-button>
   </div>
 </template>
 
@@ -35,7 +35,6 @@ export default {
   methods:{
       lessonidInput(e, index){
           this.lessonInfo[(index - 1) * 2].c = e.currentTarget.value;
-          console.log(this.lessonInfo);
       },
       tidInput(e,index){
           this.lessonInfo[(index - 1) * 2].t = e.currentTarget.value;
@@ -45,6 +44,10 @@ export default {
       },
       tidInputR(e,index){
           this.lessonInfo[(index - 1) * 2 + 1].t = e.currentTarget.value;
+      },
+      submit(){
+          console.log(this.lessonInfo);
+          ////////
       }
   }
 };
@@ -52,10 +55,11 @@ export default {
 
 <style scoped>
 #quickchoose{
-    border:1px dotted #ccc;
-    height: 148px;
+    border:2px solid #ccc;
+    border-bottom: 0;
+    height: 147px;
     position: relative;
-    padding: 5px 10px;
+    padding: 10px 10px 0 10px;
 }
 .tableRow{
   display: flex;

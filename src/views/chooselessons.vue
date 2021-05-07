@@ -1,6 +1,11 @@
 <template>
   <div id="chooselessons">
-    <quick-choose></quick-choose>
+    <div class="btnContainer">
+      <el-button @click="quickchoose" size="small" :class="{'active': chooseWay == 1}">快速选课</el-button>
+      <el-button @click="fuzzyquery" size="small" :class="{'active': chooseWay == 2}">模糊查询</el-button>
+    </div>
+    <quick-choose v-show="chooseWay == 1"></quick-choose>
+    <fuzzy-query v-show="chooseWay == 2"></fuzzy-query>
     <div class="Container">
       <div class="tableContainer" style="flex: 2">
         <div class="tableRow" style="border-top: 2px solid #ccc;">
@@ -67,6 +72,7 @@
 
 <script>
 import QuickChoose from '../components/ChooseLessons/QuickChoose'
+import FuzzyQuery from '../components/ChooseLessons/FuzzyQuery'
 export default {
   name: "ChooseLesssons",
   data() {
@@ -75,10 +81,20 @@ export default {
       credit: this.$store.getters.credit,
       lesssonInfo: this.$store.state.lessonInfo,
       lessonTableInfo: this.$store.state.lessonTableInfo,
+      chooseWay: 1
     };
   },
   components:{
-    QuickChoose
+    QuickChoose,
+    FuzzyQuery
+  },
+  methods:{
+    quickchoose(){
+      this.chooseWay = 1;
+    },
+    fuzzyquery(){
+      this.chooseWay = 2;
+    }
   }
 };
 </script>
@@ -86,6 +102,14 @@ export default {
 <style scoped>
 .Container{
   display: flex;
+}
+.btnContainer{
+  padding-bottom: 10px;
+}
+.active{
+  color: #409EFF;
+  border-color: #c6e2ff;
+  background-color: #ecf5ff;
 }
 .tableTitle {
   font-weight: bold;
