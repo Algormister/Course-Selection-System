@@ -19,11 +19,11 @@
           <option value="" selected></option>
           <option v-for="(item,index) in departments" :value="item.value" :key="index">{{item.name}}</option>
       </select>
-      <span>学分：</span><input type="text" v-model="credit"/>
+      <span>学分：</span><input type="text" v-model="credit" style="width:30px;"/>
     </div>
     <el-button type="primary" class="btn" @click="select">查询</el-button>
     <div class="list" v-show="isShowList">
-        <div class="tableTitle" style="padding: 5px 0;">查询结果</div>
+        <div class="tableTitle" style="padding: 5px;">查询结果</div>
         <div class="tableContainer">
             <div class="tableRow">
                 <div class="tableHead" style="flex: 1"></div>
@@ -41,7 +41,7 @@
                 <div class="tableHead" style="flex: 2">答疑地点</div>
                 <div class="tableHead" style="flex: 1">校区</div>
             </div>
-            <div class="tableRow" v-for="(item, index) in list" :key="index">
+            <div class="tableRow" v-for="(item, index) in list.slice(curPage*8,curPage * 8 + 8)" :key="index" :class="{'active': listChecked.indexOf(item.lessonId) > -1}">
                 <div class="tableText" style="flex: 1"><input type="checkbox" name="list" :value="item.lessonId" style="margin-right: 0;" v-model="listChecked"></div>
                 <div class="tableText" style="flex: 3">{{item.lessonId}}</div>
                 <div class="tableText" style="flex: 4">{{item.lessonName}}</div>
@@ -58,6 +58,16 @@
                 <div class="tableText" style="flex: 1">{{item.school}}</div>
             </div>
         </div>
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :page-size="8"
+          :total="total"
+          @update:current-page="pagechange"
+          @prev-click="preclick"
+          @next-click="nextclick"
+          style="text-align: center;padding: 10px 0 0 0;">
+        </el-pagination>
         <el-button type="primary" class="btn" @click="submit" style="margin-left:1100px;">选课</el-button>
     </div>
     
@@ -77,9 +87,18 @@ export default {
             curDepartment: '',
             credit: '',
             isShowList: false,
+            curPage: 0,
+            total: 9,
             listChecked: [],
             list: [{lessonName: '数据结构', lessonId: '01', tName: 'sj', place: 'C101', time:'一1-3, 三1-2',credit: 5, tId: 1001, resolveTime:'五1-2', resolvePlace: 'D101', school: '宝山',volume: 50, students: 45, limit: ''},
-    {lessonName: '数据库原理', lessonId: '02', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'}],
+    {lessonName: '数据库原理', lessonId: '02', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
+    {lessonName: '数据库原理', lessonId: '03', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
+    {lessonName: '数据库原理', lessonId: '04', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
+    {lessonName: '数据库原理', lessonId: '05', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
+    {lessonName: '数据库原理', lessonId: '06', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
+    {lessonName: '数据库原理', lessonId: '07', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
+    {lessonName: '数据库原理', lessonId: '08', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
+    {lessonName: '数据库原理', lessonId: '09', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'}],
             campuses: ['延长','宝山','嘉定'],
             departments: [{value: '01010000', name: '理学院'},{value: '01020000', name: '文学院'},{value: '01030000', name: '外国语学院'}
             ,{value: '01060000', name: '法学院'},{value: '01070000', name: '通信与信息工程学院'},{value: '01080000', name: '计算机工程与科学学院'}
@@ -129,6 +148,15 @@ export default {
         },
         submit(){
             //
+        },
+        pagechange(page){
+          this.curPage = page - 1;
+        },
+        preclick(){
+          this.curPage--;
+        },
+        nextclick(){
+          this.curPage++;
         }
     }
 };
@@ -147,7 +175,7 @@ export default {
 }
 .btn{
     margin-top: 10px;
-    margin-left: 570px;
+    margin-left: 440px;
     margin-bottom: 5px;
     width: 80px;
     height: 30px;
@@ -197,5 +225,8 @@ input{
 }
 .tableText{
   font-size: 14px;
+}
+.active{
+  background-color: #69b2e6;
 }
 </style>

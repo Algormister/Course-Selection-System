@@ -71,8 +71,8 @@
 </template>
 
 <script>
-import QuickChoose from '../components/ChooseLessons/QuickChoose'
-import FuzzyQuery from '../components/ChooseLessons/FuzzyQuery'
+import QuickChoose from '../../components/ChooseLessons/QuickChoose'
+import FuzzyQuery from '../../components/ChooseLessons/FuzzyQuery'
 export default {
   name: "ChooseLesssons",
   data() {
@@ -105,6 +105,9 @@ export default {
 }
 .btnContainer{
   padding-bottom: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 .active{
   color: #409EFF;
