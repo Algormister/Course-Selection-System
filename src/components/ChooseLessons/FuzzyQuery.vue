@@ -88,7 +88,7 @@ export default {
             credit: '',
             isShowList: false,
             curPage: 0,
-            total: 9,
+            total: 9,   //axios
             listChecked: [],
             list: [{lessonName: '数据结构', lessonId: '01', tName: 'sj', place: 'C101', time:'一1-3, 三1-2',credit: 5, tId: 1001, resolveTime:'五1-2', resolvePlace: 'D101', school: '宝山',volume: 50, students: 45, limit: ''},
     {lessonName: '数据库原理', lessonId: '02', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},

@@ -31,6 +31,7 @@ export default {
     },
     methods:{
         login(){
+            //axios
             this.$store.commit('updateUserid', this.id)
             // console.log(this.$store.state.userid);
             this.$router.replace('./chooseterm')

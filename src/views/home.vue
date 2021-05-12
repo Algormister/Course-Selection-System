@@ -3,7 +3,7 @@
     <div :class="{mask: isMasked}" @click="cancelMask"></div>
     <el-container>
         <el-aside width="230px" style="min-height:100vh;">
-            <tab-bar></tab-bar>
+            <tab-bar :path="pathStu"></tab-bar>
         </el-aside>
         <el-container>
             <el-header height="60px" style="background-color:#3c8dbc">
@@ -30,7 +30,12 @@ export default {
                 this.$router.replace('/')
             },
             showalert: false,
-            isMasked: false
+            isMasked: false,
+            pathStu: [{router: 'chooseLessons', name: '选课'},
+                    {router: 'dropCourses', name: '退课'},
+                    {router: 'selectTimeTable', name: '课表查询'},
+                    {router: 'selectDropedCourses', name: '删除课程查询'}
+            ]
         }
     },
     created(){

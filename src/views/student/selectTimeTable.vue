@@ -1,74 +1,26 @@
 <template>
   <div id="selectTimeTable">
-    <div class="tableTitle">{{term}} 课程表</div>
-    <div class="tableContainer">
-      <div class="tableRow">
-        <div class="tableHead" style="flex: 1">序号</div>
-        <div class="tableHead" style="flex: 3">课程号</div>
-        <div class="tableHead" style="flex: 4">课程名称</div>
-        <div class="tableHead" style="flex: 1">学分</div>
-        <div class="tableHead" style="flex: 2">教师号</div>
-        <div class="tableHead" style="flex: 2">教师姓名</div>
-        <div class="tableHead" style="flex: 5">上课时间</div>
-        <div class="tableHead" style="flex: 2">上课地点</div>
-        <div class="tableHead" style="flex: 2">答疑时间</div>
-        <div class="tableHead" style="flex: 2">答疑地点</div>
-        <div class="tableHead" style="flex: 1">校区</div>
-      </div>
-      <div class="tableRow" v-for="(item, index) in lessonInfo" :key="index">
-        <div class="tableText" style="flex: 1">{{String.fromCodePoint(index + 65)}}</div>
-        <div class="tableText" style="flex: 3">{{item.lessonId}}</div>
-        <div class="tableText" style="flex: 4">{{item.lessonName}}</div>
-        <div class="tableText" style="flex: 1">{{item.credit}}</div>
-        <div class="tableText" style="flex: 2">{{item.tId}}</div>
-        <div class="tableText" style="flex: 2">{{item.tName}}</div>
-        <div class="tableText" style="flex: 5">{{item.time}}</div>
-        <div class="tableText" style="flex: 2">{{item.place}}</div>
-        <div class="tableText" style="flex: 2">{{item.resolveTime}}</div>
-        <div class="tableText" style="flex: 2">{{item.resolvePlace}}</div>
-        <div class="tableText" style="flex: 1">{{item.school}}</div>
-      </div>
-      <div class="tableRow">
-        <div class="tableText" style="padding:5px;text-align:start;flex: 1;font-size:16px;font-weight:bold;">合计学分: {{credit}}</div> 
-      </div>
-    </div>
-    <div class="tableContainer">
-      <div class="tableRow">
-        <div class="tableHead" style="flex: 1">#</div>
-        <div class="tableHead" style="flex: 3">上课时间</div>
-        <div class="tableHead" style="flex: 5">一</div>
-        <div class="tableHead" style="flex: 5">二</div>
-        <div class="tableHead" style="flex: 5">三</div>
-        <div class="tableHead" style="flex: 5">四</div>
-        <div class="tableHead" style="flex: 5">五</div>
-        <div class="tableHead" style="flex: 5">六</div>
-        <div class="tableHead" style="flex: 5">日</div>
-      </div>
-      <div class="tableRow" v-for="(item, index) in lessonTableInfo" :key="index">
-        <div class="tableText" style="flex: 1">{{item[0]}}</div>
-        <div class="tableText" style="flex: 3">{{item[1]}}</div>
-        <div class="tableText" style="flex: 5">{{item[2]}}</div>
-        <div class="tableText" style="flex: 5">{{item[3]}}</div>
-        <div class="tableText" style="flex: 5">{{item[4]}}</div>
-        <div class="tableText" style="flex: 5">{{item[5]}}</div>
-        <div class="tableText" style="flex: 5">{{item[6]}}</div>
-        <div class="tableText" style="flex: 5">{{item[7]}}</div>
-        <div class="tableText" style="flex: 5">{{item[8]}}</div>
-      </div>
-    </div>
+    <lesson-info :title="term+' 课程表'" :lessonInfo="lessonInfo"></lesson-info>
+    <time-table :lessonTableInfo="lessonTableInfo" :credit="credit"></time-table>
   </div>
 </template>
 
 <script>
+import TimeTable from '../../components/TimeTable/TimeTable'
+import LessonInfo from '../../components/TimeTable/LessonInfo'
 export default {
     name: 'selectTimeTable',
+    components:{
+      TimeTable,
+      LessonInfo
+    },
     data(){
-    return {
-      term: this.$store.state.term,
-      credit: this.$store.getters.credit,
-      lessonInfo: this.$store.state.lessonInfo,
-      lessonTableInfo: this.$store.state.lessonTableInfo
-    }
+      return {
+        term: this.$store.state.term,
+        credit: this.$store.getters.credit,
+        lessonInfo: this.$store.state.lessonInfo,
+        lessonTableInfo: this.$store.state.lessonTableInfo
+      }
   },
   methods:{
     
@@ -79,36 +31,7 @@ export default {
 <style scoped>
 #selectTimeTable{
   width: 100%;
-  margin: -10px auto;
   border: 2px solid #69b2e6;
   padding: 0;
-}
-.tableTitle{
-  font-weight:bold;
-  color: #69b2e6;
-  padding: 5px;
-}
-.tableContainer{
-  border-bottom: 2px solid #ccc;
-  border-left: 2px solid #ccc;
-}
-.tableRow{
-  display: flex;
-  align-items: center;
-}
-.tableHead,.tableText{
-  padding: 2px 0;
-  border-right: 2px solid #ccc;
-  border-top: 2px solid #ccc;
-  text-align: center;
-  height: 24px;
-  line-height: 24px;
-}
-.tableHead{
-  font-weight: bold;
-  font-size: 16px;
-}
-.tableText{
-  font-size: 14px;
 }
 </style>

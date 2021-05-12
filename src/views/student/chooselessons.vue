@@ -4,8 +4,8 @@
       <el-button @click="quickchoose" size="small" :class="{'active': chooseWay == 1}">快速选课</el-button>
       <el-button @click="fuzzyquery" size="small" :class="{'active': chooseWay == 2}">模糊查询</el-button>
     </div>
-    <quick-choose v-show="chooseWay == 1"></quick-choose>
-    <fuzzy-query v-show="chooseWay == 2"></fuzzy-query>
+    <quick-choose v-if="chooseWay == 1"></quick-choose>
+    <fuzzy-query v-if="chooseWay == 2"></fuzzy-query>
     <div class="Container">
       <div class="tableContainer" style="flex: 2">
         <div class="tableRow" style="border-top: 2px solid #ccc;">
