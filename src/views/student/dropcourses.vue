@@ -1,7 +1,9 @@
 <template>
   <div id="dropcourses">
-    tuike
     <div class="tableContainer">
+      <div class="tableRow">
+        <div class="tableTitle">退课</div>
+      </div>
       <div class="tableRow">
         <div class="tableHead" style="flex: 1"></div>
         <div class="tableHead" style="flex: 3">课程号</div>
@@ -43,6 +45,34 @@
         <div class="tableText" style="flex: 1">{{ item.school }}</div>
       </div>
     </div>
+    <el-button type="primary" class="btn" @click="submit">确认</el-button>
+    <div class="tableContainer" style="margin: 0; margin-top: 50px;">
+      <div class="tableRow">
+        <div class="tableText" style="padding:5px;text-align:start;flex: 1;font-size:16px; font-weight:bold;">合计学分: {{credit}}</div> 
+      </div>
+      <div class="tableRow">
+        <div class="tableHead" style="flex: 1">#</div>
+        <div class="tableHead" style="flex: 3">上课时间</div>
+        <div class="tableHead" style="flex: 5">一</div>
+        <div class="tableHead" style="flex: 5">二</div>
+        <div class="tableHead" style="flex: 5">三</div>
+        <div class="tableHead" style="flex: 5">四</div>
+        <div class="tableHead" style="flex: 5">五</div>
+        <div class="tableHead" style="flex: 5">六</div>
+        <div class="tableHead" style="flex: 5">日</div>
+      </div>
+      <div class="tableRow" v-for="(item, index) in lessonTableInfo" :key="index">
+        <div class="tableText" style="flex: 1">{{item[0]}}</div>
+        <div class="tableText" style="flex: 3">{{item[1]}}</div>
+        <div class="tableText" style="flex: 5">{{item[2]}}</div>
+        <div class="tableText" style="flex: 5">{{item[3]}}</div>
+        <div class="tableText" style="flex: 5">{{item[4]}}</div>
+        <div class="tableText" style="flex: 5">{{item[5]}}</div>
+        <div class="tableText" style="flex: 5">{{item[6]}}</div>
+        <div class="tableText" style="flex: 5">{{item[7]}}</div>
+        <div class="tableText" style="flex: 5">{{item[8]}}</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -52,20 +82,33 @@ export default {
   data() {
     return {
       list: this.$store.state.lessonInfo,
-      listChecked: []
-    };
+      listChecked: [],
+      lessonTableInfo: this.$store.state.lessonTableInfo,
+      credit: this.$store.getters.credit
+    }
   },
+  methods:{
+    submit(){
+      console.log(this.listChecked);
+    }
+  }
 };
 </script>
 
 <style scoped>
+#dropcourses{
+  position: relative;
+  border: 2px solid #69b2e6
+}
 .tableTitle {
   font-weight: bold;
   color: #69b2e6;
+  padding: 5px;
 }
 .tableContainer {
   border-bottom: 2px solid #ccc;
   border-left: 2px solid #ccc;
+  margin-bottom: 10px;
 }
 .tableRow {
   display: flex;
@@ -89,5 +132,13 @@ export default {
 }
 .active{
   background-color: #69b2e6;
+}
+.btn{
+    position: absolute;
+    right: 2%;
+    width: 80px;
+    height: 30px;
+    min-height: 0;
+    line-height: 0.4;
 }
 </style>

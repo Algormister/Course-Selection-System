@@ -9,7 +9,7 @@
     <div class="Container">
       <div class="tableContainer" style="flex: 2">
         <div class="tableRow" style="border-top: 2px solid #ccc;">
-          <div class="tableTitle" style="padding: 5px 0;">{{ term }} 课程表</div>
+          <div class="tableTitle">{{ term }} 课程表</div>
         </div>
         <div class="tableRow">
           <div class="tableHead" style="flex: 1">序号</div>
@@ -19,7 +19,7 @@
           <div class="tableHead" style="flex: 3">教师姓名</div>
           <div class="tableHead" style="flex: 1">校区</div>
         </div>
-        <div class="tableRow" v-for="(item, index) in lesssonInfo" :key="index">
+        <div class="tableRow" v-for="(item, index) in lessonInfo" :key="index">
           <div class="tableText" style="flex: 1">
             {{ String.fromCodePoint(index + 65) }}
           </div>
@@ -31,13 +31,8 @@
         </div>
       </div>
       <div class="tableContainer" style="flex: 3">
-        <div class="tableRow">
-          <div
-            class="tableText"
-            style="padding-left: 10px; text-align: start; flex: 1"
-          >
-            合计学分: {{ credit }}
-          </div>
+        <div class="tableRow" style="border-top: 2px solid #ccc;">
+          <div class="tableTitle">合计学分: {{ credit }}</div>
         </div>
         <div class="tableRow">
           <div class="tableHead" style="flex: 1">#</div>
@@ -79,7 +74,7 @@ export default {
     return {
       term: this.$store.state.term,
       credit: this.$store.getters.credit,
-      lesssonInfo: this.$store.state.lessonInfo,
+      lessonInfo: this.$store.state.lessonInfo,
       lessonTableInfo: this.$store.state.lessonTableInfo,
       chooseWay: 1
     };
@@ -117,6 +112,7 @@ export default {
 .tableTitle {
   font-weight: bold;
   color: #69b2e6;
+  padding: 5px;
 }
 .tableContainer {
   border-bottom: 2px solid #ccc;

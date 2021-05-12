@@ -7,7 +7,7 @@ const ChooseTerm = ()=>import('../views/chooseterm')
 const SelectTimeTable = ()=>import('../views/student/selectTimeTable')
 const DropCourses = ()=>import('../views/student/dropcourses')
 const SelectDropedCourses = ()=>import('../views/student/selectDropedCourses')
-const SelectRank =()=>import('../views/student/selectRank')
+// const SelectRank =()=>import('../views/student/selectRank')
 
 const routes = [
   {
@@ -48,10 +48,10 @@ const routes = [
         path: 'selectDropedCourses',
         component: SelectDropedCourses
       },
-      {
-        path: 'selectRank',
-        component: SelectRank
-      }
+      // {
+      //   path: 'selectRank',
+      //   component: SelectRank
+      // }
     ]
   },
 ]
