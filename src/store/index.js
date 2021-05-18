@@ -49,6 +49,14 @@ export default createStore({
     updateLessonTableInfo(state, info){
       state.lessonTableInfo = info
       window.sessionStorage.setItem('lessonTableInfo', info)
+    },
+    dropCourses(state, dropInfo){
+      for (let i = state.lessonInfo.length - 1; i >= 0; i--){
+        if (dropInfo.indexOf(state.lessonInfo[i].lessonId) > -1){
+          state.lessonInfo.splice(i, 1);
+        }
+      }
+      // window.sessionStorage.setItem('lessonInfo', state.lessonInfo);
     }
   },
   actions: {

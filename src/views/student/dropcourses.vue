@@ -11,9 +11,6 @@
         <div class="tableHead" style="flex: 2">教师姓名</div>
         <div class="tableHead" style="flex: 5">上课时间</div>
         <div class="tableHead" style="flex: 2">上课地点</div>
-        <div class="tableHead" style="flex: 2">容量</div>
-        <div class="tableHead" style="flex: 2">人数</div>
-        <div class="tableHead" style="flex: 2">选课限制</div>
         <div class="tableHead" style="flex: 2">答疑时间</div>
         <div class="tableHead" style="flex: 2">答疑地点</div>
         <div class="tableHead" style="flex: 1">校区</div>
@@ -28,19 +25,16 @@
             v-model="listChecked"
           />
         </div>
-        <div class="tableText" style="flex: 3">{{ item.lessonId }}</div>
-        <div class="tableText" style="flex: 4">{{ item.lessonName }}</div>
-        <div class="tableText" style="flex: 1">{{ item.credit }}</div>
-        <div class="tableText" style="flex: 2">{{ item.tId }}</div>
-        <div class="tableText" style="flex: 2">{{ item.tName }}</div>
-        <div class="tableText" style="flex: 5">{{ item.time }}</div>
-        <div class="tableText" style="flex: 2">{{ item.place }}</div>
-        <div class="tableText" style="flex: 2">{{ item.volume }}</div>
-        <div class="tableText" style="flex: 2">{{ item.students }}</div>
-        <div class="tableText" style="flex: 2">{{ item.limit }}</div>
-        <div class="tableText" style="flex: 2">{{ item.resolveTime }}</div>
-        <div class="tableText" style="flex: 2">{{ item.resolvePlace }}</div>
-        <div class="tableText" style="flex: 1">{{ item.school }}</div>
+        <div class="tableText" style="flex: 3">{{item.lessonId}}</div>
+        <div class="tableText" style="flex: 4">{{item.lessonName}}</div>
+        <div class="tableText" style="flex: 1">{{item.credit}}</div>
+        <div class="tableText" style="flex: 2">{{item.tId}}</div>
+        <div class="tableText" style="flex: 2">{{item.tName}}</div>
+        <div class="tableText" style="flex: 5">{{item.time}}</div>
+        <div class="tableText" style="flex: 2">{{item.place}}</div>
+        <div class="tableText" style="flex: 2">{{item.resolveTime}}</div>
+        <div class="tableText" style="flex: 2">{{item.resolvePlace}}</div>
+        <div class="tableText" style="flex: 1">{{item.school}}</div>
       </div>
     </div>
     <el-button type="primary" class="btn" @click="submit">确认</el-button>
@@ -65,7 +59,17 @@ export default {
   },
   methods:{
     submit(){
+      // let lessonInfo = this.$store.state.lessonInfo;
+      // for (let i = lessonInfo.length - 1; i >= 0; i--){
+      //   console.log(this.listChecked.indexOf(lessonInfo[i].lessonId));
+      //   if (this.listChecked.indexOf(lessonInfo[i].lessonId) > -1){
+      //     lessonInfo.splice(i, 1);
+      //   }
+      // }
       console.log(this.listChecked);
+      this.$store.commit('dropCourses', this.listChecked);
+      //for test
+      console.log(this.$store.state.lessonInfo);
     }
   }
 };
