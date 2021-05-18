@@ -53,23 +53,18 @@ export default {
     return {
       list: this.$store.state.lessonInfo,
       listChecked: [],
-      lessonTableInfo: this.$store.state.lessonTableInfo,
+      lessonTableInfo: this.$store.getters.lessonTableInfo,
       credit: this.$store.getters.credit
     }
   },
   methods:{
     submit(){
-      // let lessonInfo = this.$store.state.lessonInfo;
-      // for (let i = lessonInfo.length - 1; i >= 0; i--){
-      //   console.log(this.listChecked.indexOf(lessonInfo[i].lessonId));
-      //   if (this.listChecked.indexOf(lessonInfo[i].lessonId) > -1){
-      //     lessonInfo.splice(i, 1);
-      //   }
-      // }
       console.log(this.listChecked);
       this.$store.commit('dropCourses', this.listChecked);
+      this.$nextTick(() =>{
+        this.lessonTableInfo = this.$store.getters.lessonTableInfo;
+      })
       //for test
-      console.log(this.$store.state.lessonInfo);
     }
   }
 };

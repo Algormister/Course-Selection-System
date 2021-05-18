@@ -19,7 +19,7 @@ export default {
         term: this.$store.state.term,
         credit: this.$store.getters.credit,
         lessonInfo: this.$store.state.lessonInfo,
-        lessonTableInfo: this.$store.state.lessonTableInfo
+        lessonTableInfo: this.$store.getters.lessonTableInfo
       }
   },
   methods:{
