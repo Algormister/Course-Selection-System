@@ -21,11 +21,13 @@
 <script>
 export default {
     name: 'TabBarHeader',
-    props: {
-        id: String,
-        name: String,
-        enGrade: String,
-        lastTermGrade: String
+    data(){
+        return {
+            id: this.$store.state.userid,
+            name: this.$store.state.name,
+            enGrade: this.$store.state.enGrade,
+            lastTermGrade: this.$store.state.lastTermGrade
+        }
     },
     methods:{
         logout(){

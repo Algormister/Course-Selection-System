@@ -1,0 +1,70 @@
+<template>
+  <div id="selectStudent">
+    <div class="tableTitle">课程号:{{$route.path.split('/').slice(-1).toString()}} 课程名:{{$route.query.courseName}}</div>
+    <div class="tableTitle">学生信息</div>
+    <div class="tableContainer">
+      <div class="tableRow">
+          <div class="tableHead" style="flex: 1">序号</div>
+          <div class="tableHead" style="flex: 3">学号</div>
+          <div class="tableHead" style="flex: 3">姓名</div>
+          <div class="tableHead" style="flex: 1">性别</div>
+          <div class="tableHead" style="flex: 3">联系方式</div>
+          <div class="tableHead" style="flex: 2">平时成绩</div>
+          <div class="tableHead" style="flex: 2">期末成绩</div>
+          <div class="tableHead" style="flex: 2">绩点</div>
+      </div>
+      <div class="tableRow" v-for="(item, index) in stuInfo" :key="index">
+          <div class="tableText" style="flex: 1">{{index + 1}}</div>
+          <div class="tableText" style="flex: 3">{{item.id}}</div>
+          <div class="tableText" style="flex: 3">{{item.name}}</div>
+          <div class="tableText" style="flex: 1">{{item.gender}}</div>
+          <div class="tableText" style="flex: 3">{{item.tel}}</div>
+          <div class="tableText" style="flex: 2">{{item.usualResult}}</div>
+          <div class="tableText" style="flex: 2">{{item.finalExam}}</div>
+          <div class="tableText" style="flex: 2">{{item.grade}}</div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+    name: 'selectStudent',
+    data(){
+        return {
+            stuInfo:this.$store.state.stuInfo
+        }
+    }
+}
+</script>
+
+<style scoped>
+.tableTitle{
+  font-weight:bold;
+  color: #69b2e6;
+  padding: 5px;
+}
+.tableContainer{
+  border-bottom: 2px solid #ccc;
+  border-left: 2px solid #ccc;
+}
+.tableRow{
+  display: flex;
+  align-items: center;
+}
+.tableHead,.tableText{
+  padding: 2px 0;
+  border-right: 2px solid #ccc;
+  border-top: 2px solid #ccc;
+  text-align: center;
+  height: 24px;
+  line-height: 24px;
+}
+.tableHead{
+  font-weight: bold;
+  font-size: 16px;
+}
+.tableText{
+  font-size: 14px;
+}
+</style>

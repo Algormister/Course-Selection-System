@@ -4,21 +4,18 @@ export default createStore({
   state: {
     userid: window.sessionStorage.getItem('id'),             //null or id
     term: window.sessionStorage.getItem('term'),
-    lessonInfo: [{lessonName: '数据结构', lessonId: '01', tName: 'sj', place: 'C101', time:'一1-3,三1-2',credit: 5, tId: 1001, resolveTime:'五1-2', resolvePlace: 'D101', school: '宝山'},
+    status: 'teacher',
+    name: 'lwq',
+    enGrade: 'B',
+    lastTermGrade: '3.21',
+    teachingInfo:[{lessonName: '数据库原理(1)', lessonId: '02', tName: 'lwq', place: 'C102', time:'二11-13,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长'},
+    {lessonName: '数据库原理(2)', lessonId: '03', tName: 'lwq', place: 'C102', time:'二1-3,四11-12',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长'}],
+    // lessonInfo: JSON.parse(window.sessionStorage.getItem('lessonInfo'))
+    lessonInfo:[{lessonName: '数据结构', lessonId: '01', tName: 'sj', place: 'C101', time:'一1-3,三1-2',credit: 5, tId: 1001, resolveTime:'五1-2', resolvePlace: 'D101', school: '宝山'},
     {lessonName: '数据库原理', lessonId: '02', tName: 'lwq', place: 'C102', time:'二11-13,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长'}],
-  //   lessonTableInfo:  [[1, '8:00 ~ 8:45', 'A', 'B', 'A', 'B', '', '', ''],
-  //                     [2, '8:55 ~ 9:40', 'A', 'B', 'A', 'B', '', '', ''],
-  //                     [3, '10:00 ~ 10:45', 'A', 'B', '', '', '', '', ''],
-  //                     [4, '10:55 ~ 11:40', '', '', '', '', '', '', ''],
-  //                     [5, '12:10 ~ 12:55', '', '', '', '', '', '', ''],
-  //                     [6, '13:05 ~ 13:50', '', '', '', '', '', '', ''],
-  //                     [7, '14:10 ~ 14:55', '', '', '', '', '', '', ''],
-  //                     [8, '15:05 ~ 15:50', '', '', '', '', '', '', ''],
-  //                     [9, '16:00 ~ 16:45', '', '', '', '', '', '', ''],
-  //                     [10, '16:55 ~ 17:40', '', '', '', '', '', '', ''],
-  //                     [11, '18:00 ~ 18:45', '', '', '', '', '', '', ''],
-  //                     [12, '18:55 ~ 19:40', '', '', '', '', '', '', ''],
-  //                     [13, '19:50 ~ 20:35', '', '', '', '', '', '', '']]
+    stuInfo:[{id: '18120158', name: 'lt', gender: '男', grade: 4.0, usualResult: 90, finalExam: 95, tel: '15821225698'},
+                    {id: '00000001', name: 'zs', gender: '女', grade: 3.7, usualResult: 87, finalExam: 88, tel: '110'}
+            ]
   },
   getters:{
     credit: state =>{
@@ -81,11 +78,7 @@ export default createStore({
     },
     updateLessonInfo(state, info){
       state.lessonInfo = info
-      window.sessionStorage.setItem('lessonInfo', info)
-    },
-    updateLessonTableInfo(state, info){
-      state.lessonTableInfo = info
-      window.sessionStorage.setItem('lessonTableInfo', info)
+      window.sessionStorage.setItem('lessonInfo', JSON.stringify(info));
     },
     dropCourses(state, dropInfo){
       for (let i = state.lessonInfo.length - 1; i >= 0; i--){
@@ -93,7 +86,7 @@ export default createStore({
           state.lessonInfo.splice(i, 1);
         }
       }
-      window.sessionStorage.setItem('lessonInfo', state.lessonInfo);
+      window.sessionStorage.setItem('lessonInfo', JSON.stringify(state.lessonInfo));
     }
   },
   actions: {

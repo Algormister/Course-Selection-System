@@ -3,7 +3,7 @@
     <el-row>
         <el-col :span="24">
             <!-- for test -->
-            <tab-bar-header id="18120158" name="冷天" enGrade="B" lastTermGrade="3.21"></tab-bar-header>
+            <tab-bar-header></tab-bar-header>
             <div style="font-size:12px;height: 37px; background-color:#1A2226; padding: 10px 25px 10px 15px; color:#ccc; line-height:37px;">
                 <span ><i class="el-icon-menu"></i>主菜单</span>
             </div>
@@ -18,7 +18,7 @@
             active-text-color="#ffd04b">
                 <el-submenu index="1">
                     <template #title>
-                        <span style="font-size: 14px;color:white;">学生选课</span>
+                        <span style="font-size: 14px;color:white;">{{title}}</span>
                     </template>
                     <el-menu-item-group>
                         <el-menu-item v-for="(item, i) in path" :key="i" :index="`/home/${item.router}`"><span><ul><li>{{item.name}}</li></ul></span></el-menu-item>
@@ -44,7 +44,8 @@ export default {
         TabBarHeader
     },
     props:{
-        path: Array
+        path: Array,
+        title: String
     },
     data(){
         return {

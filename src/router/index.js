@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 const Home = ()=>import('../views/home')
-const HomePage = ()=>import('../views/student/homepage')
+const HomePage = ()=>import('../views/homepage')
 const Login = ()=>import('../views/login')
 const ChooseLessons = ()=>import('../views/student/chooselessons')
 const ChooseTerm = ()=>import('../views/chooseterm')
@@ -8,6 +8,10 @@ const SelectTimeTable = ()=>import('../views/student/selectTimeTable')
 const DropCourses = ()=>import('../views/student/dropcourses')
 const SelectDropedCourses = ()=>import('../views/student/selectDropedCourses')
 // const SelectRank =()=>import('../views/student/selectRank')
+const SelectTeachingCourses = ()=>import('../views/teacher/selectTeachingCourses')
+const UsualResults = ()=>import('../views/teacher/usualResults')
+const FinalExam = ()=>import('../views/teacher/finalExam')
+const SelectStudent = ()=>import('../views/teacher/selectStudent')
 
 const routes = [
   {
@@ -52,6 +56,24 @@ const routes = [
       //   path: 'selectRank',
       //   component: SelectRank
       // }
+      {
+        path: 'selectTeachingCourses',
+        component: SelectTeachingCourses,
+        children: [
+          {
+            path: ':courseId',
+            component: SelectStudent
+          }
+        ]
+      },
+      {
+        path: 'usualResults',
+        component: UsualResults
+      },
+      {
+        path: 'finalExam',
+        component: FinalExam
+      }
     ]
   },
 ]

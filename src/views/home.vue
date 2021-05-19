@@ -3,7 +3,9 @@
     <div :class="{mask: isMasked}" @click="cancelMask"></div>
     <el-container>
         <el-aside width="230px" style="min-height:100vh;">
-            <tab-bar :path="pathStu"></tab-bar>
+            <tab-bar v-if="status=='student'" :path="pathStu" title="学生选课"></tab-bar>
+            <tab-bar v-else-if="status=='teacher'" :path="pathT" title="课程管理"></tab-bar>
+            <tab-bar v-else title="数据管理"></tab-bar>
         </el-aside>
         <el-container>
             <el-header height="60px" style="background-color:#3c8dbc">
@@ -26,6 +28,7 @@ export default {
         return {
             term : this.$store.state.term,
             id: this.$store.state.userid,
+            status: this.$store.state.status,
             alertconfirm: function(){
                 this.$router.replace('/')
             },
@@ -35,6 +38,10 @@ export default {
                     {router: 'dropCourses', name: '退课'},
                     {router: 'selectTimeTable', name: '课表查询'},
                     {router: 'selectDropedCourses', name: '删除课程查询'}
+            ],
+            pathT:[{router: 'selectTeachingCourses', name: '课程查询'},
+                {router: 'usualResults', name: '平时成绩录入'},
+                {router: 'finalExam', name: '期末成绩录入'}
             ]
         }
     },
