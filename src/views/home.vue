@@ -37,7 +37,9 @@ export default {
             pathStu: [{router: 'chooseLessons', name: '选课'},
                     {router: 'dropCourses', name: '退课'},
                     {router: 'selectTimeTable', name: '课表查询'},
-                    {router: 'selectDropedCourses', name: '删除课程查询'}
+                    {router: 'selectDropedCourses', name: '删除课程查询'},
+                    {router: 'gradeQuery', name: '成绩查询'},
+                    {router: 'passedCourses', name: '学分完成情况'}
             ],
             pathT:[{router: 'selectTeachingCourses', name: '课程查询'},
                 {router: 'usualResults', name: '平时成绩录入'},

@@ -1,6 +1,6 @@
 <template>
   <div id="finalExam">
-    <div class="tableTitle">平时成绩录入</div>
+    <div class="tableTitle">期末成绩录入</div>
     <div class="tableTitle">课程选择</div>
     <select name="course" id="" @change="courseChange">
       <option value="" selected></option>
@@ -22,7 +22,7 @@
           <div class="tableText" style="flex: 1">{{item.gender}}</div>
           <div class="tableText" style="flex: 3">{{item.tel}}</div>
           <div class="tableText" style="flex: 2" v-if="stuInfo[index].finalExam!=''">{{item.finalExam}}</div>
-          <input type="text" class="tableText" style="flex: 2" v-else placeholder="请录入平时成绩" :value="item.finalExam" @input="finalExamChange($event, index)">
+          <input type="text" class="tableText" style="flex: 2" v-else placeholder="请录入期末成绩" :value="item.finalExam" @input="finalExamChange($event, index)">
       </div>
     </div>
     <el-button type="primary" class="btn" v-if="dataSuccess" @click="submit">提交</el-button>

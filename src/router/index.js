@@ -12,6 +12,8 @@ const SelectTeachingCourses = ()=>import('../views/teacher/selectTeachingCourses
 const UsualResults = ()=>import('../views/teacher/usualResults')
 const FinalExam = ()=>import('../views/teacher/finalExam')
 const SelectStudent = ()=>import('../views/teacher/selectStudent')
+const GradeQuery = ()=>import('../views/student/gradeQuery')
+const PassedCourses = ()=>import('../views/student/passedCourses')
 
 const routes = [
   {
@@ -51,6 +53,14 @@ const routes = [
       {
         path: 'selectDropedCourses',
         component: SelectDropedCourses
+      },
+      {
+        path: 'gradeQuery',
+        component: GradeQuery
+      },
+      {
+        path: 'passedCourses',
+        component: PassedCourses
       },
       // {
       //   path: 'selectRank',

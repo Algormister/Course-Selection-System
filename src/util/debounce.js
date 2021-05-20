@@ -1,9 +1,9 @@
-export function debounce(e, index, func, delay){
+export function debounce(func, delay){
     let time = null;
     return () =>{
         if(time) clearTimeout(time);
         time = setTimeout(() => {
-            func(e, index);
+            func();
         }, delay); 
     }
 }
