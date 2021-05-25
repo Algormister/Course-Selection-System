@@ -3,13 +3,14 @@
     <div :class="{mask: isMasked}" @click="cancelMask"></div>
     <el-container>
         <el-aside width="230px" style="min-height:100vh;">
-            <tab-bar v-if="status=='student'" :path="pathStu" title="学生选课"></tab-bar>
+            <tab-bar v-if="status=='student'" :path="pathStu" title="学生选课" :status="status"></tab-bar>
             <tab-bar v-else-if="status=='teacher'" :path="pathT" title="课程管理"></tab-bar>
-            <tab-bar v-else title="数据管理"></tab-bar>
+            <tab-bar v-else-if="status=='admin'" title="数据管理" :path="pathA"></tab-bar>
         </el-aside>
         <el-container>
             <el-header height="60px" style="background-color:#3c8dbc">
-                <home-header :id="id" :term="term" @homeheaderclick="changeMask" :isMasked="isMasked"></home-header>
+                <admin-home-header v-if="status=='admin'" :id="id" @homeheaderclick="changeMask" :isMasked="isMasked"></admin-home-header>
+                <home-header v-else :id="id" :term="term" @homeheaderclick="changeMask" :isMasked="isMasked"></home-header>
             </el-header>
             <el-main>
                 <router-view></router-view>
@@ -19,9 +20,11 @@
 </template>
 
 <script>
+import {post} from '../network/home'
 import TabBar from '../components/TabBar/TabBar'
 import HomeHeader from '../components/HomeHeader/HomeHeader'
 import HomeAlert from '../components/HomeAlert/HomeAlert'
+import AdminHomeHeader from '../components/HomeHeader/AdminHomeHeader'
 export default {
     name: 'Home',
     data(){
@@ -44,16 +47,21 @@ export default {
             pathT:[{router: 'selectTeachingCourses', name: '课程查询'},
                 {router: 'usualResults', name: '平时成绩录入'},
                 {router: 'finalExam', name: '期末成绩录入'}
-            ]
+            ],
+            pathA:[{router: 'termManage', name: '学期管理'},
+                {router: 'courseManage', name: '课程管理'},
+                ]
         }
     },
     created(){
         if (this.id == null || this.id == '') this.showalert = !this.showalert 
+         post(this.id).then(res => {console.log(res.id)})
     },
     components: {
         TabBar,
         HomeHeader,
-        HomeAlert
+        HomeAlert,
+        AdminHomeHeader
     },
     methods:{
         changeMask(data){

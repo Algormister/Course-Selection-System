@@ -24,7 +24,9 @@ export default {
           if (this.lessonInfo){
               let totalCredit = 0;
               for(let i = 0; i < this.lessonInfo.length; i++){
+                if (Number(this.lessonInfo[i].result) >= 60){
                   totalCredit += Number(this.lessonInfo[i].credit);
+                }
               }
               return totalCredit;
           }

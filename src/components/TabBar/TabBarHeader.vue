@@ -2,12 +2,12 @@
 <div id="tab-bar-header">
   <div class="tab-bar-title">上海大学本硕博一体化选课系统</div>
   <div class="tab-bar-info">
-      <div style="font-weight:bold;">学生信息</div>
+      <div style="font-weight:bold;">{{title}}</div>
       <div class="detail">
-          <div style="margin-top: 5px">学号：{{id}}</div>
+          <div style="margin-top: 5px">{{userid}}{{id}}</div>
           <div>姓名：{{name}}</div>
-          <div>英语等级：{{enGrade}}</div>
-          <div>上学期平均绩点：{{lastTermGrade}}</div>
+          <div v-if="status=='student'">英语等级：{{enGrade}}</div>
+          <div v-if="status=='student'">上学期平均绩点：{{lastTermGrade}}</div>
           <div class="logout">
               <div>完成选课后请点击</div>
               <div @click="logout" style="cursor:pointer;">[安全退出]</div>
@@ -21,6 +21,11 @@
 <script>
 export default {
     name: 'TabBarHeader',
+    props:{
+        title: String,
+        userid: String,
+        status: String
+    },
     data(){
         return {
             id: this.$store.state.userid,

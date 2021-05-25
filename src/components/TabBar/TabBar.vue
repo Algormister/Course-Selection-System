@@ -3,7 +3,9 @@
     <el-row>
         <el-col :span="24">
             <!-- for test -->
-            <tab-bar-header></tab-bar-header>
+            <tab-bar-header v-if="status=='student'" title="学生信息" userid="学号：" :status="status"></tab-bar-header>
+            <tab-bar-header v-else-if="status=='teacher'" title="老师信息" userid="工号：" :status="status"></tab-bar-header>
+            <tab-bar-header v-else title="管理员信息" userid="工号：" :status="status"></tab-bar-header>
             <div style="font-size:12px;height: 37px; background-color:#1A2226; padding: 10px 25px 10px 15px; color:#ccc; line-height:37px;">
                 <span ><i class="el-icon-menu"></i>主菜单</span>
             </div>
@@ -45,7 +47,8 @@ export default {
     },
     props:{
         path: Array,
-        title: String
+        title: String,
+        status: String
     },
     data(){
         return {

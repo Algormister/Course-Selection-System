@@ -14,6 +14,8 @@ const FinalExam = ()=>import('../views/teacher/finalExam')
 const SelectStudent = ()=>import('../views/teacher/selectStudent')
 const GradeQuery = ()=>import('../views/student/gradeQuery')
 const PassedCourses = ()=>import('../views/student/passedCourses')
+const TermManage = ()=>import('../views/admin/termManage')
+const CourseManage = ()=>import('../views/admin/courseManage')
 
 const routes = [
   {
@@ -83,6 +85,14 @@ const routes = [
       {
         path: 'finalExam',
         component: FinalExam
+      },
+      {
+        path: 'termManage',
+        component: TermManage
+      },
+      {
+        path: 'courseManage',
+        component: CourseManage
       }
     ]
   },

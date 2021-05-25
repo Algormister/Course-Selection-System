@@ -4,7 +4,7 @@ export default createStore({
   state: {
     userid: window.sessionStorage.getItem('id'),             //null or id
     term: window.sessionStorage.getItem('term'),
-    status: 'student',
+    status: 'admin',
     name: 'lwq',
     enGrade: 'B',
     lastTermGrade: '3.21',
@@ -15,7 +15,9 @@ export default createStore({
     {lessonName: '数据库原理', lessonId: '02', tName: 'lwq', place: 'C102', time:'二11-13,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长', grade: '3.0', result: '80'}],
     stuInfo:[{id: '18120158', name: 'lt', gender: '男', grade: 4.0, usualResult: 90, finalExam: 95, tel: '15821225698'},
                     {id: '00000001', name: 'zs', gender: '女', grade: 3.7, usualResult: 87, finalExam: 88, tel: '110'}
-            ]
+            ],
+    termInfo: [{termId: '20201', termName: '2020-2021学年春季学期', status: 5},
+            {termId: '20202', termName: '2020-2021学年夏季学期', status: 1}]
   },
   getters:{
     credit: state =>{
@@ -87,7 +89,7 @@ export default createStore({
         }
       }
       window.sessionStorage.setItem('lessonInfo', JSON.stringify(state.lessonInfo));
-    }
+    },
   },
   actions: {
   },
