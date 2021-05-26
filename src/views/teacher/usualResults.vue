@@ -15,14 +15,13 @@
           <div class="tableHead" style="flex: 3">联系方式</div>
           <div class="tableHead" style="flex: 2">平时成绩</div>
       </div>
-      <div class="tableRow" v-for="(item, index) in stuInfoTemp" :key="index">
+      <div class="tableRow" v-for="(item, index) in stuInfo" :key="index">
           <div class="tableText" style="flex: 1">{{index + 1}}</div>
           <div class="tableText" style="flex: 3">{{item.id}}</div>
           <div class="tableText" style="flex: 3">{{item.name}}</div>
           <div class="tableText" style="flex: 1">{{item.gender}}</div>
           <div class="tableText" style="flex: 3">{{item.tel}}</div>
-          <div class="tableText" style="flex: 2" v-if="stuInfo[index].usualResult!=''">{{item.usualResult}}</div>
-          <input type="text" class="tableText" style="flex: 2" v-else placeholder="请录入平时成绩" :value="item.usualResult" @blur="usualResultBlur($event, index)">
+          <input type="text" class="tableText" style="flex: 2" placeholder="请录入平时成绩" :value="item.usualResult" @blur="usualResultBlur($event, index)">
       </div>
     </div>
     <el-button type="primary" class="btn" v-if="dataSuccess" @click="submit">提交</el-button>
@@ -37,7 +36,6 @@ export default {
         lessonInfo:this.$store.state.teachingInfo,
         curLessonId: '',
         stuInfo: [],
-        stuInfoTemp: [],      //用于录入平时成绩
         submitArray: [],      //submit
         dataSuccess: false   //学生数据
       }
@@ -52,13 +50,9 @@ export default {
           this.stuInfo =  [{id: '18120158', name: 'lt', gender: '男', tel: '15821225698'},
                     {id: '00000001', name: 'zs', gender: '女',tel: '110', usualResult: '99'}
           ];
-          this.stuInfoTemp = [{id: '18120158', name: 'lt', gender: '男', tel: '15821225698'},
-                    {id: '00000001', name: 'zs', gender: '女',tel: '110', usualResult: '99'}
-          ];
           for (let i = 0; i < this.stuInfo.length; i++){
             if (!this.stuInfo[i].usualResult) {
               this.stuInfo[i].usualResult = '';
-              this.stuInfoTemp[i].usualResult = '';
             }
           }
           this.dataSuccess = true;
@@ -66,14 +60,13 @@ export default {
       },
       usualResultBlur(e, index){
         if (e.target.value != ''){
-          this.stuInfoTemp[index].usualResult = e.target.value;
-          this.submitArray.push(this.stuInfoTemp[index]);
+          this.stuInfo[index].usualResult = e.target.value;
+          this.submitArray.push(this.stuInfo[index]);
           this.submitArray = Array.from(new Set(this.submitArray));
         }
       },
       submit(){
         //axios
-        console.log(this.stuInfoTemp);
         console.log(this.stuInfo);
         console.log(this.submitArray);
       }
@@ -115,7 +108,6 @@ export default {
 }
 .tableText{
   font-size: 14px;
-  cursor: pointer;
 }
 input{
   outline: none;

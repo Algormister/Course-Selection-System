@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import {post} from '../network/home'
+// import {post} from '../network/home'
 import TabBar from '../components/TabBar/TabBar'
 import HomeHeader from '../components/HomeHeader/HomeHeader'
 import HomeAlert from '../components/HomeAlert/HomeAlert'
@@ -55,7 +55,10 @@ export default {
     },
     created(){
         if (this.id == null || this.id == '') this.showalert = !this.showalert 
-         post(this.id).then(res => {console.log(res.id)})
+        // let postBody = {
+        //     id: this.id
+        // }
+        // post(postBody).then(res => {console.log(res)})
     },
     components: {
         TabBar,

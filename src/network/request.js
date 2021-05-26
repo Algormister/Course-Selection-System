@@ -1,14 +1,10 @@
 import axios from 'axios'
-import qs from 'qs'
 
 export function request(config){
     //创建实例
     const instance = axios.create({
-        baseURL: 'http://localhost:8000',
+        // baseURL: 'http://localhost:8081',
         timeout: 5000,
-        transformRequest: [function (data) {
-            return qs.stringify(data);
-        }]
     });
     //请求拦截器(再发送请求前做什么)
     instance.interceptors.request.use(config =>{

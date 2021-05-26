@@ -1,9 +1,9 @@
 <template>
   <div id="courseModify">
     <div class="tableTitle">学期选择</div>
-    <select name="term" id="" style="margin-bottom: 5px">
+    <select name="term" id="" style="margin-bottom: 5px" @change="termChange">
       <option value="" selected></option>
-      <option :value="item.termName" v-for="(item, index) in termInfo" :key="index">{{ item.termName }}</option>
+      <option :value="item.term" v-for="(item, index) in termInfo" :key="index">{{ item.name }}</option>
     </select>
     <div class="tableTitle">课程查询</div>
     <div class="coursesInfo">
@@ -45,7 +45,6 @@
           <div class="tableHead" style="flex: 2">上课地点</div>
           <div class="tableHead" style="flex: 2">容量</div>
           <div class="tableHead" style="flex: 2">人数</div>
-          <div class="tableHead" style="flex: 2">选课限制</div>
           <div class="tableHead" style="flex: 2">答疑时间</div>
           <div class="tableHead" style="flex: 2">答疑地点</div>
           <div class="tableHead" style="flex: 1">校区</div>
@@ -59,29 +58,26 @@
           <div class="tableText" style="flex: 1; cursor: pointer;" @click="editChange(index)">
               <i class="el-icon-edit" :style="{color:curEdit==index+1?'white':'black'}"></i>
           </div>
-          <div class="tableText" style="flex: 3">{{ item.lessonId }}</div>
-          <div class="tableText" style="flex: 4" v-if="curEdit==index+1"><input @blur="lessonNameChange($event,item)" style="width: 85%" type="text" :value="item.lessonName"></div>
-          <div class="tableText" style="flex: 1" v-if="curEdit==index+1"><input @blur="creditChange($event,item)" style="width: 85%" type="text" :value="item.credit"></div>
-          <div class="tableText" style="flex: 2" v-if="curEdit==index+1"><input @blur="tIdChange($event,item)" style="width: 85%" type="text" :value="item.tId"></div>
-          <div class="tableText" style="flex: 4" v-if="curEdit!=index+1">{{ item.lessonName }}</div>
+          <div class="tableText" style="flex: 3">{{ item.courseId }}</div>
+          <div class="tableText" style="flex: 4" v-if="curEdit==index+1"><input @blur="lessonNameChange($event,index)" style="width: 85%" type="text" :value="item.name"></div>
+          <div class="tableText" style="flex: 1" v-if="curEdit==index+1"><input @blur="creditChange($event,index)" style="width: 85%" type="text" :value="item.credit"></div>
+          <div class="tableText" style="flex: 4" v-if="curEdit!=index+1">{{ item.name }}</div>
           <div class="tableText" style="flex: 1" v-if="curEdit!=index+1">{{ item.credit }}</div>
-          <div class="tableText" style="flex: 2" v-if="curEdit!=index+1">{{ item.tId }}</div>
-          <div class="tableText" style="flex: 2">{{ item.tName }}</div>
-          <div class="tableText" style="flex: 5" v-if="curEdit==index+1"><input @blur="timeChange($event,item)" style="width: 85%" type="text" :value="item.time"></div>
-          <div class="tableText" style="flex: 2" v-if="curEdit==index+1"><input @blur="placeChange($event,item)" style="width: 85%" type="text" :value="item.place"></div>
-          <div class="tableText" style="flex: 2" v-if="curEdit==index+1"><input @blur="volumeChange($event,item)" style="width: 85%" type="text" :value="item.volume"></div>
-          <div class="tableText" style="flex: 5" v-if="curEdit!=index+1">{{ item.time }}</div>
-          <div class="tableText" style="flex: 2" v-if="curEdit!=index+1">{{ item.place }}</div>
-          <div class="tableText" style="flex: 2" v-if="curEdit!=index+1">{{ item.volume }}</div>
-          <div class="tableText" style="flex: 2">{{ item.students }}</div>
-          <div class="tableText" style="flex: 2" v-if="curEdit==index+1"><input @blur="limitChange($event,item)" style="width: 85%" type="text" :value="item.limit"></div>
-          <div class="tableText" style="flex: 2" v-if="curEdit==index+1"><input @blur="reselveTimeChange($event,item)" style="width: 85%" type="text" :value="item.resolveTime"></div>
-          <div class="tableText" style="flex: 2" v-if="curEdit==index+1"><input @blur="resolvePlaceChange($event,item)" style="width: 85%" type="text" :value="item.resolvePlace "></div>
-          <div class="tableText" style="flex: 1" v-if="curEdit==index+1"><input @blur="SchoolChange($event,item)" style="width: 85%" type="text" :value="item.school"></div>
-          <div class="tableText" style="flex: 2" v-if="curEdit!=index+1">{{ item.limit }}</div>
-          <div class="tableText" style="flex: 2" v-if="curEdit!=index+1">{{ item.resolveTime }}</div>
-          <div class="tableText" style="flex: 2" v-if="curEdit!=index+1">{{ item.resolvePlace }}</div>
-          <div class="tableText" style="flex: 1" v-if="curEdit!=index+1">{{ item.school }}</div>
+          <div class="tableText" style="flex: 2">{{ item.teacherId }}</div>
+          <div class="tableText" style="flex: 2">{{ item.teacherName }}</div>
+          <div class="tableText" style="flex: 5" v-if="curEdit==index+1"><input @blur="timeChange($event,index)" style="width: 85%" type="text" :value="courseTime(item.courseTimes)"></div>
+          <div class="tableText" style="flex: 2" v-if="curEdit==index+1"><input @blur="placeChange($event,index)" style="width: 85%" type="text" :value="item.sksj"></div>
+          <div class="tableText" style="flex: 2" v-if="curEdit==index+1"><input @blur="volumeChange($event,index)" style="width: 85%" type="text" :value="item.contains"></div>
+          <div class="tableText" style="flex: 5" v-if="curEdit!=index+1">{{ courseTime(item.courseTimes) }}</div>
+          <div class="tableText" style="flex: 2" v-if="curEdit!=index+1">{{ item.sksj }}</div>
+          <div class="tableText" style="flex: 2" v-if="curEdit!=index+1">{{ item.contains }}</div>
+          <div class="tableText" style="flex: 2">{{ item.realcurrentContain }}</div>
+          <div class="tableText" style="flex: 2" v-if="curEdit==index+1"><input @blur="reselveTimeChange($event,index)" style="width: 85%" type="text" :value="item.dysj"></div>
+          <div class="tableText" style="flex: 2" v-if="curEdit==index+1"><input @blur="resolvePlaceChange($event,index)" style="width: 85%" type="text" :value="item.dydd "></div>
+          <div class="tableText" style="flex: 1" v-if="curEdit==index+1"><input @blur="SchoolChange($event,index)" style="width: 85%" type="text" :value="item.campus"></div>
+          <div class="tableText" style="flex: 2" v-if="curEdit!=index+1">{{ item.dysj }}</div>
+          <div class="tableText" style="flex: 2" v-if="curEdit!=index+1">{{ item.dydd }}</div>
+          <div class="tableText" style="flex: 1" v-if="curEdit!=index+1">{{ item.campus }}</div>
         </div>
       </div>
       <el-pagination
@@ -101,14 +97,17 @@
 </template>
 
 <script>
+import {selectCourse, updateCourse} from '../../network/admin/admin'
+import {updateCourseTime} from '../../util/updateTime'
+import {showCourseTime} from '../../util/showCourseTime'
 export default {
     name: 'courseModify',
     data(){
         return {
-            chooseWay: 1,
+            curTerm: '',
             courseId: '',
             courseName: '',
-            tId: '',
+            tId:'',
             tName: '',
             curCampus: '',
             curDepartment: '',
@@ -117,17 +116,9 @@ export default {
             curEdit: 0,
             EditedArray: [],
             curPage: 0,
-            total: 9,   //axios
+            total: 0,   //axios
             termInfo: this.$store.state.termInfo,
-            list: [{lessonName: '数据结构', lessonId: '01', tName: 'sj', place: 'C101', time:'一1-3, 三1-2',credit: 5, tId: 1001, resolveTime:'五1-2', resolvePlace: 'D101', school: '宝山',volume: 50, students: 45, limit: ''},
-    {lessonName: '数据库原理', lessonId: '02', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
-    {lessonName: '数据库原理', lessonId: '03', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
-    {lessonName: '数据库原理', lessonId: '04', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
-    {lessonName: '数据库原理', lessonId: '05', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
-    {lessonName: '数据库原理', lessonId: '06', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
-    {lessonName: '数据库原理', lessonId: '07', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
-    {lessonName: '数据库原理', lessonId: '08', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
-    {lessonName: '数据库原理', lessonId: '09', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'}],
+            list: [],
             campuses: ["延长", "宝山", "嘉定"],
             departments: [
         { value: "01010000", name: "理学院" },
@@ -222,6 +213,11 @@ export default {
         }
     },
     methods:{
+    termChange(e){
+      this.curTerm = e.currentTarget.value;
+      this.curEdit = 0;
+      console.log(this.curTerm);
+    },
     campusesChange(e){
         this.curCampus = e.currentTarget.value;
         console.log(e.currentTarget.value);
@@ -232,25 +228,86 @@ export default {
     },
     select(){
         ////
+        let info = {}
+        if(this.courseId != '') info.courseId = this.courseId;
+        if(this.tId != '') info.teacherId = this.tId;
+        if(this.curTerm != "") info.term = this.curTerm;
+        if(this.courseName != '') info.name = this.courseName;
+        if(this.curDepartment != '') info.school = this.curDepartment;
+        if(this.credit != '') info.credit = this.credit;
+        if(this.curCampus != '') info.campus = this.curCampus;
+        if(this.tName != '') info.teacherName = this.tName;
+        console.log(info);
+        selectCourse(info).then(res =>{
+          console.log(res);
+          this.list = res.o;
+          this.total = res.o.length;
+        })
         this.isShowList = true;
     },
     editChange(index){
         this.curEdit = index + 1;
     },
-    lessonNameChange(e, item){
-        let isExist = false;
-        for(let i = 0; i < this.EditedArray.length; i++){
-            if (this.EditedArray[i].lessonId == item.lessonId){
-                this.EditedArray[i].lessonName = e.target.value;
-                isExist = true;
-            }
-        }
-        if(!isExist) this.EditedArray.push({lessonId: item.lessonId, lessonName: e.target.value});
-        item.lessonName = e.target.value;
-        console.log(this.EditedArray);
+    lessonNameChange(e,index){
+        // let isExist = false;
+        // for(let i = 0; i < this.EditedArray.length; i++){
+        //     if (this.EditedArray[i].lessonId == item.lessonId){
+        //         this.EditedArray[i].lessonName = e.target.value;
+        //         isExist = true;
+        //     }
+        // }
+        // if(!isExist) this.EditedArray.push({lessonId: item.lessonId, lessonName: e.target.value});
+        // item.lessonName = e.target.value;
+        // console.log(this.EditedArray);
+        this.list[index].name = e.target.value;
+        this.EditedArray.push(this.list[index]);
+        this.EditedArray = Array.from(new Set(this.EditedArray));
+    },
+    creditChange(e,index){
+      this.list[index].credit = e.target.value;
+      this.EditedArray.push(this.list[index]);
+      this.EditedArray = Array.from(new Set(this.EditedArray));
+    },
+    timeChange(e, index){
+      this.list[index].courseTimes = updateCourseTime(e.target.value);
+      this.EditedArray.push(this.list[index]);
+      this.EditedArray = Array.from(new Set(this.EditedArray));
+    },
+    placeChange(e,index){
+      this.list[index].sksj = e.target.value;
+      this.EditedArray.push(this.list[index]);
+      this.EditedArray = Array.from(new Set(this.EditedArray));
+    },
+    volumeChange(e,index){
+      this.list[index].contains = e.target.value;
+      this.EditedArray.push(this.list[index]);
+      this.EditedArray = Array.from(new Set(this.EditedArray));
+    },
+    reselveTimeChange(e,index){
+      this.list[index].dysj = e.target.value;
+      this.EditedArray.push(this.list[index]);
+      this.EditedArray = Array.from(new Set(this.EditedArray));
+    },
+    resolvePlaceChange(e,index){
+      this.list[index].dydd = e.target.value;
+      this.EditedArray.push(this.list[index]);
+      this.EditedArray = Array.from(new Set(this.EditedArray));
+    },
+    SchoolChange(e,index){
+      this.list[index].campus = e.target.value;
+      this.EditedArray.push(this.list[index]);
+      this.EditedArray = Array.from(new Set(this.EditedArray));
     },
     submit(){
-        //
+      console.log(this.EditedArray);
+      for (let i = 0; i < this.EditedArray.length; i++){
+        updateCourse(this.EditedArray[i]).then(res =>{
+          alert(res.msg)
+          if(res.msg == '课程更新成功'){
+            this.curEdit = 0;
+          }
+        })
+      }
     },
     pagechange(page){
         this.curEdit = 0;
@@ -263,6 +320,9 @@ export default {
     nextclick(){
         this.curEdit = 0;
         this.curPage++;
+    },
+    courseTime(str){
+      return showCourseTime(str);
     }
   }
 }

@@ -25,13 +25,12 @@ export default {
     },
     methods:{
         logout(){
-            this.$router.replace('/login')
-            this.$store.commit('updateUserid', '')
-            this.$store.commit('updateTerm', '')
+            this.$router.replace('/login');
+            sessionStorage.clear();
         },
         idclick(){
-            this.isShow = 2
-            this.$emit('homeheaderclick', 2)
+            this.isShow = 2;
+            this.$emit('homeheaderclick', 2);
         }
     }
 }

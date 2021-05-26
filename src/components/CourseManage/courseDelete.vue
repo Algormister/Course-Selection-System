@@ -3,7 +3,7 @@
     <div class="tableTitle">学期选择</div>
     <select name="term" id="" style="margin-bottom: 5px">
       <option value="" selected></option>
-      <option :value="item.termName" v-for="(item, index) in termInfo" :key="index">{{ item.termName }}</option>
+      <option :value="item.term" v-for="(item, index) in termInfo" :key="index">{{ item.name }}</option>
     </select>
     <div class="tableTitle">课程查询</div>
     <div class="coursesInfo">
@@ -45,7 +45,6 @@
           <div class="tableHead" style="flex: 2">上课地点</div>
           <div class="tableHead" style="flex: 2">容量</div>
           <div class="tableHead" style="flex: 2">人数</div>
-          <div class="tableHead" style="flex: 2">选课限制</div>
           <div class="tableHead" style="flex: 2">答疑时间</div>
           <div class="tableHead" style="flex: 2">答疑地点</div>
           <div class="tableHead" style="flex: 1">校区</div>
@@ -80,7 +79,6 @@
           <div class="tableText" style="flex: 2">{{ item.place }}</div>
           <div class="tableText" style="flex: 2">{{ item.volume }}</div>
           <div class="tableText" style="flex: 2">{{ item.students }}</div>
-          <div class="tableText" style="flex: 2">{{ item.limit }}</div>
           <div class="tableText" style="flex: 2">{{ item.resolveTime }}</div>
           <div class="tableText" style="flex: 2">{{ item.resolvePlace }}</div>
           <div class="tableText" style="flex: 1">{{ item.school }}</div>
@@ -94,7 +92,7 @@
         @update:current-page="pagechange"
         @prev-click="preclick"
         @next-click="nextclick"
-        style="text-align: center; padding: 10px 0 0 0"
+        style="text-align: center; padding: 10px 0"
       >
       </el-pagination>
     </div>
@@ -106,7 +104,6 @@ export default {
     name: 'courseModify',
     data(){
         return {
-            chooseWay: 1,
             courseId: '',
             courseName: '',
             tId: '',

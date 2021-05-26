@@ -13,14 +13,14 @@
         <div class="tableHead" style="flex: 2">学期结束</div>
       </div>
       <div class="tableRow" v-for="(item, index) in termInfo" :key="index">
-        <div class="tableText" style="flex: 2">{{item.termId}}</div>
-        <div class="tableText" style="flex: 4">{{item.termName}}</div>
-        <div class="tableText" style="flex: 2"><input type="radio" :name="index" :value="0" :checked="item.status==0" :disabled="item.status!=0" @change="statusChange($event,item)">学期未开始</div>
-        <div class="tableText" style="flex: 2"><input type="radio" :name="index" :value="1" :checked="item.status==1" :disabled="item.status!=0&&item.status!=1" @change="statusChange($event,item)">第一轮选课</div>
-        <div class="tableText" style="flex: 2"><input type="radio" :name="index" :value="2" :checked="item.status==2" :disabled="item.status!=1&&item.status!=2" @change="statusChange($event,item)">第二轮选课</div>
-        <div class="tableText" style="flex: 2"><input type="radio" :name="index" :value="3" :checked="item.status==3" :disabled="item.status!=2&&item.status!=3" @change="statusChange($event,item)">第三轮选课</div>
-        <div class="tableText" style="flex: 2"><input type="radio" :name="index" :value="4" :checked="item.status==4" :disabled="item.status!=3&&item.status!=4" @change="statusChange($event,item)">成绩录入</div>
-        <div class="tableText" style="flex: 2"><input type="radio" :name="index" :value="5" :checked="item.status==5" @change="statusChange($event,item)">学期结束</div>
+        <div class="tableText" style="flex: 2">{{item.term}}</div>
+        <div class="tableText" style="flex: 4">{{item.name}}</div>
+        <div class="tableText" style="flex: 2"><input type="radio" :name="index" :value="0" :checked="item.status==0" :disabled="item.status!=0" @change="statusChange(index)">学期未开始</div>
+        <div class="tableText" style="flex: 2"><input type="radio" :name="index" :value="1" :checked="item.status==1" :disabled="item.status!=0&&item.status!=1" @change="statusChange(index)">第一轮选课</div>
+        <div class="tableText" style="flex: 2"><input type="radio" :name="index" :value="2" :checked="item.status==2" :disabled="item.status!=1&&item.status!=2" @change="statusChange(index)">第二轮选课</div>
+        <div class="tableText" style="flex: 2"><input type="radio" :name="index" :value="3" :checked="item.status==3" :disabled="item.status!=2&&item.status!=3" @change="statusChange(index)">第三轮选课</div>
+        <div class="tableText" style="flex: 2"><input type="radio" :name="index" :value="4" :checked="item.status==4" :disabled="item.status!=3&&item.status!=4" @change="statusChange(index)">成绩录入</div>
+        <div class="tableText" style="flex: 2"><input type="radio" :name="index" :value="5" :checked="item.status==5" @change="statusChange(index)">学期结束</div>
       </div>
     </div>
     <el-button @click="addTerm" size="small" type="primary">添加学期</el-button>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import {addterm,setrounds} from '../../network/admin/admin'
 export default {
     name: 'termManage',
     data(){
@@ -53,10 +54,17 @@ export default {
         }
     },
     methods:{
-        statusChange(e, item){
+        statusChange(index){
           //test
-            console.log(e.target.value);
-            console.log(item.termName);
+          let info ={
+            term:this.termInfo[index].term
+          }
+          console.log(info);
+          setrounds(info).then(res =>{
+            this.termInfo[index].status = (Number(this.termInfo[index].status) + 1).toString();
+            this.$store.commit('updataTermInfo', this.termInfo);
+            alert(res.msg);
+          })
         },
         addTerm(){
             this.add = '';
@@ -70,8 +78,19 @@ export default {
             }
             let year = Number(this.add.substring(0, 4));
             let term = this.add.slice(-1);
-            this.termInfo.push({termId: this.add, termName: `${year}-${year+1}学年${getTerm(term)}季学期`, status: 0});
-            this.add = undefined;
+            let info = {
+              term: this.add,
+              name: `${year}-${year+1}学年${getTerm(term)}季学期`
+            }
+            addterm(info).then(res =>{
+              if(res.msg == '学期添加成功'){
+                this.termInfo.push({termId: this.add, termName: `${year}-${year+1}学年${getTerm(term)}季学期`, status: 0});
+                this.add = undefined;
+              }
+              else{
+                alert(res.msg);
+              }
+            })      
         }
     }
 }

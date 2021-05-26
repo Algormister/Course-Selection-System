@@ -37,8 +37,8 @@ export default {
     methods:{
         logout(){
             this.$router.replace('/login')
-            this.$store.commit('updateUserid', '')
-            this.$store.commit('updateTerm', '')
+            console.log(this.name);
+            sessionStorage.clear();
         }
     }
 }

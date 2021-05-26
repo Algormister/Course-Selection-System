@@ -3,11 +3,11 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     userid: window.sessionStorage.getItem('id'),             //null or id
-    term: window.sessionStorage.getItem('term'),
-    status: 'admin',
-    name: 'lwq',
-    enGrade: 'B',
-    lastTermGrade: '3.21',
+    term: JSON.parse(window.sessionStorage.getItem('term')),
+    status: window.sessionStorage.getItem('status'),
+    name: window.sessionStorage.getItem('name'),
+    enGrade: window.sessionStorage.getItem('enGrade'),
+    lastTermGrade: window.sessionStorage.getItem('lastTermGrade'),
     teachingInfo:[{lessonName: '数据库原理(1)', lessonId: '02', tName: 'lwq', place: 'C102', time:'二11-13,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长'},
     {lessonName: '数据库原理(2)', lessonId: '03', tName: 'lwq', place: 'C102', time:'二1-3,四11-12',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长'}],
     // lessonInfo: JSON.parse(window.sessionStorage.getItem('lessonInfo'))
@@ -16,8 +16,9 @@ export default createStore({
     stuInfo:[{id: '18120158', name: 'lt', gender: '男', grade: 4.0, usualResult: 90, finalExam: 95, tel: '15821225698'},
                     {id: '00000001', name: 'zs', gender: '女', grade: 3.7, usualResult: 87, finalExam: 88, tel: '110'}
             ],
-    termInfo: [{termId: '20201', termName: '2020-2021学年春季学期', status: 5},
-            {termId: '20202', termName: '2020-2021学年夏季学期', status: 1}]
+    // termInfo: [{termId: '20201', termName: '2020-2021学年春季学期', status: 5},
+    //         {termId: '20202', termName: '2020-2021学年夏季学期', status: 1}]
+    termInfo: JSON.parse(window.sessionStorage.getItem('termInfo'))
   },
   getters:{
     credit: state =>{
@@ -68,11 +69,15 @@ export default createStore({
   mutations: {
     updateUserid(state, uid){
       state.userid = uid;
-      window.sessionStorage.setItem('id', uid)
+      window.sessionStorage.setItem('id', uid);
+    },
+    updateStatus(state, s){
+      state.status = s;
+      window.sessionStorage.setItem('status', s);
     },
     updateTerm(state, term){
       state.term = term;
-      window.sessionStorage.setItem('term', term)
+      window.sessionStorage.setItem('term', JSON.stringify(term));
     },
     updateCredit(state, c){
       state.credit = c;
@@ -90,6 +95,22 @@ export default createStore({
       }
       window.sessionStorage.setItem('lessonInfo', JSON.stringify(state.lessonInfo));
     },
+    updataTermInfo(state, t){
+      state.lessonInfo = t;
+      window.sessionStorage.setItem('termInfo', JSON.stringify(t));
+    },
+    updateName(state, n){
+      state.name = n;
+      window.sessionStorage.setItem('name', n);
+    },
+    updateEnGrade(state, e){
+      state.enGrade = e;
+      window.sessionStorage.setItem('enGrade', e);
+    },
+    updateLastTermGrade(state,l){
+      state.lastTermGrade = l;
+      window.sessionStorage.setItem('lastTermGrade', l)
+    }
   },
   actions: {
   },

@@ -5,7 +5,7 @@
         </div> -->
         <div class="func-container">
             <!-- <div><i class="el-icon-chat-dot-round"></i>选课疑难解答</div> -->
-            <div @click="termclick"><i class="el-icon-date"></i>{{term}}</div>
+            <div @click="termclick"><i class="el-icon-date"></i>{{term.name}}</div>
             <div @click="idclick"><i class="el-icon-user"></i>{{id}}</div>
             <div @click="logout">
                 <i class="el-icon-switch-button"></i>安全退出
@@ -25,27 +25,26 @@ export default {
         }
     },
     props:{
-        term:String,
+        term:Object,
         id:String,
         isMasked: Boolean
     },
     methods:{
         logout(){
-            this.$router.replace('/login')
-            this.$store.commit('updateUserid', '')
-            this.$store.commit('updateTerm', '')
+            this.$router.replace('/login');
+            sessionStorage.clear();
         },
         termclick(){
-            this.isShow = 1
-            this.$emit('homeheaderclick', 1)
+            this.isShow = 1;
+            this.$emit('homeheaderclick', 1);
         },
         idclick(){
-            this.isShow = 2
-            this.$emit('homeheaderclick', 2)
+            this.isShow = 2;
+            this.$emit('homeheaderclick', 2);
         },
         changeTerm(){
-            this.$store.commit('updateTerm', '')
-            this.$router.replace('/chooseterm')
+            this.$store.commit('updateTerm', '');
+            this.$router.replace('/chooseterm');
         }
     }
 }

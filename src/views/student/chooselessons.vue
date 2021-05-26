@@ -9,7 +9,7 @@
     <div class="Container">
       <div class="tableContainer" style="flex: 2">
         <div class="tableRow" style="border-top: 2px solid #ccc;">
-          <div class="tableTitle">{{ term }} 课程表</div>
+          <div class="tableTitle">{{ term.name }} 课程表</div>
         </div>
         <div class="tableRow">
           <div class="tableHead" style="flex: 1">序号</div>

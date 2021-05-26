@@ -2,25 +2,21 @@
   <div id="chooseterm">
         <h1 style="color: darkblue">选课系统</h1>
         <h2 style="font-weight: 400">点击选择选课学期</h2>
-        <h2 class="term" v-for="(item,index) in terms" :key="index" @click="termclick(index)">{{item}}</h2>
+        <h2 class="term" v-for="(item,index) in termInfo" :key="index" @click="termclick(index)">{{item.name}}</h2>
   </div>
 </template>
 
 <script>
 export default {
     name: 'chooseterm',
-    created(){
-        //for test
-        this.terms = ['2020-2021学年春季学期', '2020-2021学年夏季学期']
-    },
     data(){
         return {
-            terms: []
+            termInfo: this.$store.state.termInfo
         }
     },
     methods:{
         termclick(index){
-            this.$store.commit('updateTerm', this.terms[index])
+            this.$store.commit('updateTerm', this.termInfo[index])
             // console.log(this.$store.state.term);
             this.$router.replace('/home')
         }

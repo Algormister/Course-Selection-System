@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import {login,getterm,getStuInfo} from '../network/login'
 export default {
     name: 'login',
     data(){
@@ -32,14 +33,45 @@ export default {
     methods:{
         login(){
             //axios
-            this.$store.commit('updateUserid', this.id)
-            // console.log(this.$store.state.userid);
-            this.$router.replace('./chooseterm')
+            let info = {
+                username: this.id,
+                password: this.pw
+            }
+            login(info).then(res =>{
+                if(res.msg != '登陆成功'){
+                    alert(res.msg)
+                }
+                else{
+                    getterm().then(res =>{
+                        this.$store.commit('updataTermInfo', res.o);
+                        console.log(this.$store.state.termInfo);
+                    })
+                    this.$store.commit('updateStatus', res.o)
+                    this.$store.commit('updateUserid', this.id);
+                    if(res.o!='admin') {
+                        if(res.o == 'student'){
+                            let info = {
+                                studentId: this.id
+                            }
+                            getStuInfo(info).then(res =>{
+                                this.$store.commit('updateName', res.o.name);
+                                this.$store.commit('updateEnGrade', res.o.englishLevel);
+                                this.$store.commit('updateLastTermGrade', res.o.gpa);
+                                console.log(res);
+                            })
+                        }
+                        this.$router.replace('./chooseterm');
+                    }
+                    else {
+                        this.$store.commit('updateName', 'admin')
+                        this.$router.replace('./home');
+                    }
+                }
+            })
         },
         reset(){
             this.id = ''
             this.pw = ''
-            this.$store.commit('updateUserid', '')
         }
     }
 }

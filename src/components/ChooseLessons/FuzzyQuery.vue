@@ -36,13 +36,12 @@
                 <div class="tableHead" style="flex: 2">上课地点</div>
                 <div class="tableHead" style="flex: 2">容量</div>
                 <div class="tableHead" style="flex: 2">人数</div>
-                <div class="tableHead" style="flex: 2">选课限制</div>
                 <div class="tableHead" style="flex: 2">答疑时间</div>
                 <div class="tableHead" style="flex: 2">答疑地点</div>
                 <div class="tableHead" style="flex: 1">校区</div>
             </div>
             <div class="tableRow" v-for="(item, index) in list.slice(curPage*8,curPage * 8 + 8)" :key="index" :class="{'active': listChecked.indexOf(item.lessonId) > -1}">
-                <div class="tableText" style="flex: 1"><input type="checkbox" name="list" :value="item.lessonId" style="margin-right: 0;" v-model="listChecked" :disabled="item.volume==item.students"></div>
+                <div class="tableText" style="flex: 1"><input type="checkbox" name="list" :value="item.lessonId" style="margin-right: 0;" v-model="listChecked"></div>
                 <div class="tableText" style="flex: 3">{{item.lessonId}}</div>
                 <div class="tableText" style="flex: 4">{{item.lessonName}}</div>
                 <div class="tableText" style="flex: 1">{{item.credit}}</div>
@@ -52,7 +51,6 @@
                 <div class="tableText" style="flex: 2">{{item.place}}</div>
                 <div class="tableText" style="flex: 2">{{item.volume}}</div>
                 <div class="tableText" style="flex: 2">{{item.students}}</div>
-                <div class="tableText" style="flex: 2">{{item.limit}}</div>
                 <div class="tableText" style="flex: 2">{{item.resolveTime}}</div>
                 <div class="tableText" style="flex: 2">{{item.resolvePlace}}</div>
                 <div class="tableText" style="flex: 1">{{item.school}}</div>
