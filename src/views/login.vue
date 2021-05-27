@@ -30,6 +30,12 @@ export default {
             pw: ''
         }
     },
+    created(){
+        getterm().then(res =>{
+            this.$store.commit('updataTermInfo', res.o);
+            console.log(this.$store.state.termInfo);
+        })
+    },
     methods:{
         login(){
             //axios
@@ -42,10 +48,7 @@ export default {
                     alert(res.msg)
                 }
                 else{
-                    getterm().then(res =>{
-                        this.$store.commit('updataTermInfo', res.o);
-                        console.log(this.$store.state.termInfo);
-                    })
+                    
                     this.$store.commit('updateStatus', res.o)
                     this.$store.commit('updateUserid', this.id);
                     if(res.o!='admin') {

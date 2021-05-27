@@ -15,7 +15,7 @@ export function selectCourse(info){
 }
 export function addCourse(info){
     return request({
-        url:'api/addcourse',
+        url:'api/admin/addcourse',
         method:'post',
         data:info
     })
@@ -32,5 +32,12 @@ export function updateCourse(info){
         url: 'api/admin/updatecourse',
         method: 'post',
         data: info
+    })
+}
+export function deleteCourse(info){
+    return request({
+        url:'api/admin/removecourse',
+        method:'post',
+        data:info
     })
 }

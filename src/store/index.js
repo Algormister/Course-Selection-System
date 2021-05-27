@@ -96,7 +96,7 @@ export default createStore({
       window.sessionStorage.setItem('lessonInfo', JSON.stringify(state.lessonInfo));
     },
     updataTermInfo(state, t){
-      state.lessonInfo = t;
+      state.termInfo = t;
       window.sessionStorage.setItem('termInfo', JSON.stringify(t));
     },
     updateName(state, n){

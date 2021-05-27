@@ -1,7 +1,7 @@
 <template>
   <div id="courseAdd">
     <div class="tableTitle">学期选择</div>
-    <select name="term" id="" style="margin-bottom: 5px" @change="termChange">
+    <select name="term" id="" style="margin-bottom: 5px" v-model="curTerm">
       <option value="" selected></option>
       <option :value="item.term" v-for="(item, index) in termInfo" :key="index">{{ item.name }}</option>
     </select>
@@ -25,16 +25,16 @@
     </div>
     <div class="otherInfo">
       <span>校区：</span>
-      <select name="campuses" id="" @change="campusesChange" class="campuses">
+      <select name="campuses" id="" class="campuses" v-model="curCampus">
         <option value="" selected></option>
         <option v-for="(item, index) in campuses" :value="item" :key="index">
           {{ item }}
         </option>
       </select>
       <span>学院：</span>
-      <select name="departments" id="" @change="departmentsChange" class="departments">
+      <select name="departments" id="" class="departments" v-model="curDepartment">
         <option value="" selected></option>
-        <option v-for="(item, index) in departments" :value="item.value" :key="index">{{ item.name }}</option>
+        <option v-for="(item, index) in departments" :value="item.name" :key="index">{{ item.name }}</option>
       </select>
     </div>
     <el-button type="primary" class="btn" @click="add">添加</el-button>
@@ -47,20 +47,20 @@ export default {
     name: 'courseAdd',
     data(){
         return {
-            curTerm: '',
-            courseId: '',
-            courseName: '',
-            tId:'',
-            tName: '',
-            curCampus: '',
-            curDepartment: '',
-            credit: '',
-            volume: '',
-            usual: '',
-            time: '',
-            place: '',
-            resolveTime: '',
-            resolvePlace: '',
+            curTerm: '20201',
+            courseId: '08300001',
+            courseName: '数据库原理',
+            tId:'1001',
+            tName: '吕卫强',
+            curCampus: '宝山',
+            curDepartment: '计算机工程与科学学院',
+            credit: '4',
+            volume: '2',
+            usual: '0.5',
+            time: "11000000000000000000000000000000000000000000000000000000000000110",
+            place: 'D102',
+            resolveTime: '一2-3',
+            resolvePlace: 'D101',
             termInfo: this.$store.state.termInfo,
             campuses: ["延长", "宝山", "嘉定"],
             departments: [
@@ -156,18 +156,6 @@ export default {
         }
     },
     methods:{
-      termChange(e){
-        this.curTerm = e.currentTarget.value;
-        console.log(this.curTerm);
-      },
-      campusesChange(e){
-        this.curCampus = e.currentTarget.value;
-        console.log(e.currentTarget.value);
-      },
-      departmentsChange(e){
-          this.curDepartment = e.currentTarget.value;
-          console.log(e.currentTarget.value);
-      },
       add(){
         let info = {}
         if(this.courseId != '') info.courseId = this.courseId;
@@ -186,7 +174,22 @@ export default {
         if(this.tName != '') info.teacherName = this.tName;
         console.log(info);
         addCourse(info).then(res =>{
-          console.log(res);
+          alert(res.msg)
+          if(res.msg == '课程添加成功'){
+            this.courseId = '';
+            this.courseName = '';
+            this.tId = '';
+            this.tName = '';
+            this.curCampus = '';
+            this.curDepartment = '';
+            this.credit = '';
+            this.volume = '';
+            this.usual = '';
+            this.time = '';
+            this.place = '';
+            this.resolveTime = '';
+            this.resolvePlace = '';
+          }
         })
       }
     }

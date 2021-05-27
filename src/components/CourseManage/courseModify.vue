@@ -1,7 +1,7 @@
 <template>
   <div id="courseModify">
     <div class="tableTitle">学期选择</div>
-    <select name="term" id="" style="margin-bottom: 5px" @change="termChange">
+    <select name="term" id="" style="margin-bottom: 5px" v-model="curTerm">
       <option value="" selected></option>
       <option :value="item.term" v-for="(item, index) in termInfo" :key="index">{{ item.name }}</option>
     </select>
@@ -16,16 +16,16 @@
     </div>
     <div class="otherInfo">
       <span>校区：</span>
-      <select name="campuses" id="" @change="campusesChange" class="campuses">
+      <select name="campuses" id="" v-model="curCampus" class="campuses">
         <option value="" selected></option>
         <option v-for="(item, index) in campuses" :value="item" :key="index">
           {{ item }}
         </option>
       </select>
       <span>学院：</span>
-      <select name="departments" id="" @change="departmentsChange" class="departments">
+      <select name="departments" id="" v-model="curDepartment" class="departments">
         <option value="" selected></option>
-        <option v-for="(item, index) in departments" :value="item.value" :key="index">{{ item.name }}</option>
+        <option v-for="(item, index) in departments" :value="item.name" :key="index">{{ item.name }}</option>
       </select>
       <span>学分：</span>
       <input type="text" v-model="credit" style="width: 30px" />
@@ -213,19 +213,6 @@ export default {
         }
     },
     methods:{
-    termChange(e){
-      this.curTerm = e.currentTarget.value;
-      this.curEdit = 0;
-      console.log(this.curTerm);
-    },
-    campusesChange(e){
-        this.curCampus = e.currentTarget.value;
-        console.log(e.currentTarget.value);
-    },
-    departmentsChange(e){
-        this.curDepartment = e.currentTarget.value;
-        console.log(e.currentTarget.value);
-    },
     select(){
         ////
         let info = {}

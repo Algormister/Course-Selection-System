@@ -1,7 +1,7 @@
 <template>
   <div id="courseDelete">
     <div class="tableTitle">学期选择</div>
-    <select name="term" id="" style="margin-bottom: 5px">
+    <select name="term" id="" style="margin-bottom: 5px" v-model="curTerm">
       <option value="" selected></option>
       <option :value="item.term" v-for="(item, index) in termInfo" :key="index">{{ item.name }}</option>
     </select>
@@ -16,16 +16,16 @@
     </div>
     <div class="otherInfo">
       <span>校区：</span>
-      <select name="campuses" id="" @change="campusesChange" class="campuses">
+      <select name="campuses" id="" v-model="curCampus" class="campuses">
         <option value="" selected></option>
         <option v-for="(item, index) in campuses" :value="item" :key="index">
           {{ item }}
         </option>
       </select>
       <span>学院：</span>
-      <select name="departments" id="" @change="departmentsChange" class="departments">
+      <select name="departments" id="" v-model="curDepartment" class="departments">
         <option value="" selected></option>
-        <option v-for="(item, index) in departments" :value="item.value" :key="index">{{ item.name }}</option>
+        <option v-for="(item, index) in departments" :value="item.name" :key="index">{{ item.name }}</option>
       </select>
       <span>学分：</span>
       <input type="text" v-model="credit" style="width: 30px" />
@@ -70,18 +70,18 @@
                 </div>
             </template>
           </el-popconfirm>
-          <div class="tableText" style="flex: 3">{{ item.lessonId }}</div>
-          <div class="tableText" style="flex: 4">{{ item.lessonName }}</div>
+          <div class="tableText" style="flex: 3">{{ item.courseId }}</div>
+          <div class="tableText" style="flex: 4">{{ item.name }}</div>
           <div class="tableText" style="flex: 1">{{ item.credit }}</div>
-          <div class="tableText" style="flex: 2">{{ item.tId }}</div>
-          <div class="tableText" style="flex: 2">{{ item.tName }}</div>
-          <div class="tableText" style="flex: 5">{{ item.time }}</div>
-          <div class="tableText" style="flex: 2">{{ item.place }}</div>
-          <div class="tableText" style="flex: 2">{{ item.volume }}</div>
-          <div class="tableText" style="flex: 2">{{ item.students }}</div>
-          <div class="tableText" style="flex: 2">{{ item.resolveTime }}</div>
-          <div class="tableText" style="flex: 2">{{ item.resolvePlace }}</div>
-          <div class="tableText" style="flex: 1">{{ item.school }}</div>
+          <div class="tableText" style="flex: 2">{{ item.teacherId }}</div>
+          <div class="tableText" style="flex: 2">{{ item.teacherName }}</div>
+          <div class="tableText" style="flex: 5">{{ courseTime(item.courseTimes) }}</div>
+          <div class="tableText" style="flex: 2">{{ item.sksj }}</div>
+          <div class="tableText" style="flex: 2">{{ item.contains }}</div>
+          <div class="tableText" style="flex: 2">{{ item.realcurrentContain }}</div>
+          <div class="tableText" style="flex: 2">{{ item.dysj }}</div>
+          <div class="tableText" style="flex: 2">{{ item.dydd }}</div>
+          <div class="tableText" style="flex: 1">{{ item.campus }}</div>
         </div>
       </div>
       <el-pagination
@@ -100,10 +100,13 @@
 </template>
 
 <script>
+import {selectCourse,deleteCourse} from '../../network/admin/admin'
+import {showCourseTime} from '../../util/showCourseTime'
 export default {
     name: 'courseModify',
     data(){
         return {
+            curTerm: '',
             courseId: '',
             courseName: '',
             tId: '',
@@ -116,15 +119,7 @@ export default {
             curPage: 0,
             total: 9,   //axios
             termInfo: this.$store.state.termInfo,
-            list: [{lessonName: '数据结构', lessonId: '01', tName: 'sj', place: 'C101', time:'一1-3, 三1-2',credit: 5, tId: 1001, resolveTime:'五1-2', resolvePlace: 'D101', school: '宝山',volume: 50, students: 45, limit: ''},
-    {lessonName: '数据库原理', lessonId: '02', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
-    {lessonName: '数据库原理', lessonId: '03', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
-    {lessonName: '数据库原理', lessonId: '04', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
-    {lessonName: '数据库原理', lessonId: '05', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
-    {lessonName: '数据库原理', lessonId: '06', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
-    {lessonName: '数据库原理', lessonId: '07', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
-    {lessonName: '数据库原理', lessonId: '08', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'},
-    {lessonName: '数据库原理', lessonId: '09', tName: 'lwq', place: 'C102', time:'二1-3,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长',volume: 60, students: 60, limit: '人数已满'}],
+            list: [],
             campuses: ["延长", "宝山", "嘉定"],
             departments: [
         { value: "01010000", name: "理学院" },
@@ -219,16 +214,26 @@ export default {
         }
     },
     methods:{
-    campusesChange(e){
-        this.curCampus = e.currentTarget.value;
-        console.log(e.currentTarget.value);
-    },
-    departmentsChange(e){
-        this.curDepartment = e.currentTarget.value;
-        console.log(e.currentTarget.value);
+    courseTime(time){
+      return showCourseTime(time); 
     },
     select(){
         ////
+        let info = {}
+        if(this.courseId != '') info.courseId = this.courseId;
+        if(this.tId != '') info.teacherId = this.tId;
+        if(this.curTerm != "") info.term = this.curTerm;
+        if(this.courseName != '') info.name = this.courseName;
+        if(this.curDepartment != '') info.school = this.curDepartment;
+        if(this.credit != '') info.credit = this.credit;
+        if(this.curCampus != '') info.campus = this.curCampus;
+        if(this.tName != '') info.teacherName = this.tName;
+        console.log(info);
+        selectCourse(info).then(res =>{
+          console.log(res);
+          this.list = res.o;
+          this.total = res.o.length;
+        })
         this.isShowList = true;
     },
     deleteCourse(index){
@@ -238,10 +243,18 @@ export default {
         this.curDelete = 0;
     },
     confirm(index){
-        console.log(index);
-        //axios
-        this.list.splice(index, 1);
-        this.total -= 1;
+        let info = {
+          courseId: this.list[index].courseId,
+          teacherId: this.list[index].teacherId,
+          term: this.list[index].term
+        }
+        deleteCourse(info).then(res =>{
+          alert(res.msg);
+          if(res.msg == '课程删除成功'){
+            this.list.splice(index, 1);
+            this.total -= 1;
+          }
+        })
     },
     pagechange(page){
         this.curDelete = 0;
