@@ -16,25 +16,25 @@
         <div class="tableHead" style="flex: 1">校区</div>
       </div>
       <div class="tableRow" v-for="(item, index) in list" :key="index" :class="{'active': listChecked.indexOf(item.lessonId) > -1}">
-        <div class="tableText" style="flex: 1">
+        <div class="tableText" style="flex: 1;">
           <input
             type="checkbox"
             name="list"
-            :value="item.lessonId"
-            style="margin-right: 0"
+            :value="index"
+            style="margin-right: 0;cursor: pointer;"
             v-model="listChecked"
           />
         </div>
-        <div class="tableText" style="flex: 3">{{item.lessonId}}</div>
-        <div class="tableText" style="flex: 4">{{item.lessonName}}</div>
+        <div class="tableText" style="flex: 3">{{item.courseId}}</div>
+        <div class="tableText" style="flex: 4">{{item.name}}</div>
         <div class="tableText" style="flex: 1">{{item.credit}}</div>
-        <div class="tableText" style="flex: 2">{{item.tId}}</div>
-        <div class="tableText" style="flex: 2">{{item.tName}}</div>
-        <div class="tableText" style="flex: 5">{{item.time}}</div>
-        <div class="tableText" style="flex: 2">{{item.place}}</div>
-        <div class="tableText" style="flex: 2">{{item.resolveTime}}</div>
-        <div class="tableText" style="flex: 2">{{item.resolvePlace}}</div>
-        <div class="tableText" style="flex: 1">{{item.school}}</div>
+        <div class="tableText" style="flex: 2">{{item.teacherId}}</div>
+        <div class="tableText" style="flex: 2">{{item.teacherName}}</div>
+        <div class="tableText" style="flex: 5">{{courseTime(item.courseTimes)}}</div>
+        <div class="tableText" style="flex: 2">{{item.sksj}}</div>
+        <div class="tableText" style="flex: 2">{{item.dysj}}</div>
+        <div class="tableText" style="flex: 2">{{item.dydd}}</div>
+        <div class="tableText" style="flex: 1">{{item.campus}}</div>
       </div>
     </div>
     <el-button type="primary" class="btn" @click="submit">确认</el-button>
@@ -44,6 +44,8 @@
 
 <script>
 import TimeTable from '../../components/TimeTable/TimeTable'
+import {showCourseTime} from '../../util/showCourseTime'
+import {dropCourse} from '../../network/student/student'
 export default {
   name: "dropCourses",
   components:{
@@ -59,12 +61,30 @@ export default {
   },
   methods:{
     submit(){
+      this.listChecked = this.listChecked.sort((a,b) => b - a);
       console.log(this.listChecked);
-      this.$store.commit('dropCourses', this.listChecked);
-      this.$nextTick(() =>{
-        this.lessonTableInfo = this.$store.getters.lessonTableInfo;
-      })
-      //for test
+      for(let i = 0; i < this.listChecked.length; i++){
+        let info = {
+          courseId: this.list[this.listChecked[i]].courseId,
+          teacherId: this.list[this.listChecked[i]].teacherId,
+          term: this.$store.state.term.term,
+          studentId: this.$store.state.userid
+        }
+        console.log(info);
+        dropCourse(info).then(res =>{
+          alert(res.msg);
+          if(res.msg == '退课成功'){
+            this.$store.commit('dropCourses', this.listChecked[i]);
+            this.$nextTick(() =>{
+              this.lessonTableInfo = this.$store.getters.lessonTableInfo;
+            })
+          }
+          console.log(res);
+        })
+      }
+    },
+    courseTime(time){
+      return showCourseTime(time);
     }
   }
 };

@@ -1,7 +1,7 @@
 <template>
-    <home-alert v-if="showalert" message="请重新登录!" :func="alertconfirm"></home-alert>
-    <div :class="{mask: isMasked}" @click="cancelMask"></div>
-    <el-container>
+    <home-alert v-if="showalert" message="请重新登录!" :func="alertconfirm" @alertConfirm="alertConfirm"></home-alert>
+    <div :class="{mask: isMasked}" @click="cancelMask" v-if="!showalert"></div>
+    <el-container v-if="!showalert">
         <el-aside width="230px" style="min-height:100vh;">
             <tab-bar v-if="status=='student'" :path="pathStu" title="学生选课" :status="status"></tab-bar>
             <tab-bar v-else-if="status=='teacher'" :path="pathT" title="课程管理"></tab-bar>
@@ -20,22 +20,27 @@
 </template>
 
 <script>
-// import {post} from '../network/home'
 import TabBar from '../components/TabBar/TabBar'
 import HomeHeader from '../components/HomeHeader/HomeHeader'
 import HomeAlert from '../components/HomeAlert/HomeAlert'
 import AdminHomeHeader from '../components/HomeHeader/AdminHomeHeader'
 export default {
     name: 'Home',
+    created(){
+        console.log(this.$store.state.userid);
+        if(this.$store.state.userid != null) this.showalert = false;
+        else this.showalert = true;
+    },
     data(){
         return {
             term : this.$store.state.term,
             id: this.$store.state.userid,
             status: this.$store.state.status,
             alertconfirm: function(){
-                this.$router.replace('/')
+                this.$store.commit('updateShowAlert', false);
+                this.$router.replace('/');
             },
-            showalert: false,
+            showalert: this.$store.state.showAlert,
             isMasked: false,
             pathStu: [{router: 'chooseLessons', name: '选课'},
                     {router: 'dropCourses', name: '退课'},
@@ -53,13 +58,6 @@ export default {
                 ]
         }
     },
-    created(){
-        if (this.id == null || this.id == '') this.showalert = !this.showalert 
-        // let postBody = {
-        //     id: this.id
-        // }
-        // post(postBody).then(res => {console.log(res)})
-    },
     components: {
         TabBar,
         HomeHeader,
@@ -73,6 +71,10 @@ export default {
         },
         cancelMask(){
             this.isMasked = false;
+        },
+        alertConfirm(){
+            this.showalert = false;
+            console.log(this.showalert);
         }
     }
 }

@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import {login,getterm,getStuInfo} from '../network/login'
+import {login,getterm,getStuInfo, getTeacherInfo} from '../network/login'
 export default {
     name: 'login',
     data(){
@@ -35,6 +35,7 @@ export default {
             this.$store.commit('updataTermInfo', res.o);
             console.log(this.$store.state.termInfo);
         })
+        window.sessionStorage.clear();
     },
     methods:{
         login(){
@@ -48,7 +49,7 @@ export default {
                     alert(res.msg)
                 }
                 else{
-                    
+                    this.$store.commit('updateShowAlert', false);
                     this.$store.commit('updateStatus', res.o)
                     this.$store.commit('updateUserid', this.id);
                     if(res.o!='admin') {
@@ -60,6 +61,15 @@ export default {
                                 this.$store.commit('updateName', res.o.name);
                                 this.$store.commit('updateEnGrade', res.o.englishLevel);
                                 this.$store.commit('updateLastTermGrade', res.o.gpa);
+                                console.log(res);
+                            })
+                        }
+                        else if(res.o == 'teacher'){
+                            let info = {
+                                teacherId: this.id
+                            }
+                            getTeacherInfo(info).then(res =>{
+                                this.$store.commit('updateName', res.o.name);
                                 console.log(res);
                             })
                         }

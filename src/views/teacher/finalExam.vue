@@ -4,7 +4,7 @@
     <div class="tableTitle">课程选择</div>
     <select name="course" id="" @change="courseChange">
       <option value="" selected></option>
-      <option :value="item.lessonId" v-for="(item,index) in lessonInfo" :key="index">{{item.lessonName}}</option>
+      <option :value="item.courseId" v-for="(item,index) in lessonInfo" :key="index">{{item.name}}</option>
     </select>
     <div class="tableContainer" v-if="dataSuccess">
       <div class="tableRow">
@@ -15,14 +15,13 @@
           <div class="tableHead" style="flex: 3">联系方式</div>
           <div class="tableHead" style="flex: 2">期末成绩</div>
       </div>
-      <div class="tableRow" v-for="(item, index) in stuInfoTemp" :key="index">
+      <div class="tableRow" v-for="(item, index) in stuInfo" :key="index">
           <div class="tableText" style="flex: 1">{{index + 1}}</div>
           <div class="tableText" style="flex: 3">{{item.id}}</div>
           <div class="tableText" style="flex: 3">{{item.name}}</div>
           <div class="tableText" style="flex: 1">{{item.gender}}</div>
           <div class="tableText" style="flex: 3">{{item.tel}}</div>
-          <div class="tableText" style="flex: 2" v-if="stuInfo[index].finalExam!=''">{{item.finalExam}}</div>
-          <input type="text" class="tableText" style="flex: 2" v-else placeholder="请录入期末成绩" :value="item.finalExam" @input="finalExamChange($event, index)">
+          <input type="text" class="tableText" style="flex: 2" placeholder="请录入期末成绩" :value="item.finalExam" @input="finalExamChange($event, index)">
       </div>
     </div>
     <el-button type="primary" class="btn" v-if="dataSuccess" @click="submit">提交</el-button>
@@ -37,7 +36,6 @@ export default {
         lessonInfo:this.$store.state.teachingInfo,
         curLessonId: '',
         stuInfo: [],
-        stuInfoTemp: [],      //用于录入平时成绩
         submitArray: [],      //submit
         dataSuccess: false,   //学生数据
       }
@@ -52,13 +50,9 @@ export default {
           this.stuInfo =  [{id: '18120158', name: 'lt', gender: '男', tel: '15821225698'},
                     {id: '00000001', name: 'zs', gender: '女',tel: '110', finalExam: '98'}
           ];
-          this.stuInfoTemp = [{id: '18120158', name: 'lt', gender: '男', tel: '15821225698'},
-                    {id: '00000001', name: 'zs', gender: '女',tel: '110', finalExam: '98'}
-          ];
           for (let i = 0; i < this.stuInfo.length; i++){
             if (!this.stuInfo[i].finalExam) {
               this.stuInfo[i].finalExam = '';
-              this.stuInfoTemp[i].finalExam = '';
             }
           }
           this.dataSuccess = true;

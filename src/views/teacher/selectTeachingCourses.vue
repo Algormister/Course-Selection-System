@@ -17,16 +17,16 @@
       </div>
       <div class="tableRow" v-for="(item, index) in lessonInfo" :key="index" @click="selectStudent(item)">
           <div class="tableText" style="flex: 1">{{String.fromCodePoint(index + 65)}}</div>
-          <div class="tableText" style="flex: 3">{{item.lessonId}}</div>
-          <div class="tableText" style="flex: 4">{{item.lessonName}}</div>
+          <div class="tableText" style="flex: 3">{{item.courseId}}</div>
+          <div class="tableText" style="flex: 4">{{item.name}}</div>
           <div class="tableText" style="flex: 1">{{item.credit}}</div>
-          <div class="tableText" style="flex: 2">{{item.tId}}</div>
-          <div class="tableText" style="flex: 2">{{item.tName}}</div>
-          <div class="tableText" style="flex: 5">{{item.time}}</div>
-          <div class="tableText" style="flex: 2">{{item.place}}</div>
-          <div class="tableText" style="flex: 2">{{item.resolveTime}}</div>
-          <div class="tableText" style="flex: 2">{{item.resolvePlace}}</div>
-          <div class="tableText" style="flex: 1">{{item.school}}</div>
+          <div class="tableText" style="flex: 2">{{item.teacherId}}</div>
+          <div class="tableText" style="flex: 2">{{item.teacherName}}</div>
+          <div class="tableText" style="flex: 5">{{courseTime(item.courseTimes)}}</div>
+          <div class="tableText" style="flex: 2">{{item.sksj}}</div>
+          <div class="tableText" style="flex: 2">{{item.dysj}}</div>
+          <div class="tableText" style="flex: 2">{{item.dydd}}</div>
+          <div class="tableText" style="flex: 1">{{item.campus}}</div>
       </div>
     </div>
     <div :class="{'active': $route.path!='/home/selectTeachingCourses'}"></div>
@@ -35,21 +35,25 @@
 </template>
 
 <script>
+import {showCourseTime} from '../../util/showCourseTime'
 export default {
     name: 'selectTeachingCourses',
     data(){
       return {
-        lessonInfo: this.$store.state.teachingInfo
+        lessonInfo: this.$store.state.teachingInfo,
       }
     },
     methods:{
       selectStudent(item){
         this.$router.push({
-          path: `/home/selectTeachingCourses/${item.lessonId}`,
+          path: `/home/selectTeachingCourses/${item.courseId}`,
           query:{
-            courseName: item.lessonName
+            courseName: item.name
           }  
         })
+      },
+      courseTime(time){
+        return showCourseTime(time);
       }
     }
 }

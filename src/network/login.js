@@ -18,3 +18,10 @@ export function getStuInfo(info){
         data:info
     })
 }
+export function getTeacherInfo(info){
+    return request({
+        url: '/api/users/getteacherinfo',
+        method:'post',
+        data:info
+    })
+}

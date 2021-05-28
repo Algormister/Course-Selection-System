@@ -17,6 +17,7 @@ export default {
     methods:{
         confirm(){
             this.func();
+            this.$emit('alertConfirm');
         }
     }
 }

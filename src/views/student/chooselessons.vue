@@ -4,8 +4,8 @@
       <el-button @click="quickchoose" size="small" :class="{'active': chooseWay == 1}">快速选课</el-button>
       <el-button @click="fuzzyquery" size="small" :class="{'active': chooseWay == 2}">模糊查询</el-button>
     </div>
-    <quick-choose v-if="chooseWay == 1"></quick-choose>
-    <fuzzy-query v-if="chooseWay == 2"></fuzzy-query>
+    <quick-choose v-if="chooseWay == 1" @addCourse="addcourse"></quick-choose>
+    <fuzzy-query v-if="chooseWay == 2" @addCourse="addcourse"></fuzzy-query>
     <div class="Container">
       <div class="tableContainer" style="flex: 2">
         <div class="tableRow" style="border-top: 2px solid #ccc;">
@@ -23,11 +23,11 @@
           <div class="tableText" style="flex: 1">
             {{ String.fromCodePoint(index + 65) }}
           </div>
-          <div class="tableText" style="flex: 3">{{ item.lessonId }}</div>
-          <div class="tableText" style="flex: 3">{{ item.lessonName }}</div>
+          <div class="tableText" style="flex: 3">{{ item.courseId }}</div>
+          <div class="tableText" style="flex: 3">{{ item.name }}</div>
           <div class="tableText" style="flex: 1">{{ item.credit }}</div>
-          <div class="tableText" style="flex: 3">{{ item.tName }}</div>
-          <div class="tableText" style="flex: 1">{{ item.school }}</div>
+          <div class="tableText" style="flex: 3">{{ item.teacherName }}</div>
+          <div class="tableText" style="flex: 1">{{ item.campus }}</div>
         </div>
       </div>
       <div class="tableContainer" style="flex: 3">
@@ -89,6 +89,11 @@ export default {
     },
     fuzzyquery(){
       this.chooseWay = 2;
+    },
+    addcourse(){
+      this.$nextTick(()=>{
+        this.lessonTableInfo = this.$store.getters.lessonTableInfo;
+      })
     }
   }
 };

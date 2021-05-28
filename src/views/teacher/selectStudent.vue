@@ -15,25 +15,45 @@
       </div>
       <div class="tableRow" v-for="(item, index) in stuInfo" :key="index">
           <div class="tableText" style="flex: 1">{{index + 1}}</div>
-          <div class="tableText" style="flex: 3">{{item.id}}</div>
+          <div class="tableText" style="flex: 3">{{item.studentId}}</div>
           <div class="tableText" style="flex: 3">{{item.name}}</div>
           <div class="tableText" style="flex: 1">{{item.gender}}</div>
-          <div class="tableText" style="flex: 3">{{item.tel}}</div>
-          <div class="tableText" style="flex: 2">{{item.usualResult}}</div>
-          <div class="tableText" style="flex: 2">{{item.finalExam}}</div>
-          <div class="tableText" style="flex: 2">{{item.grade}}</div>
+          <div class="tableText" style="flex: 3">{{item.phone}}</div>
+          <div class="tableText" style="flex: 2">{{item.usualScore == -1 ? '': item.usualScore}}</div>
+          <div class="tableText" style="flex: 2">{{item.testScore == -1 ? '': item.testScore}}</div>
+          <div class="tableText" style="flex: 2">{{item.overallScore == -1 ? '': showGpa(item.overallScore)}}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {getStuInfo} from '../../network/teacher/teacher'
+import {gpa} from '../../util/gpa'
 export default {
     name: 'selectStudent',
-    data(){
-        return {
-            stuInfo:this.$store.state.stuInfo
+    created(){
+      let info ={
+        courseId: this.$route.path.split('/').slice(-1).toString(),
+        teacherId: this.$store.state.userid,
+        term: this.$store.state.term.term
+      }
+      getStuInfo(info).then(res =>{
+        if (res.msg == '查询成功'){
+          this.stuInfo = res.o;
+          console.log(res);
         }
+      })
+    },
+    data(){
+      return {
+        stuInfo:[]
+      }
+    },
+    methods:{
+      showGpa(score){
+        return gpa(score);
+      }
     }
 }
 </script>

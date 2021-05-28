@@ -12,18 +12,33 @@
 </template>
 
 <script>
-import {getLessonInfo} from '../network/home'
+import {getCourse} from '../network/teacher/teacher'
+import {getLessonInfo} from '../network/student/student'
 export default {
   name:'HomePage',
-  data(){
-    return {
-      lessonInfo: []
-    }
-  },
   created(){
-    getLessonInfo().then(res =>{
-      this.lessonInfo = res
-    })
+    if(this.$store.state.status == 'teacher'){
+      let info = {
+        teacherId:this.$store.state.userid,
+        term: this.$store.state.term.term
+      }
+      getCourse(info).then(res =>{
+        if(res.msg == '查询成功'){
+          this.$store.commit('updateTeachingInfo', res.o);
+        }
+      })
+    }
+    else if(this.$store.state.status == 'student'){
+      let info = {
+        studentId: this.$store.state.userid,
+        term: this.$store.state.term.term
+      }
+      getLessonInfo(info).then(res =>{
+        if(res.msg == '查询成功'){
+          this.$store.commit('updateLessonInfo', res.o);
+        }
+      })
+    }
   }
 }
 </script>

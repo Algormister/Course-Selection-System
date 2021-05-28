@@ -4,7 +4,7 @@
     <div class="tableTitle">课程选择</div>
     <select name="course" id="" @change="courseChange">
       <option value="" selected></option>
-      <option :value="item.lessonId" v-for="(item,index) in lessonInfo" :key="index">{{item.lessonName}}</option>
+      <option :value="item.courseId" v-for="(item,index) in lessonInfo" :key="index">{{item.name}}</option>
     </select>
     <div class="tableContainer" v-if="dataSuccess">
       <div class="tableRow">
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+// import {} from './'
 export default {
     name: 'usualResults',
     data(){
@@ -50,11 +51,11 @@ export default {
           this.stuInfo =  [{id: '18120158', name: 'lt', gender: '男', tel: '15821225698'},
                     {id: '00000001', name: 'zs', gender: '女',tel: '110', usualResult: '99'}
           ];
-          for (let i = 0; i < this.stuInfo.length; i++){
-            if (!this.stuInfo[i].usualResult) {
-              this.stuInfo[i].usualResult = '';
-            }
-          }
+          // for (let i = 0; i < this.stuInfo.length; i++){
+          //   if (!this.stuInfo[i].usualResult) {
+          //     this.stuInfo[i].usualResult = '';
+          //   }
+          // }
           this.dataSuccess = true;
         }
       },

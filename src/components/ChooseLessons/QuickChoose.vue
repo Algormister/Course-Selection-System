@@ -6,8 +6,8 @@
             <div class="tableText">
                 课程号：<input type="text" :value="lessonInfo[(index - 1) * 2].c" @input="lessonidInput($event,index)">
             </div>
-            <div class="tableText" style="margin-left: 10px;" :value="lessonInfo[(index - 1) * 2].t">
-                教师号：<input style="width: 100px;" type="text" @input="tidInput($event,index)">
+            <div class="tableText" style="margin-left: 10px;">
+                教师号：<input style="width: 100px;" type="text" @input="tidInput($event,index)" :value="lessonInfo[(index - 1) * 2].t">
             </div>
         </div>
         <div class="right">
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import {quickChoose} from '../../network/student/student'
 export default {
   name: "QuickChoose",
   data(){
@@ -48,6 +49,23 @@ export default {
       submit(){
           console.log(this.lessonInfo);
           ////////
+          for (let i = 0; i < this.lessonInfo.length && this.lessonInfo[i].c != '' && this.lessonInfo[i].t != ''; i++){
+            let info = {
+                courseId: this.lessonInfo[i].c,
+                teacherId: this.lessonInfo[i].t,
+                term: this.$store.state.term.term,
+                studentId: this.$store.state.userid
+            }
+            quickChoose(info).then(res =>{
+                alert(res.msg);
+                if(res.msg == '选课成功'){
+                    this.$store.commit('addLessonInfo', res.o);
+                    this.lessonInfo = [{c:'',t:''},{c:'',t:''},{c:'',t:''},{c:'',t:''},{c:'',t:''},{c:'',t:''}];
+                    this.$emit('addCourse');
+                }
+                console.log(res);
+            })
+          }
       }
   }
 };

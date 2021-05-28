@@ -1,30 +1,33 @@
 import { createStore } from 'vuex'
-
+import {showCourseTime} from '../util/showCourseTime'
 export default createStore({
   state: {
-    userid: window.sessionStorage.getItem('id'),             //null or id
-    term: JSON.parse(window.sessionStorage.getItem('term')),
-    status: window.sessionStorage.getItem('status'),
-    name: window.sessionStorage.getItem('name'),
-    enGrade: window.sessionStorage.getItem('enGrade'),
-    lastTermGrade: window.sessionStorage.getItem('lastTermGrade'),
-    teachingInfo:[{lessonName: '数据库原理(1)', lessonId: '02', tName: 'lwq', place: 'C102', time:'二11-13,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长'},
-    {lessonName: '数据库原理(2)', lessonId: '03', tName: 'lwq', place: 'C102', time:'二1-3,四11-12',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长'}],
-    // lessonInfo: JSON.parse(window.sessionStorage.getItem('lessonInfo'))
-    lessonInfo:[{lessonName: '数据结构', lessonId: '01', tName: 'sj', place: 'C101', time:'一1-3,三1-2',credit: 5, tId: 1001, resolveTime:'五1-2', resolvePlace: 'D101', school: '宝山', grade: '4.0', result: '97'},
-    {lessonName: '数据库原理', lessonId: '02', tName: 'lwq', place: 'C102', time:'二11-13,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长', grade: '3.0', result: '80'}],
-    stuInfo:[{id: '18120158', name: 'lt', gender: '男', grade: 4.0, usualResult: 90, finalExam: 95, tel: '15821225698'},
-                    {id: '00000001', name: 'zs', gender: '女', grade: 3.7, usualResult: 87, finalExam: 88, tel: '110'}
-            ],
-    // termInfo: [{termId: '20201', termName: '2020-2021学年春季学期', status: 5},
-    //         {termId: '20202', termName: '2020-2021学年夏季学期', status: 1}]
-    termInfo: JSON.parse(window.sessionStorage.getItem('termInfo'))
+    userid: window.sessionStorage.getItem('id'),             //null or id   all
+    term: JSON.parse(window.sessionStorage.getItem('term')),  //all
+    status: window.sessionStorage.getItem('status'),          //all
+    name: window.sessionStorage.getItem('name'),              //all
+    enGrade: window.sessionStorage.getItem('enGrade'),        //stu
+    lastTermGrade: window.sessionStorage.getItem('lastTermGrade'),  //stu
+    // teachingInfo:[{lessonName: '数据库原理(1)', lessonId: '02', tName: 'lwq', place: 'C102', time:'二11-13,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长'},
+    // {lessonName: '数据库原理(2)', lessonId: '03', tName: 'lwq', place: 'C102', time:'二1-3,四11-12',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长'}],
+    lessonInfo: JSON.parse(window.sessionStorage.getItem('lessonInfo')),
+    // lessonInfo:[{lessonName: '数据结构', lessonId: '01', tName: 'sj', place: 'C101', time:'一1-3,三1-2',credit: 5, tId: 1001, resolveTime:'五1-2', resolvePlace: 'D101', school: '宝山', grade: '4.0', result: '97'},
+    // {lessonName: '数据库原理', lessonId: '02', tName: 'lwq', place: 'C102', time:'二11-13,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长', grade: '3.0', result: '80'}],
+    // stuInfo:[{id: '18120158', name: 'lt', gender: '男', grade: 4.0, usualResult: 90, finalExam: 95, tel: '15821225698'},
+    //                 {id: '00000001', name: 'zs', gender: '女', grade: 3.7, usualResult: 87, finalExam: 88, tel: '110'}
+    //         ],
+    // stuInfo:JSON.parse(window.sessionStorage.getItem('stuInfo')),     
+    teachingInfo: JSON.parse(window.sessionStorage.getItem('teachingInfo')),   //teacher
+    termInfo: JSON.parse(window.sessionStorage.getItem('termInfo')),  //admin
+    showAlert: window.sessionStorage.getItem('showAlert')
   },
   getters:{
     credit: state =>{
       let c = 0;
-      for (let item of state.lessonInfo){
-        c += item.credit
+      if(state.lessonInfo){
+        for (let item of state.lessonInfo){
+          c += Number(item.credit);
+        }
       }
       return c;
     },
@@ -52,15 +55,17 @@ export default createStore({
                   [11, '18:00 ~ 18:45', '', '', '', '', '', '', ''],
                   [12, '18:55 ~ 19:40', '', '', '', '', '', '', ''],
                   [13, '19:50 ~ 20:35', '', '', '', '', '', '', '']];
-      for (let i = 0; i < state.lessonInfo.length; i++){
-        let time = state.lessonInfo[i].time;
-        let timeArray = time.split(',');
-        for (let j = 0; j < timeArray.length; j++){
-            let hour = timeArray[j].substring(1, timeArray[j].length);
-            let hourArray = hour.split('-');
-            for (let k = getRow(hourArray[0]); k <= getRow(hourArray[1]); k++){
-                table[k][getCol(timeArray[j][0])] = String.fromCharCode(i + 65);
-            }
+      if(state.lessonInfo){
+        for (let i = 0; i < state.lessonInfo.length; i++){
+          let time = showCourseTime(state.lessonInfo[i].courseTimes)
+          let timeArray = time.split(',');
+          for (let j = 0; j < timeArray.length; j++){
+              let hour = timeArray[j].substring(1, timeArray[j].length);
+              let hourArray = hour.split('-');
+              for (let k = getRow(hourArray[0]); k <= getRow(hourArray[1]); k++){
+                  table[k][getCol(timeArray[j][0])] = String.fromCharCode(i + 65);
+              }
+          }
         }
       }
       return table;
@@ -84,15 +89,15 @@ export default createStore({
       window.sessionStorage.setItem('credit', c)
     },
     updateLessonInfo(state, info){
-      state.lessonInfo = info
-      window.sessionStorage.setItem('lessonInfo', JSON.stringify(info));
+      state.lessonInfo = info;
+      window.sessionStorage.setItem('lessonInfo', JSON.stringify(state.lessonInfo));
+    },
+    addLessonInfo(state, info){
+      state.lessonInfo.push(info);
+      window.sessionStorage.setItem('lessonInfo', JSON.stringify(state.lessonInfo));
     },
     dropCourses(state, dropInfo){
-      for (let i = state.lessonInfo.length - 1; i >= 0; i--){
-        if (dropInfo.indexOf(state.lessonInfo[i].lessonId) > -1){
-          state.lessonInfo.splice(i, 1);
-        }
-      }
+      state.lessonInfo.splice(dropInfo, 1);
       window.sessionStorage.setItem('lessonInfo', JSON.stringify(state.lessonInfo));
     },
     updataTermInfo(state, t){
@@ -110,6 +115,18 @@ export default createStore({
     updateLastTermGrade(state,l){
       state.lastTermGrade = l;
       window.sessionStorage.setItem('lastTermGrade', l)
+    },
+    // updateStuInfo(state, s){
+    //   state.stuInfo = s;
+    //   window.sessionStorage.setItem('stuInfo', JSON.stringify(s));
+    // }
+    updateTeachingInfo(state, t){
+      state.teachingInfo = t;
+      window.sessionStorage.setItem('teachingInfo', JSON.stringify(t));
+    },
+    updateShowAlert(state, s){
+      state.showAlert = s;
+      window.sessionStorage.setItem('showAlert', s);
     }
   },
   actions: {
