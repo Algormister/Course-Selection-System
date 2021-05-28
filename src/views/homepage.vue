@@ -35,6 +35,7 @@ export default {
       }
       getLessonInfo(info).then(res =>{
         if(res.msg == '查询成功'){
+          console.log(res);
           this.$store.commit('updateLessonInfo', res.o);
         }
       })

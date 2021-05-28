@@ -17,11 +17,11 @@
       </div>
       <div class="tableRow" v-for="(item, index) in stuInfo" :key="index">
           <div class="tableText" style="flex: 1">{{index + 1}}</div>
-          <div class="tableText" style="flex: 3">{{item.id}}</div>
+          <div class="tableText" style="flex: 3">{{item.studentId}}</div>
           <div class="tableText" style="flex: 3">{{item.name}}</div>
           <div class="tableText" style="flex: 1">{{item.gender}}</div>
-          <div class="tableText" style="flex: 3">{{item.tel}}</div>
-          <input type="text" class="tableText" style="flex: 2" placeholder="请录入期末成绩" :value="item.finalExam" @input="finalExamChange($event, index)">
+          <div class="tableText" style="flex: 3">{{item.phone}}</div>
+          <input type="text" class="tableText" style="flex: 2" placeholder="请录入期末成绩" :value="item.testScore==-1?'':item.testScore" @input="finalExamChange($event, index)">
       </div>
     </div>
     <el-button type="primary" class="btn" v-if="dataSuccess" @click="submit">提交</el-button>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import {getStuInfo, updateTest} from '../../network/teacher/teacher'
 export default {
     name: 'finalExam',
     data(){
@@ -46,28 +47,42 @@ export default {
         console.log(e.target.value);
         this.dataSuccess = false;
         if(e.target.value != ''){
-          //axios stuInfo
-          this.stuInfo =  [{id: '18120158', name: 'lt', gender: '男', tel: '15821225698'},
-                    {id: '00000001', name: 'zs', gender: '女',tel: '110', finalExam: '98'}
-          ];
-          for (let i = 0; i < this.stuInfo.length; i++){
-            if (!this.stuInfo[i].finalExam) {
-              this.stuInfo[i].finalExam = '';
-            }
+          let info ={
+            courseId: this.curLessonId,
+            teacherId: this.$store.state.userid,
+            term: this.$store.state.term.term
           }
+          getStuInfo(info).then(res =>{
+            console.log(res);
+            if(res.msg == '查询成功'){
+              this.stuInfo = res.o;
+            }
+          })
           this.dataSuccess = true;
         }
       },
       finalExamChange(e, index){
         if (e.target.value != ''){
-          this.stuInfoTemp[index].finalExam = e.target.value;
-          this.submitArray.push(this.stuInfoTemp[index]);
+          this.stuInfo[index].testScore = e.target.value;
+          this.submitArray.push(this.stuInfo[index]);
           this.submitArray = Array.from(new Set(this.submitArray));
         }
       },
       submit(){
         //axios
-        console.log(this.stuInfoTemp);
+        for (let i = 0; i < this.submitArray.length; i++){
+          let info = {
+            courseId: this.curLessonId,
+            teacherId: this.$store.state.userid,
+            term: this.$store.state.term.term,
+            studentId: this.submitArray[i].studentId,
+            testScore: this.submitArray[i].testScore
+          }
+          updateTest(info).then(res =>{
+            alert(res.msg);
+            console.log(res);
+          })
+        }
         console.log(this.stuInfo);
         console.log(this.submitArray);
       }

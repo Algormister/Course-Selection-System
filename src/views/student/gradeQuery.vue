@@ -7,14 +7,26 @@
 
 <script>
 import gradeTable from '../../components/GradeQuery/gradeTable'
+import {getGpa} from '../../network/student/student'
+import {gpa} from '../../util/gpa'
 export default {
     name: 'gradeQuery',
     components:{
       gradeTable
     },
+    created(){
+        let info = {
+            studentId:this.$store.state.userid,
+            term: this.$store.state.term.term
+        }
+        getGpa(info).then(res =>{
+            console.log(res);
+        })
+    },
     data(){
         return {
-            lessonInfo: this.$store.state.lessonInfo
+            lessonInfo: this.$store.state.lessonInfo,
+            gpa: undefined
         }
     },
     computed:{
@@ -22,7 +34,7 @@ export default {
           if (this.lessonInfo){
               let totalCredit = 0;
               for(let i = 0; i < this.lessonInfo.length; i++){
-                  totalCredit += Number(this.lessonInfo[i].credit);
+                  totalCredit += Number(this.lessonInfo[i].course.credit);
               }
               return totalCredit;
           }
@@ -32,7 +44,7 @@ export default {
           if (this.lessonInfo){
               let ans = 0;
               for(let i = 0; i < this.lessonInfo.length; i++){
-                  ans += Number(this.lessonInfo[i].grade) * Number(this.lessonInfo[i].credit);
+                  ans += gpa(Number(this.lessonInfo[i].overallScore)) * Number(this.lessonInfo[i].course.credit);
               }
               return (ans / this.totalCredit).toFixed(2);
           }

@@ -7,6 +7,7 @@ export default createStore({
     status: window.sessionStorage.getItem('status'),          //all
     name: window.sessionStorage.getItem('name'),              //all
     enGrade: window.sessionStorage.getItem('enGrade'),        //stu
+    totalCredit: window.sessionStorage.getItem('totalCredit'),  //stu
     lastTermGrade: window.sessionStorage.getItem('lastTermGrade'),  //stu
     // teachingInfo:[{lessonName: '数据库原理(1)', lessonId: '02', tName: 'lwq', place: 'C102', time:'二11-13,四1-2',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长'},
     // {lessonName: '数据库原理(2)', lessonId: '03', tName: 'lwq', place: 'C102', time:'二1-3,四11-12',credit: 4, tId: 1002, resolveTime:'五3-4', resolvePlace: 'D102', school: '延长'}],
@@ -26,7 +27,7 @@ export default createStore({
       let c = 0;
       if(state.lessonInfo){
         for (let item of state.lessonInfo){
-          c += Number(item.credit);
+          c += Number(item.course.credit);
         }
       }
       return c;
@@ -57,7 +58,7 @@ export default createStore({
                   [13, '19:50 ~ 20:35', '', '', '', '', '', '', '']];
       if(state.lessonInfo){
         for (let i = 0; i < state.lessonInfo.length; i++){
-          let time = showCourseTime(state.lessonInfo[i].courseTimes)
+          let time = showCourseTime(state.lessonInfo[i].course.courseTimes)
           let timeArray = time.split(',');
           for (let j = 0; j < timeArray.length; j++){
               let hour = timeArray[j].substring(1, timeArray[j].length);
@@ -127,6 +128,10 @@ export default createStore({
     updateShowAlert(state, s){
       state.showAlert = s;
       window.sessionStorage.setItem('showAlert', s);
+    },
+    updateTotalCredit(state, t){
+      state.totalCredit = t;
+      window.sessionStorage.setItem('totalCredit', t);
     }
   },
   actions: {

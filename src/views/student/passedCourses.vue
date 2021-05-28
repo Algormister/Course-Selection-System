@@ -16,7 +16,7 @@ export default {
     data(){
         return {
             lessonInfo: this.$store.state.lessonInfo,
-            totalCredit: '25'
+            totalCredit: this.$store.state.totalCredit
         }
     },
     computed: {
@@ -24,8 +24,8 @@ export default {
           if (this.lessonInfo){
               let totalCredit = 0;
               for(let i = 0; i < this.lessonInfo.length; i++){
-                if (Number(this.lessonInfo[i].result) >= 60){
-                  totalCredit += Number(this.lessonInfo[i].credit);
+                if (Number(this.lessonInfo[i].overallScore) >= 60){
+                  totalCredit += Number(this.lessonInfo[i].course.credit);
                 }
               }
               return totalCredit;

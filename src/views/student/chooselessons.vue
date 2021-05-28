@@ -23,11 +23,11 @@
           <div class="tableText" style="flex: 1">
             {{ String.fromCodePoint(index + 65) }}
           </div>
-          <div class="tableText" style="flex: 3">{{ item.courseId }}</div>
-          <div class="tableText" style="flex: 3">{{ item.name }}</div>
-          <div class="tableText" style="flex: 1">{{ item.credit }}</div>
-          <div class="tableText" style="flex: 3">{{ item.teacherName }}</div>
-          <div class="tableText" style="flex: 1">{{ item.campus }}</div>
+          <div class="tableText" style="flex: 3">{{ item.course.courseId }}</div>
+          <div class="tableText" style="flex: 3">{{ item.course.name }}</div>
+          <div class="tableText" style="flex: 1">{{ item.course.credit }}</div>
+          <div class="tableText" style="flex: 3">{{ item.course.teacherName }}</div>
+          <div class="tableText" style="flex: 1">{{ item.course.campus }}</div>
         </div>
       </div>
       <div class="tableContainer" style="flex: 3">

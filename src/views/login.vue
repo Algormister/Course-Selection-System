@@ -61,6 +61,7 @@ export default {
                                 this.$store.commit('updateName', res.o.name);
                                 this.$store.commit('updateEnGrade', res.o.englishLevel);
                                 this.$store.commit('updateLastTermGrade', res.o.gpa);
+                                this.$store.commit('updateTotalCredit', res.o.credit);
                                 console.log(res);
                             })
                         }

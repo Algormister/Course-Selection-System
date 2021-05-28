@@ -1,6 +1,6 @@
 <template>
   <div id="selectTimeTable">
-    <lesson-info :title="term+' 课程表'" :lessonInfo="lessonInfo"></lesson-info>
+    <lesson-info :title="term.name+' 课程表'" :lessonInfo="lessonInfo"></lesson-info>
     <time-table :lessonTableInfo="lessonTableInfo" :credit="credit"></time-table>
   </div>
 </template>

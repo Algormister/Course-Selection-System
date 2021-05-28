@@ -17,11 +17,11 @@
       </div>
       <div class="tableRow" v-for="(item, index) in stuInfo" :key="index">
           <div class="tableText" style="flex: 1">{{index + 1}}</div>
-          <div class="tableText" style="flex: 3">{{item.id}}</div>
+          <div class="tableText" style="flex: 3">{{item.studentId}}</div>
           <div class="tableText" style="flex: 3">{{item.name}}</div>
           <div class="tableText" style="flex: 1">{{item.gender}}</div>
-          <div class="tableText" style="flex: 3">{{item.tel}}</div>
-          <input type="text" class="tableText" style="flex: 2" placeholder="请录入平时成绩" :value="item.usualResult" @blur="usualResultBlur($event, index)">
+          <div class="tableText" style="flex: 3">{{item.phone}}</div>
+          <input type="text" class="tableText" style="flex: 2" placeholder="请录入平时成绩" :value="item.usualScore==-1?'':item.usualScore" @blur="usualResultBlur($event, index)">
       </div>
     </div>
     <el-button type="primary" class="btn" v-if="dataSuccess" @click="submit">提交</el-button>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-// import {} from './'
+import {getStuInfo, updateUsual} from '../../network/teacher/teacher'
 export default {
     name: 'usualResults',
     data(){
@@ -47,27 +47,43 @@ export default {
         console.log(e.target.value);
         this.dataSuccess = false;
         if(e.target.value != ''){
-          //axios stuInfo
-          this.stuInfo =  [{id: '18120158', name: 'lt', gender: '男', tel: '15821225698'},
-                    {id: '00000001', name: 'zs', gender: '女',tel: '110', usualResult: '99'}
-          ];
-          // for (let i = 0; i < this.stuInfo.length; i++){
-          //   if (!this.stuInfo[i].usualResult) {
-          //     this.stuInfo[i].usualResult = '';
-          //   }
-          // }
+          let info ={
+            courseId: this.curLessonId,
+            teacherId: this.$store.state.userid,
+            term: this.$store.state.term.term
+          }
+          getStuInfo(info).then(res =>{
+            console.log(res);
+            if(res.msg == '查询成功'){
+              this.stuInfo = res.o;
+            }
+          })
           this.dataSuccess = true;
         }
       },
       usualResultBlur(e, index){
         if (e.target.value != ''){
-          this.stuInfo[index].usualResult = e.target.value;
+          this.stuInfo[index].usualScore = e.target.value;
           this.submitArray.push(this.stuInfo[index]);
           this.submitArray = Array.from(new Set(this.submitArray));
         }
       },
       submit(){
         //axios
+        for (let i = 0; i < this.submitArray.length; i++){
+          let info = {
+            courseId: this.curLessonId,
+            teacherId: this.$store.state.userid,
+            term: this.$store.state.term.term,
+            studentId: this.submitArray[i].studentId,
+            usualScore: this.submitArray[i].usualScore
+          }
+          updateUsual(info).then(res =>{
+            alert(res.msg);
+            console.log(res);
+          })
+        }
+        
         console.log(this.stuInfo);
         console.log(this.submitArray);
       }

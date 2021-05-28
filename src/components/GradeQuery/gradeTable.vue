@@ -14,14 +14,14 @@
       </div>
       <div class="tableRow" v-for="(item, index) in lessonInfo" :key="index">
         <div class="tableText" style="flex: 1">{{ index + 1 }}</div>
-        <div class="tableText" style="flex: 3">{{ item.lessonId }}</div>
-        <div class="tableText" style="flex: 4">{{ item.lessonName }}</div>
-        <div class="tableText" style="flex: 1">{{ item.credit }}</div>
-        <div class="tableText" style="flex: 2">{{ item.tId }}</div>
-        <div class="tableText" style="flex: 2">{{ item.tName }}</div>
-        <div class="tableText" style="flex: 2" v-if="item.result != ''">{{ item.result }}</div>
+        <div class="tableText" style="flex: 3">{{ item.course.courseId }}</div>
+        <div class="tableText" style="flex: 4">{{ item.course.name }}</div>
+        <div class="tableText" style="flex: 1">{{ item.course.credit }}</div>
+        <div class="tableText" style="flex: 2">{{ item.course.teacherId }}</div>
+        <div class="tableText" style="flex: 2">{{ item.course.teacherName }}</div>
+        <div class="tableText" style="flex: 2" v-if="item.overallScore != -1">{{ item.overallScore }}</div>
         <div class="tableText" style="flex: 2" v-else>成绩未出</div>
-        <div class="tableText" style="flex: 2" v-if="item.grade != ''">{{ item.grade }}</div>
+        <div class="tableText" style="flex: 2" v-if="item.overallScore != -1">{{ showGpa(item.overallScore) }}</div>
         <div class="tableText" style="flex: 2" v-else>绩点未出</div>
       </div>
     </div>
@@ -29,11 +29,20 @@
 </template>
 
 <script>
+import {gpa} from '../../util/gpa'
 export default {
   name: "gradeTable",
   props:{
       title: String,
       lessonInfo: Array
+  },
+  created(){
+    console.log(this.lessonInfo);
+  },
+  methods:{
+    showGpa(score){
+      return gpa(score);
+    }
   }
 };
 </script>

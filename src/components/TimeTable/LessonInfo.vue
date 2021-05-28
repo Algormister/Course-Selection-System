@@ -17,28 +17,34 @@
           </div>
           <div class="tableRow" v-for="(item, index) in lessonInfo" :key="index">
               <div class="tableText" style="flex: 1">{{String.fromCodePoint(index + 65)}}</div>
-              <div class="tableText" style="flex: 3">{{item.lessonId}}</div>
-              <div class="tableText" style="flex: 4">{{item.lessonName}}</div>
-              <div class="tableText" style="flex: 1">{{item.credit}}</div>
-              <div class="tableText" style="flex: 2">{{item.tId}}</div>
-              <div class="tableText" style="flex: 2">{{item.tName}}</div>
-              <div class="tableText" style="flex: 5">{{item.time}}</div>
-              <div class="tableText" style="flex: 2">{{item.place}}</div>
-              <div class="tableText" style="flex: 2">{{item.resolveTime}}</div>
-              <div class="tableText" style="flex: 2">{{item.resolvePlace}}</div>
-              <div class="tableText" style="flex: 1">{{item.school}}</div>
+              <div class="tableText" style="flex: 3">{{item.course.courseId}}</div>
+              <div class="tableText" style="flex: 4">{{item.course.name}}</div>
+              <div class="tableText" style="flex: 1">{{item.course.credit}}</div>
+              <div class="tableText" style="flex: 2">{{item.course.teacherId}}</div>
+              <div class="tableText" style="flex: 2">{{item.course.teacherName}}</div>
+              <div class="tableText" style="flex: 5">{{courseTime(item.course.courseTimes)}}</div>
+              <div class="tableText" style="flex: 2">{{item.course.sksj}}</div>
+              <div class="tableText" style="flex: 2">{{item.course.dysj}}</div>
+              <div class="tableText" style="flex: 2">{{item.course.dydd}}</div>
+              <div class="tableText" style="flex: 1">{{item.course.campus}}</div>
           </div>
         </div>
     </div>
 </template>
 
 <script>
+import {showCourseTime} from '../../util/showCourseTime' 
 export default {
     name: 'LessonInfo',
     props:{
         title: String,
         lessonInfo: Array
     },
+    methods:{
+      courseTime(time){
+        return showCourseTime(time);
+      }
+    }
 }
 </script>
 

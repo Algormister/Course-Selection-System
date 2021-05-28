@@ -25,16 +25,16 @@
             v-model="listChecked"
           />
         </div>
-        <div class="tableText" style="flex: 3">{{item.courseId}}</div>
-        <div class="tableText" style="flex: 4">{{item.name}}</div>
-        <div class="tableText" style="flex: 1">{{item.credit}}</div>
-        <div class="tableText" style="flex: 2">{{item.teacherId}}</div>
-        <div class="tableText" style="flex: 2">{{item.teacherName}}</div>
-        <div class="tableText" style="flex: 5">{{courseTime(item.courseTimes)}}</div>
-        <div class="tableText" style="flex: 2">{{item.sksj}}</div>
-        <div class="tableText" style="flex: 2">{{item.dysj}}</div>
-        <div class="tableText" style="flex: 2">{{item.dydd}}</div>
-        <div class="tableText" style="flex: 1">{{item.campus}}</div>
+        <div class="tableText" style="flex: 3">{{item.course.courseId}}</div>
+        <div class="tableText" style="flex: 4">{{item.course.name}}</div>
+        <div class="tableText" style="flex: 1">{{item.course.credit}}</div>
+        <div class="tableText" style="flex: 2">{{item.course.teacherId}}</div>
+        <div class="tableText" style="flex: 2">{{item.course.teacherName}}</div>
+        <div class="tableText" style="flex: 5">{{courseTime(item.course.courseTimes)}}</div>
+        <div class="tableText" style="flex: 2">{{item.course.sksj}}</div>
+        <div class="tableText" style="flex: 2">{{item.course.dysj}}</div>
+        <div class="tableText" style="flex: 2">{{item.course.dydd}}</div>
+        <div class="tableText" style="flex: 1">{{item.course.campus}}</div>
       </div>
     </div>
     <el-button type="primary" class="btn" @click="submit">确认</el-button>

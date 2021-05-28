@@ -27,3 +27,10 @@ export function dropCourse(info){
         data:info
     })
 }
+export function getGpa(info){
+    return request({
+        url:'/api/selectionrecords/getgpa',
+        method:'post',
+        data:info
+    })
+}

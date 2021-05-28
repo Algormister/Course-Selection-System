@@ -13,3 +13,17 @@ export function getCourse(info){
         data:info
     })
 }
+export function updateUsual(info){
+    return request({
+        url:'api/teacher/setusualscore',
+        method: 'post',
+        data: info
+    })
+}
+export function updateTest(info){
+    return request({
+        url: 'api/teacher/settestscore',
+        method:'post',
+        data:info
+    })
+}
