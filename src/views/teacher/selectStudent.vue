@@ -33,12 +33,19 @@ import {gpa} from '../../util/gpa'
 export default {
     name: 'selectStudent',
     created(){
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(255, 255 , 255, 0.7)'
+      });
       let info ={
         courseId: this.$route.path.split('/').slice(-1).toString(),
         teacherId: this.$store.state.userid,
         term: this.$store.state.term.term
       }
       getStuInfo(info).then(res =>{
+        loading.close();
         if (res.msg == '查询成功'){
           this.stuInfo = res.o;
           console.log(res);

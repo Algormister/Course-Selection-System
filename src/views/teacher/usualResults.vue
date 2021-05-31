@@ -47,12 +47,19 @@ export default {
         console.log(e.target.value);
         this.dataSuccess = false;
         if(e.target.value != ''){
+          const loading = this.$loading({
+            lock: true,
+            text: 'Loading',
+            spinner: 'el-icon-loading',
+            background: 'rgba(255, 255 , 255, 0.7)'
+          });
           let info ={
             courseId: this.curLessonId,
             teacherId: this.$store.state.userid,
             term: this.$store.state.term.term
           }
           getStuInfo(info).then(res =>{
+            loading.close();
             console.log(res);
             if(res.msg == '查询成功'){
               this.stuInfo = res.o;
@@ -70,6 +77,12 @@ export default {
       },
       submit(){
         //axios
+        const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(255, 255 , 255, 0.7)'
+        });
         for (let i = 0; i < this.submitArray.length; i++){
           let info = {
             courseId: this.curLessonId,
@@ -83,7 +96,7 @@ export default {
             console.log(res);
           })
         }
-        
+        loading.close();
         console.log(this.stuInfo);
         console.log(this.submitArray);
       }

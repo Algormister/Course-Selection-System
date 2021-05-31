@@ -127,6 +127,12 @@ export default {
     methods:{
         select(){
             ////
+            const loading = this.$loading({
+              lock: true,
+              text: 'Loading',
+              spinner: 'el-icon-loading',
+              background: 'rgba(255, 255 , 255, 0.7)'
+            });
             let info = {}
             if(this.courseId != '') info.courseId = this.courseId;
             if(this.tId != '') info.teacherId = this.tId;
@@ -137,6 +143,7 @@ export default {
             if(this.curCampus != '') info.campus = this.curCampus;
             if(this.tName != '') info.teacherName = this.tName;
             fuzzyQuery(info).then(res =>{
+              loading.close();
               this.list = res.o;
               this.total = res.o.length;
               console.log(res);
@@ -146,6 +153,12 @@ export default {
         },
         submit(){
           //
+          const loading = this.$loading({
+            lock: true,
+            text: 'Loading',
+            spinner: 'el-icon-loading',
+            background: 'rgba(255, 255 , 255, 0.7)'
+          });
           for (let i = 0; i < this.listChecked.length; i++){
             let info = {
               courseId: this.list[this.listChecked[i]].courseId,
@@ -158,12 +171,13 @@ export default {
               console.log(res);
               alert(res.msg);
               if(res.msg == '选课成功'){
-                this.$store.commit('addLessonInfo', res.o);
+                this.$store.commit('addLessonInfo', {course: res.o, overallScore: -1});
                 this.listChecked = [];
                 this.$emit('addCourse');
               }
             })
           }
+          loading.close();
         },
         courseTime(time){
           return showCourseTime(time);

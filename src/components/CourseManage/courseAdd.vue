@@ -157,6 +157,12 @@ export default {
     },
     methods:{
       add(){
+        const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(255, 255 , 255, 0.7)'
+        });
         let info = {}
         if(this.courseId != '') info.courseId = this.courseId;
         if(this.tId != '') info.teacherId = this.tId;
@@ -174,6 +180,7 @@ export default {
         if(this.tName != '') info.teacherName = this.tName;
         console.log(info);
         addCourse(info).then(res =>{
+          loading.close();
           alert(res.msg)
           if(res.msg == '课程添加成功'){
             this.courseId = '';

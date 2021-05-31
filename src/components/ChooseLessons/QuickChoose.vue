@@ -47,9 +47,14 @@ export default {
           this.lessonInfo[(index - 1) * 2 + 1].t = e.currentTarget.value;
       },
       submit(){
-          console.log(this.lessonInfo);
-          ////////
-          for (let i = 0; i < this.lessonInfo.length && this.lessonInfo[i].c != '' && this.lessonInfo[i].t != ''; i++){
+        const loading = this.$loading({
+            lock: true,
+            text: 'Loading',
+            spinner: 'el-icon-loading',
+            background: 'rgba(255, 255 , 255, 0.7)'
+        });
+        console.log(this.lessonInfo);
+        for (let i = 0; i < this.lessonInfo.length && this.lessonInfo[i].c != '' && this.lessonInfo[i].t != ''; i++){
             let info = {
                 courseId: this.lessonInfo[i].c,
                 teacherId: this.lessonInfo[i].t,
@@ -59,13 +64,14 @@ export default {
             quickChoose(info).then(res =>{
                 alert(res.msg);
                 if(res.msg == '选课成功'){
-                    this.$store.commit('addLessonInfo', res.o);
-                    this.lessonInfo = [{c:'',t:''},{c:'',t:''},{c:'',t:''},{c:'',t:''},{c:'',t:''},{c:'',t:''}];
+                    this.$store.commit('addLessonInfo', {course: res.o, overallScore: -1});
                     this.$emit('addCourse');
                 }
+                this.lessonInfo = [{c:'',t:''},{c:'',t:''},{c:'',t:''},{c:'',t:''},{c:'',t:''},{c:'',t:''}];
                 console.log(res);
             })
-          }
+        }
+        loading.close();
       }
   }
 };

@@ -61,12 +61,18 @@ export default {
   },
   methods:{
     submit(){
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(255, 255 , 255, 0.7)'
+      });
       this.listChecked = this.listChecked.sort((a,b) => b - a);
       console.log(this.listChecked);
       for(let i = 0; i < this.listChecked.length; i++){
         let info = {
-          courseId: this.list[this.listChecked[i]].courseId,
-          teacherId: this.list[this.listChecked[i]].teacherId,
+          courseId: this.list[this.listChecked[i]].course.courseId,
+          teacherId: this.list[this.listChecked[i]].course.teacherId,
           term: this.$store.state.term.term,
           studentId: this.$store.state.userid
         }
@@ -82,6 +88,7 @@ export default {
           console.log(res);
         })
       }
+      loading.close();
     },
     courseTime(time){
       return showCourseTime(time);

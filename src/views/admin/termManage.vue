@@ -84,7 +84,7 @@ export default {
             }
             addterm(info).then(res =>{
               if(res.msg == '学期添加成功'){
-                this.termInfo.push({termId: this.add, termName: `${year}-${year+1}学年${getTerm(term)}季学期`, status: 0});
+                this.termInfo.push({term: this.add, name: `${year}-${year+1}学年${getTerm(term)}季学期`, status: 0});
                 this.add = undefined;
               }
               else{

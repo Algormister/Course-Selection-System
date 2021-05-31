@@ -215,6 +215,12 @@ export default {
     methods:{
     select(){
         ////
+        const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(255, 255 , 255, 0.7)'
+        });
         let info = {}
         if(this.courseId != '') info.courseId = this.courseId;
         if(this.tId != '') info.teacherId = this.tId;
@@ -226,6 +232,7 @@ export default {
         if(this.tName != '') info.teacherName = this.tName;
         console.log(info);
         selectCourse(info).then(res =>{
+          loading.close();
           console.log(res);
           this.list = res.o;
           this.total = res.o.length;
@@ -286,6 +293,12 @@ export default {
       this.EditedArray = Array.from(new Set(this.EditedArray));
     },
     submit(){
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(255, 255 , 255, 0.7)'
+      });
       console.log(this.EditedArray);
       for (let i = 0; i < this.EditedArray.length; i++){
         updateCourse(this.EditedArray[i]).then(res =>{
@@ -295,6 +308,7 @@ export default {
           }
         })
       }
+      loading.close();
     },
     pagechange(page){
         this.curEdit = 0;

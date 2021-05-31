@@ -1,7 +1,7 @@
 <template>
   <div id="gradeQuery">
     <grade-table :lessonInfo="lessonInfo" title="期末成绩查询"></grade-table>
-    <div style="font-size:14px;padding:5px;">总学分:{{totalCredit}} 平均绩点:{{avgGrade}}</div>
+    <div style="font-size:14px;padding:5px;">总学分:{{totalCredit}} 平均绩点:{{avgGrade?avgGrade:0}}</div>
   </div>
 </template>
 
@@ -41,7 +41,7 @@ export default {
           else return 0;
       },
       avgGrade(){
-          if (this.lessonInfo){
+          if (this.lessonInfo.length != 0){
               let ans = 0;
               for(let i = 0; i < this.lessonInfo.length; i++){
                   ans += gpa(Number(this.lessonInfo[i].overallScore)) * Number(this.lessonInfo[i].course.credit);

@@ -219,6 +219,12 @@ export default {
     },
     select(){
         ////
+        const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(255, 255 , 255, 0.7)'
+        });
         let info = {}
         if(this.courseId != '') info.courseId = this.courseId;
         if(this.tId != '') info.teacherId = this.tId;
@@ -230,6 +236,7 @@ export default {
         if(this.tName != '') info.teacherName = this.tName;
         console.log(info);
         selectCourse(info).then(res =>{
+          loading.close();
           console.log(res);
           this.list = res.o;
           this.total = res.o.length;
@@ -243,18 +250,25 @@ export default {
         this.curDelete = 0;
     },
     confirm(index){
-        let info = {
-          courseId: this.list[index].courseId,
-          teacherId: this.list[index].teacherId,
-          term: this.list[index].term
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(255, 255 , 255, 0.7)'
+      });
+      let info = {
+        courseId: this.list[index].courseId,
+        teacherId: this.list[index].teacherId,
+        term: this.list[index].term
+      }
+      deleteCourse(info).then(res =>{
+        loading.close();
+        alert(res.msg);
+        if(res.msg == '课程删除成功'){
+          this.list.splice(index, 1);
+          this.total -= 1;
         }
-        deleteCourse(info).then(res =>{
-          alert(res.msg);
-          if(res.msg == '课程删除成功'){
-            this.list.splice(index, 1);
-            this.total -= 1;
-          }
-        })
+      })
     },
     pagechange(page){
         this.curDelete = 0;
