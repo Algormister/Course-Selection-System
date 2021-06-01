@@ -2,20 +2,34 @@
   <div id="passedCourses">
     <div class="tableTitle">完成学分情况：</div>
     <grade-table :lessonInfo="lessonInfo" :title="`${passedTotalCredit}/${totalCredit}`"></grade-table>
-    
   </div>
 </template>
 
 <script>
 import gradeTable from '../../components/GradeQuery/gradeTable'
+import {getAll} from '../../network/student/student'
 export default {
     name: 'passedCourses',
     components:{
       gradeTable
     },
+    created(){
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(255, 255 , 255, 0.7)'
+      });
+      let info = {studentId: this.$store.state.userid};
+      getAll(info).then(res =>{
+        loading.close();
+        this.lessonInfo = res.o;
+        console.log(res);
+      })
+    },
     data(){
         return {
-            lessonInfo: this.$store.state.lessonInfo,
+            lessonInfo: [],
             totalCredit: this.$store.state.totalCredit
         }
     },

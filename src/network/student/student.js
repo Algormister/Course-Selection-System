@@ -34,3 +34,10 @@ export function getGpa(info){
         data:info
     })
 }
+export function getAll(info){
+    return request({
+        url:'/api/selectionrecords/studentgetcourse/all',
+        method:'post',
+        data: info
+    })
+}
