@@ -40,7 +40,7 @@
                 <div class="tableHead" style="flex: 2">答疑地点</div>
                 <div class="tableHead" style="flex: 1">校区</div>
             </div>
-            <div class="tableRow" v-for="(item, index) in list.slice(curPage*8,curPage * 8 + 8)" :key="index" :class="{'active': listChecked.indexOf(item.lessonId) > -1}">
+            <div class="tableRow" v-for="(item, index) in list.slice(curPage*8,curPage * 8 + 8)" :key="index" :class="{'active': listChecked.indexOf(index) > -1}">
                 <div class="tableText" style="flex: 1;"><input type="checkbox" name="list" style="margin-right: 0;cursor: pointer;" v-model="listChecked" :value="index"></div>
                 <div class="tableText" style="flex: 3">{{item.courseId}}</div>
                 <div class="tableText" style="flex: 4">{{item.name}}</div>

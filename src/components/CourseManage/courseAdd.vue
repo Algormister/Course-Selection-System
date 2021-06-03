@@ -47,11 +47,11 @@ export default {
     name: 'courseAdd',
     data(){
         return {
-            curTerm: '20201',
+            curTerm: '20211',
             courseId: '08300001',
-            courseName: '数据库原理',
-            tId:'1001',
-            tName: '吕卫强',
+            courseName: 'Web开发技术',
+            tId:'1006',
+            tName: '张云华',
             curCampus: '宝山',
             curDepartment: '计算机工程与科学学院',
             credit: '4',

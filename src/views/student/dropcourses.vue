@@ -15,7 +15,7 @@
         <div class="tableHead" style="flex: 2">答疑地点</div>
         <div class="tableHead" style="flex: 1">校区</div>
       </div>
-      <div class="tableRow" v-for="(item, index) in list" :key="index" :class="{'active': listChecked.indexOf(item.lessonId) > -1}">
+      <div class="tableRow" v-for="(item, index) in list" :key="index" :class="{'active': listChecked.indexOf(index) > -1}">
         <div class="tableText" style="flex: 1;">
           <input
             type="checkbox"
