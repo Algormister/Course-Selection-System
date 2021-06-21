@@ -40,7 +40,7 @@
                 <div class="tableHead" style="flex: 2">答疑地点</div>
                 <div class="tableHead" style="flex: 1">校区</div>
             </div>
-            <div class="tableRow" v-for="(item, index) in list.slice(curPage*8,curPage * 8 + 8)" :key="index" :class="{'active': listChecked.indexOf(index) > -1}">
+            <div class="tableRow" v-for="(item, index) in list.slice(curPage*pageSize,curPage*pageSize+pageSize)" :key="index" :class="{'active': listChecked.indexOf(index) > -1}">
                 <div class="tableText" style="flex: 1;"><input type="checkbox" name="list" style="margin-right: 0;cursor: pointer;" v-model="listChecked" :value="index"></div>
                 <div class="tableText" style="flex: 3">{{item.courseId}}</div>
                 <div class="tableText" style="flex: 4">{{item.name}}</div>
@@ -56,17 +56,24 @@
                 <div class="tableText" style="flex: 1">{{item.campus}}</div>
             </div>
         </div>
-        <el-pagination
+        <!-- <el-pagination
           background
           layout="prev, pager, next"
-          :page-size="8"
+          :page-size="pageSize"
           :total="total"
           @update:current-page="pagechange"
           @prev-click="preclick"
           @next-click="nextclick"
           style="text-align: center;padding: 10px 0 0 0;">
-        </el-pagination>
-        <el-button type="primary" class="btn" @click="submit" style="margin-left:1100px;">选课</el-button>
+        </el-pagination> -->
+        <div style="width: 20%;margin:10px auto 0 auto;">
+          <pagination :pageSize="pageSize" :total="total" 
+            @current-page="pagechange"
+            @prev-click="preclick"
+            @next-click="nextclick">
+          </pagination>
+        </div>
+        <el-button type="primary" class="btn" @click="submit" style="margin-left:1100px;margin-top:0;">选课</el-button>
     </div>
     
   </div>
@@ -75,8 +82,12 @@
 <script>
 import {fuzzyQuery, quickChoose} from '../../network/student/student'
 import {showCourseTime} from '../../util/showCourseTime'
+import Pagination from '../../components/Pagination/pagination.vue'
 export default {
     name: "FuzzyQuery",
+    components:{
+      Pagination
+    },
     data(){
         return {
             courseId: '',
@@ -88,6 +99,7 @@ export default {
             credit: '',
             isShowList: false,
             curPage: 0,
+            pageSize: 1,
             total: 0,   //axios
             listChecked: [],
             list: [],
@@ -184,12 +196,15 @@ export default {
         },
         pagechange(page){
           this.curPage = page - 1;
+          console.log(this.curPage);
         },
         preclick(){
           this.curPage--;
+          console.log(this.curPage);
         },
         nextclick(){
           this.curPage++;
+          console.log(this.curPage);
         }
     }
 };
