@@ -51,9 +51,9 @@
         </div>
         <div
           class="tableRow"
-          v-for="(item, index) in list.slice(curPage * 8, curPage * 8 + 8)"
+          v-for="(item, index) in list.slice(curPage * pageSize, curPage * pageSize + pageSize)"
           :key="index"
-          :class="[index+1==curDelete?'active':'']"
+          :class="[pageSize*curPage+index+1==curDelete?'active':'']"
         >
           <el-popconfirm
             confirmButtonText='确定'
@@ -66,7 +66,7 @@
             >
             <template #reference>
                 <div class="tableText" style="flex: 1; cursor: pointer;" @click="deleteCourse(index)">
-                    <i class="el-icon-delete" :style="{color:curDelete==index+1?'white':'black'}"></i>
+                    <i class="el-icon-delete" :style="{color:curDelete==PageSize*curPage+index+1?'white':'black'}"></i>
                 </div>
             </template>
           </el-popconfirm>
@@ -84,7 +84,7 @@
           <div class="tableText" style="flex: 1">{{ item.campus }}</div>
         </div>
       </div>
-      <el-pagination
+      <!-- <el-pagination
         background
         layout="prev, pager, next"
         :page-size="8"
@@ -94,7 +94,14 @@
         @next-click="nextclick"
         style="text-align: center; padding: 10px 0"
       >
-      </el-pagination>
+      </el-pagination> -->
+      <div style="width: 20%;margin:10px auto 0 auto;">
+        <pagination :pageSize="pageSize" :total="total" 
+          @current-page="pagechange"
+          @prev-click="preclick"
+          @next-click="nextclick">
+        </pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -102,8 +109,12 @@
 <script>
 import {selectCourse,deleteCourse} from '../../network/admin/admin'
 import {showCourseTime} from '../../util/showCourseTime'
+import Pagination from '../../components/Pagination/pagination.vue'
 export default {
     name: 'courseModify',
+    components:{
+      Pagination
+    },
     data(){
         return {
             curTerm: '',
@@ -117,6 +128,7 @@ export default {
             curDelete: 0,
             isShowList: false,
             curPage: 0,
+            pageSize: 1,
             total: 9,   //axios
             termInfo: this.$store.state.termInfo,
             list: [],
@@ -244,12 +256,13 @@ export default {
         this.isShowList = true;
     },
     deleteCourse(index){
-        this.curDelete = index + 1;
+        this.curDelete = this.curPage * this.pageSize + index + 1;
     },
     cancel(){
         this.curDelete = 0;
     },
     confirm(index){
+      index = this.curPage * this.pageSize + index;
       const loading = this.$loading({
         lock: true,
         text: 'Loading',
@@ -265,6 +278,7 @@ export default {
         loading.close();
         alert(res.msg);
         if(res.msg == '课程删除成功'){
+          this.curPage = 0;
           this.list.splice(index, 1);
           this.total -= 1;
         }

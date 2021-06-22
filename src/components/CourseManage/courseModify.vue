@@ -51,36 +51,36 @@
         </div>
         <div
           class="tableRow"
-          v-for="(item, index) in list.slice(curPage * 8, curPage * 8 + 8)"
+          v-for="(item, index) in list.slice(curPage * pageSize, curPage * pageSize + pageSize)"
           :key="index"
-          :class="[index+1==curEdit?'active':'']"
+          :class="[pageSize*curPage+index+1==curEdit ?'active':'']"
         >
           <div class="tableText" style="flex: 1; cursor: pointer;" @click="editChange(index)">
-              <i class="el-icon-edit" :style="{color:curEdit==index+1?'white':'black'}"></i>
+              <i class="el-icon-edit" :style="{color:curEdit==pageSize*curPage+index+1?'white':'black'}"></i>
           </div>
           <div class="tableText" style="flex: 3">{{ item.courseId }}</div>
-          <div class="tableText" style="flex: 4" v-if="curEdit==index+1"><input @blur="lessonNameChange($event,index)" style="width: 85%" type="text" :value="item.name"></div>
-          <div class="tableText" style="flex: 1" v-if="curEdit==index+1"><input @blur="creditChange($event,index)" style="width: 85%" type="text" :value="item.credit"></div>
-          <div class="tableText" style="flex: 4" v-if="curEdit!=index+1">{{ item.name }}</div>
-          <div class="tableText" style="flex: 1" v-if="curEdit!=index+1">{{ item.credit }}</div>
+          <div class="tableText" style="flex: 4" v-if="curEdit==pageSize*curPage+index+1"><input @blur="lessonNameChange($event,index)" style="width: 85%" type="text" :value="item.name"></div>
+          <div class="tableText" style="flex: 1" v-if="curEdit==pageSize*curPage+index+1"><input @blur="creditChange($event,index)" style="width: 85%" type="text" :value="item.credit"></div>
+          <div class="tableText" style="flex: 4" v-if="curEdit!=pageSize*curPage+index+1">{{ item.name }}</div>
+          <div class="tableText" style="flex: 1" v-if="curEdit!=pageSize*curPage+index+1">{{ item.credit }}</div>
           <div class="tableText" style="flex: 2">{{ item.teacherId }}</div>
           <div class="tableText" style="flex: 2">{{ item.teacherName }}</div>
-          <div class="tableText" style="flex: 5" v-if="curEdit==index+1"><input @blur="timeChange($event,index)" style="width: 85%" type="text" :value="courseTime(item.courseTimes)"></div>
-          <div class="tableText" style="flex: 2" v-if="curEdit==index+1"><input @blur="placeChange($event,index)" style="width: 85%" type="text" :value="item.sksj"></div>
-          <div class="tableText" style="flex: 2" v-if="curEdit==index+1"><input @blur="volumeChange($event,index)" style="width: 85%" type="text" :value="item.contains"></div>
-          <div class="tableText" style="flex: 5" v-if="curEdit!=index+1">{{ courseTime(item.courseTimes) }}</div>
-          <div class="tableText" style="flex: 2" v-if="curEdit!=index+1">{{ item.sksj }}</div>
-          <div class="tableText" style="flex: 2" v-if="curEdit!=index+1">{{ item.contains }}</div>
+          <div class="tableText" style="flex: 5" v-if="curEdit==pageSize*curPage+index+1"><input @blur="timeChange($event,index)" style="width: 85%" type="text" :value="courseTime(item.courseTimes)"></div>
+          <div class="tableText" style="flex: 2" v-if="curEdit==pageSize*curPage+index+1"><input @blur="placeChange($event,index)" style="width: 85%" type="text" :value="item.sksj"></div>
+          <div class="tableText" style="flex: 2" v-if="curEdit==pageSize*curPage+index+1"><input @blur="volumeChange($event,index)" style="width: 85%" type="text" :value="item.contains"></div>
+          <div class="tableText" style="flex: 5" v-if="curEdit!=pageSize*curPage+index+1">{{ courseTime(item.courseTimes) }}</div>
+          <div class="tableText" style="flex: 2" v-if="curEdit!=pageSize*curPage+index+1">{{ item.sksj }}</div>
+          <div class="tableText" style="flex: 2" v-if="curEdit!=pageSize*curPage+index+1">{{ item.contains }}</div>
           <div class="tableText" style="flex: 2">{{ item.realcurrentContain }}</div>
-          <div class="tableText" style="flex: 2" v-if="curEdit==index+1"><input @blur="reselveTimeChange($event,index)" style="width: 85%" type="text" :value="item.dysj"></div>
-          <div class="tableText" style="flex: 2" v-if="curEdit==index+1"><input @blur="resolvePlaceChange($event,index)" style="width: 85%" type="text" :value="item.dydd "></div>
-          <div class="tableText" style="flex: 1" v-if="curEdit==index+1"><input @blur="SchoolChange($event,index)" style="width: 85%" type="text" :value="item.campus"></div>
-          <div class="tableText" style="flex: 2" v-if="curEdit!=index+1">{{ item.dysj }}</div>
-          <div class="tableText" style="flex: 2" v-if="curEdit!=index+1">{{ item.dydd }}</div>
-          <div class="tableText" style="flex: 1" v-if="curEdit!=index+1">{{ item.campus }}</div>
+          <div class="tableText" style="flex: 2" v-if="curEdit==pageSize*curPage+index+1"><input @blur="reselveTimeChange($event,index)" style="width: 85%" type="text" :value="item.dysj"></div>
+          <div class="tableText" style="flex: 2" v-if="curEdit==pageSize*curPage+index+1"><input @blur="resolvePlaceChange($event,index)" style="width: 85%" type="text" :value="item.dydd "></div>
+          <div class="tableText" style="flex: 1" v-if="curEdit==pageSize*curPage+index+1"><input @blur="SchoolChange($event,index)" style="width: 85%" type="text" :value="item.campus"></div>
+          <div class="tableText" style="flex: 2" v-if="curEdit!=pageSize*curPage+index+1">{{ item.dysj }}</div>
+          <div class="tableText" style="flex: 2" v-if="curEdit!=pageSize*curPage+index+1">{{ item.dydd }}</div>
+          <div class="tableText" style="flex: 1" v-if="curEdit!=pageSize*curPage+index+1">{{ item.campus }}</div>
         </div>
       </div>
-      <el-pagination
+      <!-- <el-pagination
         background
         layout="prev, pager, next"
         :page-size="8"
@@ -90,7 +90,14 @@
         @next-click="nextclick"
         style="text-align: center; padding: 10px 0 0 0"
       >
-      </el-pagination>
+      </el-pagination> -->
+      <div style="width: 20%;margin:10px auto 0 auto;">
+        <pagination :pageSize="pageSize" :total="total" 
+          @current-page="pagechange"
+          @prev-click="preclick"
+          @next-click="nextclick">
+        </pagination>
+      </div>
       <el-button type="primary" class="btn" @click="submit" style="margin-left: 1100px">提交</el-button>
     </div>
   </div>
@@ -100,8 +107,12 @@
 import {selectCourse, updateCourse} from '../../network/admin/admin'
 import {updateCourseTime} from '../../util/updateTime'
 import {showCourseTime} from '../../util/showCourseTime'
+import Pagination from '../../components/Pagination/pagination.vue'
 export default {
     name: 'courseModify',
+    components:{
+      Pagination
+    },
     data(){
         return {
             curTerm: '',
@@ -116,6 +127,7 @@ export default {
             curEdit: 0,
             EditedArray: [],
             curPage: 0,
+            pageSize: 1,
             total: 0,   //axios
             termInfo: this.$store.state.termInfo,
             list: [],
@@ -240,7 +252,7 @@ export default {
         this.isShowList = true;
     },
     editChange(index){
-        this.curEdit = index + 1;
+        this.curEdit = this.curPage * this.pageSize + index + 1;
     },
     lessonNameChange(e,index){
         // let isExist = false;
@@ -253,41 +265,49 @@ export default {
         // if(!isExist) this.EditedArray.push({lessonId: item.lessonId, lessonName: e.target.value});
         // item.lessonName = e.target.value;
         // console.log(this.EditedArray);
+        index = this.curPage * this.pageSize + index;
         this.list[index].name = e.target.value;
         this.EditedArray.push(this.list[index]);
         this.EditedArray = Array.from(new Set(this.EditedArray));
     },
     creditChange(e,index){
+      index = this.curPage * this.pageSize + index;
       this.list[index].credit = e.target.value;
       this.EditedArray.push(this.list[index]);
       this.EditedArray = Array.from(new Set(this.EditedArray));
     },
     timeChange(e, index){
+      index = this.curPage * this.pageSize + index;
       this.list[index].courseTimes = updateCourseTime(e.target.value);
       this.EditedArray.push(this.list[index]);
       this.EditedArray = Array.from(new Set(this.EditedArray));
     },
     placeChange(e,index){
+      index = this.curPage * this.pageSize + index;
       this.list[index].sksj = e.target.value;
       this.EditedArray.push(this.list[index]);
       this.EditedArray = Array.from(new Set(this.EditedArray));
     },
     volumeChange(e,index){
+      index = this.curPage * this.pageSize + index;
       this.list[index].contains = e.target.value;
       this.EditedArray.push(this.list[index]);
       this.EditedArray = Array.from(new Set(this.EditedArray));
     },
     reselveTimeChange(e,index){
+      index = this.curPage * this.pageSize + index;
       this.list[index].dysj = e.target.value;
       this.EditedArray.push(this.list[index]);
       this.EditedArray = Array.from(new Set(this.EditedArray));
     },
     resolvePlaceChange(e,index){
+      index = this.curPage * this.pageSize + index;
       this.list[index].dydd = e.target.value;
       this.EditedArray.push(this.list[index]);
       this.EditedArray = Array.from(new Set(this.EditedArray));
     },
     SchoolChange(e,index){
+      index = this.curPage * this.pageSize + index;
       this.list[index].campus = e.target.value;
       this.EditedArray.push(this.list[index]);
       this.EditedArray = Array.from(new Set(this.EditedArray));

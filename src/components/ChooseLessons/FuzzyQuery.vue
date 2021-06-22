@@ -41,7 +41,7 @@
                 <div class="tableHead" style="flex: 1">校区</div>
             </div>
             <div class="tableRow" v-for="(item, index) in list.slice(curPage*pageSize,curPage*pageSize+pageSize)" :key="index" :class="{'active': listChecked.indexOf(index) > -1}">
-                <div class="tableText" style="flex: 1;"><input type="checkbox" name="list" style="margin-right: 0;cursor: pointer;" v-model="listChecked" :value="index"></div>
+                <div class="tableText" style="flex: 1;"><input type="checkbox" name="list" style="margin-right: 0;cursor: pointer;" v-model="listChecked" :value="curPage*pageSize+index"></div>
                 <div class="tableText" style="flex: 3">{{item.courseId}}</div>
                 <div class="tableText" style="flex: 4">{{item.name}}</div>
                 <div class="tableText" style="flex: 1">{{item.credit}}</div>
@@ -196,15 +196,12 @@ export default {
         },
         pagechange(page){
           this.curPage = page - 1;
-          console.log(this.curPage);
         },
         preclick(){
           this.curPage--;
-          console.log(this.curPage);
         },
         nextclick(){
           this.curPage++;
-          console.log(this.curPage);
         }
     }
 };
