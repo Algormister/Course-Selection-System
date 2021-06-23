@@ -1,16 +1,19 @@
 <template>
 <div id="tab-bar-header">
-  <div class="tab-bar-title">上海大学本硕博一体化选课系统</div>
-  <div class="tab-bar-info">
+  <div class="tab-bar-title" v-show="$store.state.tabBarStatus">上海大学本硕博一体化选课系统</div>
+  <div class="tab-bar-title" v-show="!$store.state.tabBarStatus"></div>
+  <div class="tab-bar-info" :style="{fontSize:$store.state.tabBarStatus?'14px':'8px'}">
       <div style="font-weight:bold;">{{title}}</div>
       <div class="detail">
-          <div style="margin-top: 5px">{{userid}}{{id}}</div>
-          <div>姓名：{{name}}</div>
-          <div v-if="status=='student'">英语等级：{{enGrade}}</div>
-          <div v-if="status=='student'">上学期平均绩点：{{Number(lastTermGrade).toFixed(2)}}</div>
-          <div class="logout">
-              <div>完成选课后请点击</div>
-              <div @click="logout" style="cursor:pointer;">[安全退出]</div>
+          <div style="margin-top: 5px;display:inline-block;" v-show="$store.state.tabBarStatus">{{userid}}</div>
+          <div style="display:inline-block">{{id}}</div>
+          <br>
+          <div v-show="$store.state.tabBarStatus" style="display:inline-block">姓名：</div>
+          <div style="display:inline-block">{{name}}</div>
+          <div v-if="status=='student'" v-show="$store.state.tabBarStatus">英语等级：{{enGrade}}</div>
+          <div v-if="status=='student'" v-show="$store.state.tabBarStatus">上学期平均绩点：{{Number(lastTermGrade).toFixed(2)}}</div>
+          <div class="logout" v-show="$store.state.tabBarStatus">
+              <div @click="logout" style="cursor:pointer;">完成选课后请点击[安全退出]</div>
           </div>
       </div>
   </div>
@@ -48,7 +51,6 @@ export default {
 .tab-bar-title{
     background-color: #367fa9;
     color: white;
-    font-size: 14px;
     height: 60px;
     line-height: 60px;
     text-align: center;
@@ -56,10 +58,8 @@ export default {
 .tab-bar-info{
     background-color: #8ac3f0;
     padding: 5px;
-    font-size: 14px;
 }
 .tab-bar-info .detail div{
-    font-size: 100%;
     line-height: 23px;
     height: 23px;
 }

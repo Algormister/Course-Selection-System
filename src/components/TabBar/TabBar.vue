@@ -7,7 +7,7 @@
             <tab-bar-header v-else-if="status=='teacher'" title="老师信息" userid="工号：" :status="status"></tab-bar-header>
             <tab-bar-header v-else title="管理员信息" userid="工号：" :status="status"></tab-bar-header>
             <div style="font-size:12px;height: 37px; background-color:#1A2226; padding: 10px 25px 10px 15px; color:#ccc; line-height:37px;">
-                <span ><i class="el-icon-menu"></i>主菜单</span>
+                <span ><i class="el-icon-menu"></i><span v-show="$store.state.tabBarStatus">主菜单</span></span>
             </div>
             <el-menu
             default-active="$route.path"
@@ -20,10 +20,14 @@
             active-text-color="#ffd04b">
                 <el-submenu index="1">
                     <template #title>
-                        <span style="font-size: 14px;color:white;">{{title}}</span>
+                        <span style="font-size: 14px;color:white;" v-show="$store.state.tabBarStatus">{{title}}</span>
+                        <span style="font-size: 14px;color:white;" v-show="!$store.state.tabBarStatus"><i class="el-icon-menu"></i></span>
                     </template>
                     <el-menu-item-group>
-                        <el-menu-item v-for="(item, i) in path" :key="i" :index="`/home/${item.router}`"><span><ul><li>{{item.name}}</li></ul></span></el-menu-item>
+                        <el-menu-item v-for="(item, i) in path" :key="i" :index="`/home/${item.router}`"><span><ul>
+                            <li v-show="$store.state.tabBarStatus">{{item.name}}</li>
+                            <img v-show="!$store.state.tabBarStatus" :src="item.img" alt="">
+                        </ul></span></el-menu-item>
                         <!-- <el-menu-item index="/home/chooseLessons"><span><ul><li>选课</li></ul></span></el-menu-item>
                         <el-menu-item index="/home/dropCourses"><span><ul><li>退课</li></ul></span></el-menu-item>
                         <el-menu-item index="/home/selectTimeTable"><span><ul><li>课表查询</li></ul></span></el-menu-item>
@@ -85,5 +89,10 @@ export default {
 ul{
     list-style-type: circle;
     margin: 0;
+}
+ul li img{
+    height: 24px;
+    width: auto;
+    margin-left: -20px;
 }
 </style>

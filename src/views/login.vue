@@ -49,6 +49,7 @@ export default {
                     alert(res.msg)
                 }
                 else{
+                    if(!this.$store.state.tabBarStatus) this.$store.commit('updateTabBarStatus');
                     this.$store.commit('updateShowAlert', false);
                     this.$store.commit('updateStatus', res.o)
                     this.$store.commit('updateUserid', this.id);

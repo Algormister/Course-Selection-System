@@ -1,5 +1,8 @@
 <template>
-  <div class="header-container">
+    <div class="header-container">
+        <div class="header-button" @click="changeTabBar">
+            <i class="el-icon-s-operation" style="color:white;font-size:24px;line-height:60px;"></i>
+        </div>
         <div class="func-container">
             <div @click="idclick"><i class="el-icon-user"></i>{{id}}</div>
             <div @click="logout">
@@ -31,6 +34,9 @@ export default {
         idclick(){
             this.isShow = 2;
             this.$emit('homeheaderclick', 2);
+        },
+        changeTabBar(){
+            this.$store.commit('updateTabBarStatus');
         }
     }
 }
@@ -40,6 +46,17 @@ export default {
 .header-container{
     position: relative;
     height: 100%;
+}
+.header-button{
+    position: absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    background-color: transparent;
+    height: 100%;
+    width:34px;
+    text-align: center;
+    cursor: pointer;
 }
 .func-container{
     display: flex;

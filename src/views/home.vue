@@ -2,10 +2,10 @@
     <home-alert v-if="showalert" message="请重新登录!" :func="alertconfirm" @alertConfirm="alertConfirm"></home-alert>
     <div :class="{mask: isMasked}" @click="cancelMask" v-if="!showalert"></div>
     <el-container v-if="!showalert">
-        <el-aside width="230px" style="min-height:100vh;">
+        <el-aside :width="$store.state.tabBarStatus?'230px':'65px'" style="min-height:100vh;">
             <tab-bar v-if="status=='student'" :path="pathStu" title="学生选课" :status="status"></tab-bar>
-            <tab-bar v-else-if="status=='teacher'" :path="pathT" title="课程管理"></tab-bar>
-            <tab-bar v-else-if="status=='admin'" title="数据管理" :path="pathA"></tab-bar>
+            <tab-bar v-else-if="status=='teacher'" :path="pathT" title="课程管理" :status="status"></tab-bar>
+            <tab-bar v-else-if="status=='admin'" title="数据管理" :path="pathA" :status="status"></tab-bar>
         </el-aside>
         <el-container>
             <el-header height="60px" style="background-color:#3c8dbc">
@@ -42,19 +42,19 @@ export default {
             },
             showalert: this.$store.state.showAlert,
             isMasked: false,
-            pathStu: [{router: 'chooseLessons', name: '选课'},
-                    {router: 'dropCourses', name: '退课'},
-                    {router: 'selectTimeTable', name: '课表查询'},
+            pathStu: [{router: 'chooseLessons', name: '选课', img: require('../assets/icon/tubiaozhizuomoban.svg')},
+                    {router: 'dropCourses', name: '退课', img: require('../assets/icon/tuihuo.svg')},
+                    {router: 'selectTimeTable', name: '课表查询', img: require('../assets/icon/kebiao.svg')},
                     // {router: 'selectDropedCourses', name: '删除课程查询'},
-                    {router: 'gradeQuery', name: '成绩查询'},
-                    {router: 'passedCourses', name: '学分完成情况'}
+                    {router: 'gradeQuery', name: '成绩查询', img: require('../assets/icon/chengji.svg')},
+                    {router: 'passedCourses', name: '学分完成情况', img: require('../assets/icon/Icon-xuefen.svg')}
             ],
-            pathT:[{router: 'selectTeachingCourses', name: '课程查询'},
-                {router: 'usualResults', name: '平时成绩录入'},
-                {router: 'finalExam', name: '期末成绩录入'}
+            pathT:[{router: 'selectTeachingCourses', name: '课程查询', img: require('../assets/icon/kecheng.svg')},
+                {router: 'usualResults', name: '平时成绩录入', img: require('../assets/icon/qiandao.svg')},
+                {router: 'finalExam', name: '期末成绩录入', img: require('../assets/icon/kaoshi.svg')}
             ],
-            pathA:[{router: 'termManage', name: '学期管理'},
-                {router: 'courseManage', name: '课程管理'},
+            pathA:[{router: 'termManage', name: '学期管理', img: require('../assets/icon/icon.svg')},
+                {router: 'courseManage', name: '课程管理', img: require('../assets/icon/tubiaozhizuomoban.svg')},
                 ]
         }
     },
@@ -83,6 +83,7 @@ export default {
 <style>
 .el-aside{
     background-color: #1A2226;
+    transition: all .5s ease;
 }
 .mask{
     position: absolute;

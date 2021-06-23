@@ -1,8 +1,8 @@
 <template>
     <div class="header-container">
-        <!-- <div class="header-button">
-            <i class="el-icon-s-operation" style="color:white;font-size:32px;line-height:60px;"></i>
-        </div> -->
+        <div class="header-button" @click="changeTabBar">
+            <i class="el-icon-s-operation" style="color:white;font-size:24px;line-height:60px;"></i>
+        </div>
         <div class="func-container">
             <!-- <div><i class="el-icon-chat-dot-round"></i>选课疑难解答</div> -->
             <div @click="termclick"><i class="el-icon-date"></i>{{term.name}}</div>
@@ -45,6 +45,9 @@ export default {
         changeTerm(){
             this.$store.commit('updateTerm', '');
             this.$router.replace('/chooseterm');
+        },
+        changeTabBar(){
+            this.$store.commit('updateTabBarStatus');
         }
     }
 }
@@ -55,7 +58,7 @@ export default {
     position: relative;
     height: 100%;
 }
-/* .header-button{
+.header-button{
     position: absolute;
     left:0;
     top:0;
@@ -63,7 +66,9 @@ export default {
     background-color: transparent;
     height: 100%;
     width:34px;
-} */
+    text-align: center;
+    cursor: pointer;
+}
 .func-container{
     display: flex;
     justify-content: flex-end;

@@ -20,7 +20,8 @@ export default createStore({
     // stuInfo:JSON.parse(window.sessionStorage.getItem('stuInfo')),     
     teachingInfo: JSON.parse(window.sessionStorage.getItem('teachingInfo')),   //teacher
     termInfo: JSON.parse(window.sessionStorage.getItem('termInfo')),  //admin
-    showAlert: window.sessionStorage.getItem('showAlert')
+    showAlert: window.sessionStorage.getItem('showAlert'),  //all
+    tabBarStatus: true                                      //all
   },
   getters:{
     credit: state =>{
@@ -132,6 +133,9 @@ export default createStore({
     updateTotalCredit(state, t){
       state.totalCredit = t;
       window.sessionStorage.setItem('totalCredit', t);
+    },
+    updateTabBarStatus(state){
+      state.tabBarStatus = !state.tabBarStatus;
     }
   },
   actions: {
