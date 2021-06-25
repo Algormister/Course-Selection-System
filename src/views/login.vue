@@ -7,10 +7,15 @@
                 <div style="margin-right: 5px;">学号:</div>
                 <input v-model="id" type="text">
             </div>
-            <div class="loginInput" style="margin: 20px 0;" @keydown.enter="login">
+            <div class="loginInput" style="margin: 20px 0;">
                 <div style="margin-right: 5px;">密码:</div>
                 <input v-model="pw" type="password">
             </div> 
+            <div class="vcInput">
+                <div style="margin-right: 5px;height:39px;line-height:39px;">验证码:</div>
+                <input v-model="verification" type="text" style="width: 70px;margin-right:14px;" @keydown.enter="login">
+                <verification-code @codeChange="codeChange" ref="vc"></verification-code>
+            </div>
           </div>
           <div class="btnContainer">
               <el-button type="primary" @click="reset">重置</el-button>
@@ -22,12 +27,18 @@
 
 <script>
 import {login,getterm,getStuInfo, getTeacherInfo} from '../network/login'
+import VerificationCode from '../components/VerificationCode/VerificationCode.vue'
 export default {
     name: 'login',
+    components:{
+        VerificationCode
+    },
     data(){
         return {
             id: '',
-            pw: ''
+            pw: '',
+            code: '',
+            verification: ''
         }
     },
     created(){
@@ -38,14 +49,34 @@ export default {
         window.sessionStorage.clear();
     },
     methods:{
+        checkCode(input, code){
+            if(input.length != code.length) return false;
+            for(let i = 0; i < code.length; i++){
+                if(input[i].charCodeAt() >=97 && input[i].charCodeAt() <= 122){
+                    if(String.fromCharCode(input[i].charCodeAt() - 32) != code[i]) return false;
+                }
+                else{
+                    if(input[i] != code[i]) return false;
+                }
+            }
+            return true;
+        },
         login(){
             //axios
+            if(!this.checkCode(this.verification, this.code)){
+                alert('验证码错误');
+                this.$refs.vc.draw();
+                this.verification = '';
+                return;
+            }
             let info = {
                 username: this.id,
                 password: this.pw
             }
             login(info).then(res =>{
                 if(res.msg != '登陆成功'){
+                    this.$refs.vc.draw();
+                    this.verification = '';
                     alert(res.msg)
                 }
                 else{
@@ -87,6 +118,10 @@ export default {
         reset(){
             this.id = ''
             this.pw = ''
+        },
+        codeChange(code){
+            this.code = code;
+            console.log(this.code);
         }
     }
 }
@@ -122,6 +157,12 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 20px;
+}
+.vcInput{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
     font-size: 20px;
 }
 .btnContainer{
