@@ -63,10 +63,17 @@ export default {
         },
         login(){
             //axios
+            const loading = this.$loading({
+              lock: true,
+              text: 'Loading',
+              spinner: 'el-icon-loading',
+              background: 'rgba(255, 255 , 255, 0.7)'
+            });
             if(!this.checkCode(this.verification, this.code)){
-                alert('验证码错误');
                 this.$refs.vc.draw();
                 this.verification = '';
+                loading.close();
+                alert('验证码错误');
                 return;
             }
             let info = {
@@ -74,6 +81,7 @@ export default {
                 password: this.pw
             }
             login(info).then(res =>{
+                loading.close();
                 if(res.msg != '登陆成功'){
                     this.$refs.vc.draw();
                     this.verification = '';
