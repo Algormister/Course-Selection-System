@@ -21,7 +21,7 @@ export default createStore({
     teachingInfo: JSON.parse(window.sessionStorage.getItem('teachingInfo')),   //teacher
     termInfo: JSON.parse(window.sessionStorage.getItem('termInfo')),  //admin
     showAlert: window.sessionStorage.getItem('showAlert'),  //all
-    tabBarStatus: true                                      //all
+    tabBarStatus: true                                       //all    用于记录是显示完整侧边栏还是简版侧边栏
   },
   getters:{
     credit: state =>{

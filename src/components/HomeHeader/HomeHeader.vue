@@ -47,7 +47,8 @@ export default {
             this.$router.replace('/chooseterm');
         },
         changeTabBar(){
-            this.$store.commit('updateTabBarStatus');
+            this.$store.commit('updateTabBarStatus');     //改变宽度230或65
+            this.$emit('showTabBar');
         }
     }
 }

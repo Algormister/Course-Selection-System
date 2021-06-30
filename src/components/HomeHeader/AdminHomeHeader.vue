@@ -36,7 +36,8 @@ export default {
             this.$emit('homeheaderclick', 2);
         },
         changeTabBar(){
-            this.$store.commit('updateTabBarStatus');
+            this.$store.commit('updateTabBarStatus');     //改变宽度230或65
+            this.$emit('showTabBar');
         }
     }
 }

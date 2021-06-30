@@ -1,9 +1,9 @@
 <template>
 <div id="tab-bar-header">
-  <div class="tab-bar-title" v-show="$store.state.tabBarStatus">上海大学本硕博一体化选课系统</div>
+  <div class="tab-bar-title" v-show="$store.state.tabBarStatus"><span>上海大学本硕博一体化选课系统</span></div>
   <div class="tab-bar-title" v-show="!$store.state.tabBarStatus"></div>
   <div class="tab-bar-info" :style="{fontSize:$store.state.tabBarStatus?'14px':'8px'}">
-      <div style="font-weight:bold;">{{title}}</div>
+      <div style="font-weight:bold;white-space:nowrap;">{{title}}</div>
       <div class="detail">
           <div style="margin-top: 5px;display:inline-block;" v-show="$store.state.tabBarStatus">{{userid}}</div>
           <div style="display:inline-block">{{id}}</div>
@@ -53,15 +53,20 @@ export default {
     color: white;
     height: 60px;
     line-height: 60px;
-    text-align: center;
+    /* text-align: center; */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
 }
 .tab-bar-info{
     background-color: #8ac3f0;
     padding: 5px;
+    overflow: hidden;
 }
 .tab-bar-info .detail div{
     line-height: 23px;
     height: 23px;
+    white-space: nowrap;
 }
 .tab-bar-info .detail .logout{
     display:flex;
